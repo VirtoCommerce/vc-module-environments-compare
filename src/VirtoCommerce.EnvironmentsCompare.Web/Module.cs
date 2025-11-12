@@ -2,17 +2,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VirtoCommerce.EnvironmentsCompare.Core;
+using VirtoCommerce.EnvironmentsCompare.Core.Services;
+using VirtoCommerce.EnvironmentsCompare.Data.MySql;
+using VirtoCommerce.EnvironmentsCompare.Data.PostgreSql;
+using VirtoCommerce.EnvironmentsCompare.Data.Repositories;
+using VirtoCommerce.EnvironmentsCompare.Data.Services;
+using VirtoCommerce.EnvironmentsCompare.Data.SqlServer;
 using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.Platform.Data.MySql.Extensions;
 using VirtoCommerce.Platform.Data.PostgreSql.Extensions;
 using VirtoCommerce.Platform.Data.SqlServer.Extensions;
-using VirtoCommerce.EnvironmentsCompare.Core;
-using VirtoCommerce.EnvironmentsCompare.Data.MySql;
-using VirtoCommerce.EnvironmentsCompare.Data.PostgreSql;
-using VirtoCommerce.EnvironmentsCompare.Data.Repositories;
-using VirtoCommerce.EnvironmentsCompare.Data.SqlServer;
 
 namespace VirtoCommerce.EnvironmentsCompare.Web;
 
@@ -46,8 +48,9 @@ public class Module : IModule, IHasConfiguration
         //AbstractTypeFactory<OriginalModel>.OverrideType<OriginalModel, ExtendedModel>().MapToType<ExtendedEntity>();
         //AbstractTypeFactory<OriginalEntity>.OverrideType<OriginalEntity, ExtendedEntity>();
 
-        // Register services
-        //serviceCollection.AddTransient<IMyService, MyService>();
+        serviceCollection.AddTransient<IComparableSettingsMasterProvider, ComparableSettingsMasterProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, AppComparableSettingsProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, PlatformComparableSettingsProvider>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
