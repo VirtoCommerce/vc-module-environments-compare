@@ -1,0 +1,24 @@
+{
+  "EnvironmentsCompare": {
+    "blades": {
+      "hello-world": {
+        "title": "Hello world blade"
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Open EnvironmentsCompare menu",
+    "environments-compare:create": "Create EnvironmentsCompare related data",
+    "environments-compare:read": "View EnvironmentsCompare related data",
+    "environments-compare:update": "Update EnvironmentsCompare related data",
+    "environments-compare:delete": "Delete EnvironmentsCompare related data"
+  },
+  "settings": {
+    "EnvironmentsCompare": {
+      "Enabled": {
+        "title": "EnvironmentsCompare Enabled",
+        "description": "EnvironmentsCompare Enabled setting"
+      }
+    }
+  }
+}

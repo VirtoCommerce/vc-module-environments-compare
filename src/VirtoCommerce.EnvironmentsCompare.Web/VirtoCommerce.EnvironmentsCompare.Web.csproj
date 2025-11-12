@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Project is not a test project -->
+    <SonarQubeTestProject>false</SonarQubeTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="dist\**" />
+    <Content Remove="dist\**" />
+    <EmbeddedResource Remove="dist\**" />
+    <None Remove="dist\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VirtoCommerce.EnvironmentsCompare.Core\VirtoCommerce.EnvironmentsCompare.Core.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.EnvironmentsCompare.Data\VirtoCommerce.EnvironmentsCompare.Data.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.EnvironmentsCompare.Data.MySql\VirtoCommerce.EnvironmentsCompare.Data.MySql.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.EnvironmentsCompare.Data.PostgreSql\VirtoCommerce.EnvironmentsCompare.Data.PostgreSql.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.EnvironmentsCompare.Data.SqlServer\VirtoCommerce.EnvironmentsCompare.Data.SqlServer.csproj" />
+  </ItemGroup>
+</Project>
