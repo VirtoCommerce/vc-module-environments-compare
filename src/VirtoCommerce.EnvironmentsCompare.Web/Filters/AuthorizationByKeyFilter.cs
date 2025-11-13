@@ -1,18 +1,17 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
+using VirtoCommerce.EnvironmentsCompare.Core;
+using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.EnvironmentsCompare.Web.Filters;
 
-public class AuthorizationByKeyFilter(IConfiguration configuration) : IAuthorizationFilter
+public class AuthorizationByKeyFilter(IEnvironmentsCompareSettingsService settingsService) : IAuthorizationFilter
 {
-    public const string ApiKeyHeaderName = "api-key";
-
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var requestApiKey = context.HttpContext.Request.Headers.FirstOrDefault(x => x.Key.EqualsIgnoreCase(ApiKeyHeaderName)).Value.FirstOrDefault();
+        var requestApiKey = context.HttpContext.Request.Headers.FirstOrDefault(x => x.Key.EqualsIgnoreCase(ModuleConstants.Api.ApiKeyHeaderName)).Value.FirstOrDefault();
 
         if (requestApiKey.IsNullOrEmpty())
         {
@@ -20,9 +19,7 @@ public class AuthorizationByKeyFilter(IConfiguration configuration) : IAuthoriza
             return;
         }
 
-        var expectedApiKey = configuration["Authorization:ApiKey"];
-
-        if (requestApiKey != expectedApiKey)
+        if (requestApiKey != settingsService.SelfApiKey)
         {
             context.Result = new StatusCodeResult(403);
         }

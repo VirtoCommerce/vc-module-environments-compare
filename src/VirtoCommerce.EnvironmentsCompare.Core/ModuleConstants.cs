@@ -55,4 +55,10 @@ public static class ModuleConstants
             }
         }
     }
+
+    public static class Api
+    {
+        public const string ApiKeyHeaderName = "api-key";
+        public const string SettingsCompareRoute = "api/environments-compare-external";
+    }
 }
