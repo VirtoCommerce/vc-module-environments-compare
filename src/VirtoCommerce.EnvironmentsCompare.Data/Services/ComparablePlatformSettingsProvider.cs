@@ -75,6 +75,6 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
 
     protected virtual bool IsSettingSecret(SettingDescriptor setting)
     {
-        return setting.ValueType == SettingValueType.SecureString || setting.Name.EqualsIgnoreCase("Shipping.Bopis.GoogleMaps.ApiKey");
+        return setting.ValueType == SettingValueType.SecureString || setting.Name.EqualsIgnoreCase("Shipping.Bopis.GoogleMaps.ApiKey");//TODO: implement some flag in SettingDescriptor
     }
 }
