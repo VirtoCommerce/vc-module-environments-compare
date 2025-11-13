@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
@@ -7,21 +8,31 @@ using VirtoCommerce.Platform.Core.Settings;
 
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
-public class PlatformComparableSettingsProvider(ISettingsManager settingsManager) : IComparableSettingsProvider
+public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager) : IComparableSettingsProvider
 {
-    public async Task<ComparableSettingsGroup> GetComparableSettingsAsync()
+    public async Task<ComparableSettingProviderResult> GetComparableSettingsAsync()
     {
-        var result = AbstractTypeFactory<ComparableSettingsGroup>.TryCreateInstance<ComparableSettingsGroup>();
+        var result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
+        result.Scope = "PlatformSettings";
 
-        foreach (var setting in settingsManager.AllRegisteredSettings)
+        foreach (var group in settingsManager.AllRegisteredSettings
+            .Where(x => !x.GroupName.IsNullOrEmpty())
+            .GroupBy(x => x.GroupName))
         {
-            result.Settings.Add(new ComparableSetting
+            var resultGroup = new ComparableSettingGroup();
+            resultGroup.Name = group.Key;
+
+            result.SettingGroups.Add(resultGroup);
+
+            foreach (var setting in group)
             {
-                Scope = "Platform",
-                Name = setting.Name,
-                Value = await GetSettingValueAsync(setting),
-                IsSecret = setting.ValueType == SettingValueType.SecureString
-            });
+                resultGroup.Settings.Add(new ComparableSetting
+                {
+                    Name = setting.Name,
+                    Value = await GetSettingValueAsync(setting),
+                    IsSecret = IsSettingSecret(setting)
+                });
+            }
         }
 
         return result;
@@ -60,5 +71,10 @@ public class PlatformComparableSettingsProvider(ISettingsManager settingsManager
         }
 
         return null;//TODO: handle other types
+    }
+
+    protected virtual bool IsSettingSecret(SettingDescriptor setting)
+    {
+        return setting.ValueType == SettingValueType.SecureString || setting.Name.EqualsIgnoreCase("Shipping.Bopis.GoogleMaps.ApiKey");
     }
 }

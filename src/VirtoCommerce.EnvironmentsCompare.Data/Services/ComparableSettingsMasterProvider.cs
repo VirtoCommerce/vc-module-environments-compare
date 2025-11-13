@@ -10,26 +10,23 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsProvider> comparableSettingsProviders) : IComparableSettingsMasterProvider
 {
-    public async Task<IList<ComparableSettingsGroup>> GetAllComparableSettingsAsync()
+    public async Task<IList<ComparableSettingProviderResult>> GetAllComparableSettingsAsync()
     {
-        var result = new List<ComparableSettingsGroup>();
+        var result = new List<ComparableSettingProviderResult>();
 
         foreach (var provider in comparableSettingsProviders)
         {
             result.Add(await GetSettingsFromProviderAsync(provider));
         }
 
-        foreach (var settingsGroup in result)
-        {
-            HideSecretSettings(settingsGroup);
-        }
+        HideSecretSettings(result.SelectMany(x => x.SettingGroups).SelectMany(x => x.Settings));
 
         return result;
     }
 
-    protected async Task<ComparableSettingsGroup> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
+    protected async Task<ComparableSettingProviderResult> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
     {
-        ComparableSettingsGroup result;
+        ComparableSettingProviderResult result;
 
         try
         {
@@ -42,7 +39,7 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
         }
         catch (Exception ex)
         {
-            result = AbstractTypeFactory<ComparableSettingsGroup>.TryCreateInstance<ComparableSettingsGroup>();
+            result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
             result.ErrorMessage = ex.Message;
         }
 
@@ -51,11 +48,11 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
         return result;
     }
 
-    protected virtual void HideSecretSettings(ComparableSettingsGroup settingsGroup)
+    protected virtual void HideSecretSettings(IEnumerable<ComparableSetting> settings)
     {
-        foreach (var setting in settingsGroup.Settings.Where(x => x.IsSecret))
+        foreach (var setting in settings.Where(x => x.IsSecret))
         {
-            setting.Value = setting.Value?.GetSHA1Hash();
+            setting.Value = $"HASH: {setting.Value?.GetSHA1Hash()}";
         }
     }
 }

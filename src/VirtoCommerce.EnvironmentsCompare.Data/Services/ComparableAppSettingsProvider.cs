@@ -7,16 +7,21 @@ using VirtoCommerce.Platform.Core.Settings;
 
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
-public class AppComparableSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
+public class ComparableAppSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
 {
-    public Task<ComparableSettingsGroup> GetComparableSettingsAsync()
+    public Task<ComparableSettingProviderResult> GetComparableSettingsAsync()
     {
-        var result = AbstractTypeFactory<ComparableSettingsGroup>.TryCreateInstance<ComparableSettingsGroup>();
+        var result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
+        result.Scope = "AppSettings";
+
+        var connectionStringsGroup = new ComparableSettingGroup();
+        connectionStringsGroup.Name = "ConnectionStrings";
+
+        result.SettingGroups.Add(connectionStringsGroup);
 
         var connectionStringValue = configuration.GetValue<string>("ConnectionStrings.VirtoCommerce");
-        result.Settings.Add(new ComparableSetting()
+        connectionStringsGroup.Settings.Add(new ComparableSetting()
         {
-            Scope = "Environment",
             Name = "ConnectionStrings.VirtoCommerce",
             Value = connectionStringValue,
             IsSecret = true,

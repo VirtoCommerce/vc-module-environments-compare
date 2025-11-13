@@ -49,8 +49,8 @@ public class Module : IModule, IHasConfiguration
         //AbstractTypeFactory<OriginalEntity>.OverrideType<OriginalEntity, ExtendedEntity>();
 
         serviceCollection.AddTransient<IComparableSettingsMasterProvider, ComparableSettingsMasterProvider>();
-        serviceCollection.AddTransient<IComparableSettingsProvider, AppComparableSettingsProvider>();
-        serviceCollection.AddTransient<IComparableSettingsProvider, PlatformComparableSettingsProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableAppSettingsProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparablePlatformSettingsProvider>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
