@@ -19,19 +19,17 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
             .Where(x => !x.GroupName.IsNullOrEmpty())
             .GroupBy(x => x.GroupName))
         {
-            var resultGroup = new ComparableSettingGroup();
+            var resultGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
             resultGroup.Name = group.Key;
-
             result.SettingGroups.Add(resultGroup);
 
             foreach (var setting in group)
             {
-                resultGroup.Settings.Add(new ComparableSetting
-                {
-                    Name = setting.Name,
-                    Value = await GetSettingValueAsync(setting),
-                    IsSecret = IsSettingSecret(setting)
-                });
+                var resultSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
+                resultSetting.Name = setting.Name;
+                resultSetting.Value = await GetSettingValueAsync(setting);
+                resultSetting.IsSecret = IsSettingSecret(setting);
+                resultGroup.Settings.Add(resultSetting);
             }
         }
 

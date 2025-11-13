@@ -14,18 +14,15 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
         var result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
         result.Scope = "AppSettings";
 
-        var connectionStringsGroup = new ComparableSettingGroup();
+        var connectionStringsGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
         connectionStringsGroup.Name = "ConnectionStrings";
-
         result.SettingGroups.Add(connectionStringsGroup);
 
-        var connectionStringValue = configuration.GetValue<string>("ConnectionStrings.VirtoCommerce");
-        connectionStringsGroup.Settings.Add(new ComparableSetting()
-        {
-            Name = "ConnectionStrings.VirtoCommerce",
-            Value = connectionStringValue,
-            IsSecret = true,
-        });
+        var connectionStringSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
+        connectionStringSetting.Name = "ConnectionStrings.VirtoCommerce";
+        connectionStringSetting.Value = configuration.GetValue<string>("ConnectionStrings.VirtoCommerce");
+        connectionStringSetting.IsSecret = true;
+        connectionStringsGroup.Settings.Add(connectionStringSetting);
 
         return Task.FromResult(result);
     }
