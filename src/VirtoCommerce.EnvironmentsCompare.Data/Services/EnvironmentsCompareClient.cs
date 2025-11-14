@@ -31,7 +31,7 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
                 httpResponse.EnsureSuccessStatusCode();
 
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
-                var environmentSettings = JsonConvert.DeserializeObject<IList<ComparableSettingProviderResult>>(responseString);
+                var environmentSettings = JsonConvert.DeserializeObject<IList<ComparableSettingScope>>(responseString);
 
                 result.Settings = environmentSettings;
             }

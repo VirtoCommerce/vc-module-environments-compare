@@ -23,9 +23,9 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
     [HttpPost]
     [Route("compare-environments")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<IList<string>>> CompareEnvironments(IList<string> environmentNames, string mainEnvironment = null)
+    public async Task<ActionResult<IList<string>>> CompareEnvironments(IList<string> environmentNames, string baseEnvironment = null)
     {
-        await settingsCompareService.CompareAsync(environmentNames, mainEnvironment);
+        await settingsCompareService.CompareAsync(environmentNames, baseEnvironment);
         return Ok(settingsService.ComparableEnvironments?.Select(x => x.Name)?.ToList());
     }
 }

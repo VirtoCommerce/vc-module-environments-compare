@@ -10,9 +10,9 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsProvider> comparableSettingsProviders) : IComparableSettingsMasterProvider
 {
-    public async Task<IList<ComparableSettingProviderResult>> GetAllComparableSettingsAsync()
+    public async Task<IList<ComparableSettingScope>> GetAllComparableSettingsAsync()
     {
-        var result = new List<ComparableSettingProviderResult>();
+        var result = new List<ComparableSettingScope>();
 
         foreach (var provider in comparableSettingsProviders)
         {
@@ -24,9 +24,9 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
         return result;
     }
 
-    protected async Task<ComparableSettingProviderResult> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
+    protected async Task<ComparableSettingScope> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
     {
-        ComparableSettingProviderResult result;
+        ComparableSettingScope result;
 
         try
         {
@@ -39,7 +39,7 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
         }
         catch (Exception ex)
         {
-            result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
+            result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
             result.ErrorMessage = ex.Message;
         }
 

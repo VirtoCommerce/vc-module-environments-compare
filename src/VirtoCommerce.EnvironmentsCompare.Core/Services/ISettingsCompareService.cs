@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using VirtoCommerce.EnvironmentsCompare.Core.Models;
 
 namespace VirtoCommerce.EnvironmentsCompare.Core.Services;
 
 public interface ISettingsCompareService
 {
-    Task CompareAsync(IList<string> environmentNames, string mainEnvironment = null);
+    Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironment = null);
 }

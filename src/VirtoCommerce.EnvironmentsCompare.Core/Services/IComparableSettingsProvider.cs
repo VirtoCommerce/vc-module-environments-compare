@@ -5,5 +5,5 @@ namespace VirtoCommerce.EnvironmentsCompare.Core.Services;
 
 public interface IComparableSettingsProvider
 {
-    Task<ComparableSettingProviderResult> GetComparableSettingsAsync();
+    Task<ComparableSettingScope> GetComparableSettingsAsync();
 }

@@ -9,10 +9,10 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparableAppSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
 {
-    public Task<ComparableSettingProviderResult> GetComparableSettingsAsync()
+    public Task<ComparableSettingScope> GetComparableSettingsAsync()
     {
-        var result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
-        result.Scope = "AppSettings";
+        var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
+        result.Name = "AppSettings";
 
         var connectionStringsGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
         connectionStringsGroup.Name = "ConnectionStrings";

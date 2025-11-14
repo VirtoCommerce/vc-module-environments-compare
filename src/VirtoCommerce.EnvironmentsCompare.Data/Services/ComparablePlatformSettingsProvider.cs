@@ -10,10 +10,10 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager) : IComparableSettingsProvider
 {
-    public async Task<ComparableSettingProviderResult> GetComparableSettingsAsync()
+    public async Task<ComparableSettingScope> GetComparableSettingsAsync()
     {
-        var result = AbstractTypeFactory<ComparableSettingProviderResult>.TryCreateInstance();
-        result.Scope = "PlatformSettings";
+        var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
+        result.Name = "PlatformSettings";
 
         foreach (var group in settingsManager.AllRegisteredSettings
             .Where(x => !x.GroupName.IsNullOrEmpty())
