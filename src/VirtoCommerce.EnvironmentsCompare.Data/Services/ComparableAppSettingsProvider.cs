@@ -20,9 +20,19 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
 
         var connectionStringSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
         connectionStringSetting.Name = "ConnectionStrings.VirtoCommerce";
-        connectionStringSetting.Value = configuration.GetValue<string>("ConnectionStrings.VirtoCommerce");
+        connectionStringSetting.Value = configuration.GetValue<string>("ConnectionStrings:VirtoCommerce");
         connectionStringSetting.IsSecret = true;
         connectionStringsGroup.Settings.Add(connectionStringSetting);
+
+        var virtoCommerceGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
+        virtoCommerceGroup.GroupName = "VirtoCommerce";
+        result.SettingGroups.Add(virtoCommerceGroup);
+
+        var licenseActivationUrlSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
+        licenseActivationUrlSetting.Name = "VirtoCommerce.LicenseActivationUrl";
+        licenseActivationUrlSetting.Value = configuration.GetValue<string>("VirtoCommerce:LicenseActivationUrl");
+        licenseActivationUrlSetting.IsSecret = false;
+        virtoCommerceGroup.Settings.Add(licenseActivationUrlSetting);
 
         return Task.FromResult(result);
     }
