@@ -9,7 +9,7 @@ using VirtoCommerce.EnvironmentsCompare.Web.Filters;
 namespace VirtoCommerce.EnvironmentsCompare.Web.Controllers.Api;
 
 [AuthorizationByKey]
-[Route(ModuleConstants.Api.SettingsCompareRoute)]
+[Route(ModuleConstants.EnvironmentsCompare.SettingsCompareRoute)]
 public class EnvironmentsCompareExternalController(IComparableSettingsMasterProvider comparableSettingsMasterProvider) : Controller
 {
     [HttpGet]

@@ -56,8 +56,10 @@ public static class ModuleConstants
         }
     }
 
-    public static class Api
+    public static class EnvironmentsCompare
     {
+        public const string CurrentEnvironmentName = "Current";
+
         public const string ApiKeyHeaderName = "api-key";
         public const string SettingsCompareRoute = "api/environments-compare-external";
     }

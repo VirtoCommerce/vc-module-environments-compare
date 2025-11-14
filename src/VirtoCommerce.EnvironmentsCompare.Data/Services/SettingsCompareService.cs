@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VirtoCommerce.EnvironmentsCompare.Core;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -13,8 +14,6 @@ public class SettingsCompareService(
     IEnvironmentsCompareClient environmentsCompareClient)
     : ISettingsCompareService
 {
-    public const string CurrentEnvironmentName = "Current";
-
     public async Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironmentName = null)
     {
         var comparableEnvironmentSettings = await GetComparableEnvironmentsAsync(environmentNames);
@@ -33,11 +32,11 @@ public class SettingsCompareService(
 
         var result = await environmentsCompareClient.GetSettingsAsync(comparableEnvironments);
 
-        if (environmentNames.Contains(CurrentEnvironmentName))
+        if (environmentNames.Contains(ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName))
         {
             var currentEnvironmentSettings = AbstractTypeFactory<ComparableEnvironmentSettings>.TryCreateInstance();
             currentEnvironmentSettings.SettingScopes = await comparableSettingsMasterProvider.GetAllComparableSettingsAsync();
-            currentEnvironmentSettings.EnvironmentName = CurrentEnvironmentName;
+            currentEnvironmentSettings.EnvironmentName = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
             result.Add(currentEnvironmentSettings);
         }
 

@@ -3,8 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VirtoCommerce.EnvironmentsCompare.Core;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
+using VirtoCommerce.EnvironmentsCompare.Web.Models;
 using Permissions = VirtoCommerce.EnvironmentsCompare.Core.ModuleConstants.Security.Permissions;
 
 namespace VirtoCommerce.EnvironmentsCompare.Web.Controllers.Api;
@@ -16,9 +18,10 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
     [HttpGet]
     [Route("get-environments")]
     [Authorize(Permissions.Read)]
-    public ActionResult<IList<string>> GetEnvironments()
+    public ActionResult<IList<Environment>> GetEnvironments()
     {
-        var result = settingsService.ComparableEnvironments?.Select(x => x.Name)?.ToList();
+        var result = settingsService.ComparableEnvironments?.Select(x => new Environment() { Name = x.Name, Url = x.Url })?.ToList();
+        result.Insert(0, new Environment() { Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName });
         return Ok(result);
     }
 
