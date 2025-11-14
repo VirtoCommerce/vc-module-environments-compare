@@ -11,15 +11,15 @@ public class AuthorizationByKeyFilter(IEnvironmentsCompareSettingsService settin
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var requestApiKey = context.HttpContext.Request.Headers.FirstOrDefault(x => x.Key.EqualsIgnoreCase(ModuleConstants.EnvironmentsCompare.ApiKeyHeaderName)).Value.FirstOrDefault();
+        var requestApiKeyHash = context.HttpContext.Request.Headers.FirstOrDefault(x => x.Key.EqualsIgnoreCase(ModuleConstants.EnvironmentsCompare.ApiKeyHeaderName)).Value.FirstOrDefault();
 
-        if (requestApiKey.IsNullOrEmpty())
+        if (requestApiKeyHash.IsNullOrEmpty())
         {
             context.Result = new StatusCodeResult(403);
             return;
         }
 
-        if (requestApiKey.GetSHA1Hash() != settingsService.SelfApiKey.GetSHA1Hash())
+        if (requestApiKeyHash != settingsService.SelfApiKey.GetSHA1Hash())
         {
             context.Result = new StatusCodeResult(403);
         }
