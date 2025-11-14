@@ -24,7 +24,7 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
 
             try
             {
-                using var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{environment.Url}/{ModuleConstants.EnvironmentsCompare.SettingsCompareRoute}");
+                using var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{environment.Url?.TrimEnd('/')}/{ModuleConstants.EnvironmentsCompare.SettingsCompareRoute}");
                 httpRequest.Headers.TryAddWithoutValidation(ModuleConstants.EnvironmentsCompare.ApiKeyHeaderName, environment.ApiKey.GetSHA1Hash());
 
                 using var httpResponse = await httpClient.SendAsync(httpRequest);
@@ -47,6 +47,6 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
 
         return environmentTasks
             .Select(x => x.Result)
-            .ToArray();
+            .ToList();
     }
 }

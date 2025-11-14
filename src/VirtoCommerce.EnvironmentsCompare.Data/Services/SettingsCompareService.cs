@@ -18,7 +18,7 @@ public class SettingsCompareService(
     {
         var comparableEnvironmentSettings = await GetComparableEnvironmentsAsync(environmentNames);
 
-        if (baseEnvironmentName == null)
+        if (baseEnvironmentName == null || !comparableEnvironmentSettings.Any(x => x.EnvironmentName == baseEnvironmentName))
         {
             baseEnvironmentName = comparableEnvironmentSettings.FirstOrDefault()?.EnvironmentName;
         }
@@ -53,6 +53,7 @@ public class SettingsCompareService(
             .Distinct())
         {
             var resultScope = AbstractTypeFactory<ComparedEnvironmentSettingScope>.TryCreateInstance();
+            resultScope.ScopeName = scopeName;
             result.SettingScopes.Add(resultScope);
 
             foreach (var groupName in comparableEnvironmentSettings
@@ -63,6 +64,7 @@ public class SettingsCompareService(
                 .Distinct())
             {
                 var resultGroup = AbstractTypeFactory<ComparedEnvironmentSettingGroup>.TryCreateInstance();
+                resultGroup.GroupName = groupName;
                 resultScope.SettingGroups.Add(resultGroup);
 
                 foreach (var settingName in comparableEnvironmentSettings
@@ -76,19 +78,28 @@ public class SettingsCompareService(
                 {
                     var resultSetting = AbstractTypeFactory<ComparedEnvironmentSetting>.TryCreateInstance();
                     resultSetting.Name = settingName;
+                    resultGroup.Settings.Add(resultSetting);
 
                     var resultSettingBaseValue = AbstractTypeFactory<ComparedEnvironmentSettingValue>.TryCreateInstance();
                     resultSettingBaseValue.EnvironmentName = baseEnvironmentName;
-                    resultSettingBaseValue.Value = FindSettingValue(comparableEnvironmentSettings, baseEnvironmentName, scopeName, groupName, settingName);
                     resultSetting.ComparedValues.Add(resultSettingBaseValue);
+
+                    var resultSettingBaseValueFindResult = FindSettingValue(comparableEnvironmentSettings, baseEnvironmentName, scopeName, groupName, settingName);
+                    resultSettingBaseValue.Value = resultSettingBaseValueFindResult.Value;
+                    resultSettingBaseValue.ErrorMessage = resultSettingBaseValueFindResult.ErrorMessage;
+                    resultSettingBaseValue.EqualsBaseValue = true;
+
 
                     foreach (var comparableEnvironmentName in environmentNames.Where(x => x != baseEnvironmentName))
                     {
                         var resultSettingComparableValue = AbstractTypeFactory<ComparedEnvironmentSettingValue>.TryCreateInstance();
                         resultSettingComparableValue.EnvironmentName = comparableEnvironmentName;
-                        resultSettingComparableValue.Value = FindSettingValue(comparableEnvironmentSettings, comparableEnvironmentName, scopeName, groupName, settingName);
-                        resultSettingComparableValue.EqualsBaseValue = SettingValuesAreEqual(resultSettingComparableValue.Value, resultSettingBaseValue.Value);
                         resultSetting.ComparedValues.Add(resultSettingComparableValue);
+
+                        var resultSettingComparableValueFindResult = FindSettingValue(comparableEnvironmentSettings, comparableEnvironmentName, scopeName, groupName, settingName);
+                        resultSettingComparableValue.Value = resultSettingComparableValueFindResult.Value;
+                        resultSettingComparableValue.ErrorMessage = resultSettingComparableValueFindResult.ErrorMessage;
+                        resultSettingComparableValue.EqualsBaseValue = SettingValuesAreEqual(resultSettingBaseValue, resultSettingComparableValue);
                     }
                 }
             }
@@ -97,37 +108,51 @@ public class SettingsCompareService(
         return result;
     }
 
-    protected object FindSettingValue(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string environmentName, string scopeName, string groupName, string settingName)
+    protected (object Value, string ErrorMessage) FindSettingValue(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string environmentName, string scopeName, string groupName, string settingName)
     {
         var environmentSettings = comparableEnvironmentSettings.FirstOrDefault(x => x.EnvironmentName == environmentName);
         if (environmentSettings == null)
         {
-            return null;
+            return (null, null);
+        }
+        if (!environmentSettings.ErrorMessage.IsNullOrEmpty())
+        {
+            return (null, $"Environment-level error: {environmentSettings.ErrorMessage}");
         }
 
         var scope = environmentSettings.SettingScopes.FirstOrDefault(x => x.ScopeName == scopeName);
         if (scope == null)
         {
-            return null;
+            return (null, null);
+        }
+        if (!scope.ErrorMessage.IsNullOrEmpty())
+        {
+            return (null, $"Settings scope (provider) error: {environmentSettings.ErrorMessage}");
         }
 
         var group = scope.SettingGroups.FirstOrDefault(x => x.GroupName == groupName);
         if (group == null)
         {
-            return null;
+
+            return (null, null);
         }
 
         var setting = group.Settings.FirstOrDefault(x => x.Name == settingName);
         if (setting == null)
         {
-            return null;
+            return (null, null);
         }
 
-        return setting.Value;
+        return (setting.Value, null);
     }
 
-    protected bool SettingValuesAreEqual(object value1, object value2)
+    protected bool SettingValuesAreEqual(ComparedEnvironmentSettingValue baseValue, ComparedEnvironmentSettingValue comparableValue)
     {
-        return value1 == value2;
+        if (!baseValue.ErrorMessage.IsNullOrEmpty() || !comparableValue.ErrorMessage.IsNullOrEmpty())
+        {
+            return false;
+        }
+
+        return baseValue.Value?.ToString() == comparableValue.Value?.ToString();
     }
 }
