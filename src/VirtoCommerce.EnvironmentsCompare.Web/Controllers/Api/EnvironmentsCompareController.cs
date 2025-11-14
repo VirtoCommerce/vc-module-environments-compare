@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using Permissions = VirtoCommerce.EnvironmentsCompare.Core.ModuleConstants.Security.Permissions;
 
@@ -17,15 +18,16 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
     [Authorize(Permissions.Read)]
     public ActionResult<IList<string>> GetEnvironments()
     {
-        return Ok(settingsService.ComparableEnvironments?.Select(x => x.Name)?.ToList());
+        var result = settingsService.ComparableEnvironments?.Select(x => x.Name)?.ToList();
+        return Ok(result);
     }
 
     [HttpPost]
     [Route("compare-environments")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<IList<string>>> CompareEnvironments(IList<string> environmentNames, string baseEnvironment = null)
+    public async Task<ActionResult<SettingsComparisonResult>> CompareEnvironments(IList<string> environmentNames, string baseEnvironmentName = null)
     {
-        await settingsCompareService.CompareAsync(environmentNames, baseEnvironment);
-        return Ok(settingsService.ComparableEnvironments?.Select(x => x.Name)?.ToList());
+        var result = await settingsCompareService.CompareAsync(environmentNames, baseEnvironmentName);
+        return Ok(result);
     }
 }

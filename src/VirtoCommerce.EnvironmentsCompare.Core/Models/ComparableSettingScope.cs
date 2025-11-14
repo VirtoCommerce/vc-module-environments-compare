@@ -7,7 +7,7 @@ public class ComparableSettingScope
     /// <summary>
     /// Scope of the settings, e.g. "Platform", "AppSettings"
     /// </summary>
-    public string Name { get; set; }
+    public string ScopeName { get; set; }
 
     public string ProviderName { get; set; }
 

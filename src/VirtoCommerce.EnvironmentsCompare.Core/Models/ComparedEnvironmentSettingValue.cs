@@ -6,5 +6,5 @@ public class ComparedEnvironmentSettingValue
 
     public object Value { get; set; }
 
-    public bool HasDifference { get; set; }
+    public bool EqualsBaseValue { get; set; }
 }

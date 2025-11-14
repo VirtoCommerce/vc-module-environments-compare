@@ -16,6 +16,7 @@ public class EnvironmentsCompareExternalController(IComparableSettingsMasterProv
     [Route("")]
     public async Task<ActionResult<IList<ComparableSettingScope>>> GetSettings()
     {
-        return Ok(await comparableSettingsMasterProvider.GetAllComparableSettingsAsync());
+        var result = await comparableSettingsMasterProvider.GetAllComparableSettingsAsync();
+        return Ok(result);
     }
 }

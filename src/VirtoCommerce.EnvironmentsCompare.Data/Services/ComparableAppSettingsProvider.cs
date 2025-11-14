@@ -12,10 +12,10 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
     public Task<ComparableSettingScope> GetComparableSettingsAsync()
     {
         var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
-        result.Name = "AppSettings";
+        result.ScopeName = "AppSettings";
 
         var connectionStringsGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
-        connectionStringsGroup.Name = "ConnectionStrings";
+        connectionStringsGroup.GroupName = "ConnectionStrings";
         result.SettingGroups.Add(connectionStringsGroup);
 
         var connectionStringSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();

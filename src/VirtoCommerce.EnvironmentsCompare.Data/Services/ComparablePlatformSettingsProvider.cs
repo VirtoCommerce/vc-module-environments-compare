@@ -13,14 +13,14 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
     public async Task<ComparableSettingScope> GetComparableSettingsAsync()
     {
         var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
-        result.Name = "PlatformSettings";
+        result.ScopeName = "PlatformSettings";
 
         foreach (var group in settingsManager.AllRegisteredSettings
             .Where(x => !x.GroupName.IsNullOrEmpty())
             .GroupBy(x => x.GroupName))
         {
             var resultGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
-            resultGroup.Name = group.Key;
+            resultGroup.GroupName = group.Key;
             result.SettingGroups.Add(resultGroup);
 
             foreach (var setting in group)
