@@ -19,7 +19,7 @@ public class AuthorizationByKeyFilter(IEnvironmentsCompareSettingsService settin
             return;
         }
 
-        if (requestApiKey != settingsService.SelfApiKey)
+        if (requestApiKey.GetSHA1Hash() != settingsService.SelfApiKey.GetSHA1Hash())
         {
             context.Result = new StatusCodeResult(403);
         }

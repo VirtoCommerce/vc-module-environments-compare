@@ -25,7 +25,7 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
             try
             {
                 using var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{environment.Url}/{ModuleConstants.Api.SettingsCompareRoute}");
-                httpRequest.Headers.TryAddWithoutValidation(ModuleConstants.Api.ApiKeyHeaderName, environment.ApiKey);
+                httpRequest.Headers.TryAddWithoutValidation(ModuleConstants.Api.ApiKeyHeaderName, environment.ApiKey.GetSHA1Hash());
 
                 using var httpResponse = await httpClient.SendAsync(httpRequest);
                 httpResponse.EnsureSuccessStatusCode();
@@ -33,7 +33,7 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
                 var environmentSettings = JsonConvert.DeserializeObject<IList<ComparableSettingScope>>(responseString);
 
-                result.Settings = environmentSettings;
+                result.SettingScopes = environmentSettings;
             }
             catch (Exception ex)
             {
