@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ public class SettingsCompareService(
     IEnvironmentsCompareClient environmentsCompareClient)
     : ISettingsCompareService
 {
+    protected const decimal DecimalComparisonEpsilon = 0.00001m;
+
     public async Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironmentName = null)
     {
         var comparableEnvironmentSettings = await GetComparableEnvironmentsAsync(environmentNames);
@@ -166,6 +169,17 @@ public class SettingsCompareService(
         if (!baseValue.ErrorMessage.IsNullOrEmpty() || !comparableValue.ErrorMessage.IsNullOrEmpty())
         {
             return false;
+        }
+
+        if (baseValue.Value == null && comparableValue.Value == null)
+        {
+            return true;
+        }
+
+        if (baseValue.Value is float || baseValue.Value is double || baseValue.Value is decimal
+            && comparableValue.Value is float || comparableValue.Value is double || comparableValue.Value is decimal)
+        {
+            return Math.Abs(Convert.ToDecimal(baseValue.Value) - Convert.ToDecimal(comparableValue.Value)) < DecimalComparisonEpsilon;
         }
 
         return baseValue.Value?.ToString() == comparableValue.Value?.ToString();
