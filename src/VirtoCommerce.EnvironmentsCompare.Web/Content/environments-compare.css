@@ -43,6 +43,10 @@ td.comparison-environments-summary-title {
   border-right: solid 1px #eaedf3;
 }
 
+th.environment-name-clickable {
+  cursor: pointer;
+}
+
 tr.comparison-settings-scope-header {
   background-color: #f9f9f9;
 }

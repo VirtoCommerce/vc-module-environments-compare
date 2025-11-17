@@ -17,6 +17,8 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 blade.totalWidth = blade.markerColWidth + blade.nameColWidth + blade.valueColWidth * blade.environmentNames.length;
 
                 blade.refresh = function () {
+                    blade.isLoading = true;
+
                     environmentsCompareApi.compareEnvironments(
                         { environmentNames: blade.environmentNames, baseEnvironmentName: blade.baseEnvironmentName },
                         function (compareEnvironmentsResult) {
@@ -24,6 +26,15 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                             blade.isLoading = false;
                         });
                 };
+
+                blade.setBaseEnvironment = function (environment) {
+                    if (environment.isComparisonBase === true) {
+                        return;
+                    }
+
+                    blade.baseEnvironmentName = environment.environmentName;
+                    blade.refresh();
+                }
 
                 blade.getComparedValue = function (settings, environmentName) {
                     const item = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];

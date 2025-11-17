@@ -12,7 +12,7 @@
             <tr class="comparison-list-header">
               <th></th>
               <th class="comparison-settings-name">{{ 'environments-compare.blades.environments-comparison.labels.setting-name' | translate }}</th>
-              <th ng-repeat="(index, environment) in blade.data.comparedEnvironments" ng-class="{'environment-error': environment.errorMessage }">{{ environment.environmentName }}</th>
+              <th ng-repeat="(index, environment) in blade.data.comparedEnvironments" ng-class="{'environment-error': environment.errorMessage, 'environment-name-clickable': environment.isComparisonBase === false }" ng-click="blade.setBaseEnvironment(environment)">{{ environment.environmentName }}</th>
             </tr>
           </thead>
         </table>
