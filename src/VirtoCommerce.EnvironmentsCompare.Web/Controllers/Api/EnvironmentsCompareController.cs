@@ -20,7 +20,7 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
     [Authorize(Permissions.Access)]
     public ActionResult<IList<EnvironmentResponseItem>> GetEnvironments()
     {
-        var result = settingsService.ComparableEnvironments.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url })?.ToList();
+        var result = settingsService.ComparableEnvironments.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url }).ToList();
         result.Insert(0, new EnvironmentResponseItem() { Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName });
         return Ok(result);
     }
