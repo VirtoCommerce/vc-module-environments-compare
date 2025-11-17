@@ -15,7 +15,8 @@
       "environments-comparison": {
         "title": "Environments comparison",
         "labels": {
-          "setting-name": "Setting / Environment"
+          "setting-name": "Setting / Environment",
+          "environment-summary": "Environment summary"
         }
       }
     }

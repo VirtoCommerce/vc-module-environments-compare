@@ -1,5 +1,6 @@
 .comparison-header {
   padding: 0;
+  margin-right: 11px;
   min-height: 60px;
   overflow: hidden;
 }
@@ -29,6 +30,18 @@
     padding: 10px;
     overflow: auto;
   }
+
+tr.comparison-environments-summary {
+  background-color: #f9f9f9;
+  border-top: solid 1px #eaedf3;
+  border-bottom: solid 1px #eaedf3;
+}
+
+td.comparison-environments-summary-title {
+  font-weight: bold;
+  padding-left: 20px;
+  border-right: solid 1px #eaedf3;
+}
 
 tr.comparison-settings-scope-header {
   background-color: #f9f9f9;
@@ -62,4 +75,28 @@ tr.comparison-diff {
 
 td.comparison-diff {
   background-color: #f66c6c;
+}
+
+td.environment-error, th.environment-error {
+  background-color: #cacaca;
+}
+
+td.scope-marker-0 {
+  background-color: #82ccfc;
+}
+
+td.scope-marker-1 {
+  background-color: #ff71eb;
+}
+
+td.scope-marker-2 {
+  background-color: #82fce2;
+}
+
+td.scope-marker-3 {
+  background-color: #bc71ff;
+}
+
+td.scope-marker-4 {
+  background-color: #d6ff71;
 }

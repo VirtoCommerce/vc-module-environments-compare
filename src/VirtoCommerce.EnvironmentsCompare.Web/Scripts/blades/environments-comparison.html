@@ -4,13 +4,15 @@
       <div ng-if="blade.data" class="comparison-header">
         <table class="comparison-list" ng-style="{'width': blade.totalWidth + 'px'}">
           <colgroup>
+            <col ng-style="{'width': blade.markerColWidth + 'px'}" />
             <col ng-style="{'width': blade.nameColWidth + 'px'}" />
-            <col ng-repeat="(index, environmentName) in blade.environmentNames" ng-style="{'width': blade.valueColWidth + 'px'}" />
+            <col ng-repeat="(index, environment) in blade.data.comparedEnvironments" ng-style="{'width': blade.valueColWidth + 'px'}" />
           </colgroup>
           <thead>
             <tr class="comparison-list-header">
+              <th></th>
               <th class="comparison-settings-name">{{ 'environments-compare.blades.environments-comparison.labels.setting-name' | translate }}</th>
-              <th ng-repeat="(index, environmentName) in blade.environmentNames">{{ environmentName }}</th>
+              <th ng-repeat="(index, environment) in blade.data.comparedEnvironments" ng-class="{'environment-error': environment.errorMessage }">{{ environment.environmentName }}</th>
             </tr>
           </thead>
         </table>
@@ -18,28 +20,38 @@
       <div ng-if="blade.data" class="comparison-container" onscroll="syncScroll()">
         <table class="comparison-list" ng-style="{'width': blade.totalWidth + 'px'}">
           <colgroup>
+            <col ng-style="{'width': blade.markerColWidth + 'px'}" />
             <col ng-style="{'width': blade.nameColWidth + 'px'}" />
-            <col ng-repeat="(index, environmentName) in blade.environmentNames" ng-style="{'width': blade.valueColWidth + 'px'}" />
+            <col ng-repeat="(index, environment) in blade.data.comparedEnvironments" ng-style="{'width': blade.valueColWidth + 'px'}" />
           </colgroup>
           <tbody>
-            <tr ng-if="0" ng-repeat-start="(index, settingScope) in blade.data.settingScopes" />
+            <tr class="comparison-environments-summary">
+              <td></td>
+              <td class="comparison-environments-summary-title">{{ 'environments-compare.blades.environments-comparison.labels.environment-summary' | translate }}</td>
+              <td ng-repeat="(index, environment) in blade.data.comparedEnvironments" ng-class="{'environment-error': environment.errorMessage }">{{ environment.errorMessage }}</td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-start="(scopeIndex, settingScope) in blade.data.settingScopes" />
 
             <tr class="comparison-settings-scope-header">
+              <td class="scope-marker-{{scopeIndex}}"></td>
               <td class="comparison-settings-scope-name">{{ settingScope.scopeName }}</td>
-              <td colspan="{{ blade.environmentNames.length }}"></td>
+              <td ng-repeat="(environmentIndex, environment) in blade.data.comparedEnvironments" ng-class="{'environment-error': environment.errorMessage }"></td>
             </tr>
 
-            <tr ng-if="0" ng-repeat-start="(index, settingGroup) in settingScope.settingGroups" />
+            <tr ng-if="0" ng-repeat-start="(groupIndex, settingGroup) in settingScope.settingGroups" />
 
             <tr class="comparison-settings-group-header">
+              <td class="scope-marker-{{scopeIndex}}"></td>
               <td class="comparison-settings-group-name">{{ settingGroup.groupName }}</td>
-              <td colspan="{{ blade.environmentNames.length  }}"></td>
+              <td ng-repeat="(environmentIndex, environment) in blade.data.comparedEnvironments" ng-class="{'environment-error': environment.errorMessage }"></td>
             </tr>
 
-            <tr ng-if="0" ng-repeat-start="(index, setting) in settingGroup.settings" />
-            <tr ng-class="{'comparison-diff': blade.hasAnyDiff(setting) }">
+            <tr ng-if="0" ng-repeat-start="(settingIndex, setting) in settingGroup.settings" />
+            <tr ng-class="{'comparison-diff': blade.anyEnvironmentComparedValueHasDiff(setting) }">
+              <td class="scope-marker-{{scopeIndex}}"></td>
               <td class="comparison-settings-name">{{ setting.name }}</td>
-              <td ng-repeat="(index, environmentName) in blade.environmentNames" ng-class="{'comparison-diff': blade.hasDiff(setting, environmentName) }">{{ blade.getComparedValue(setting, environmentName) }}</td>
+              <td ng-repeat="(environmentIndex, environment) in blade.data.comparedEnvironments" ng-class="{'comparison-diff': !environment.errorMessage && blade.environmentComparedValueHasDiff(setting, environment.environmentName), 'environment-error': environment.errorMessage || blade.environmentComparedValueHasError(setting, environment.environmentName) }">{{ blade.getComparedValue(setting,  environment.environmentName) }}</td>
             </tr>
 
             <tr ng-if="0" ng-repeat-end />

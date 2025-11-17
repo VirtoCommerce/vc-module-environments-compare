@@ -23,7 +23,7 @@ public class SettingsCompareService(
             baseEnvironmentName = comparableEnvironmentSettings.FirstOrDefault()?.EnvironmentName;
         }
 
-        return CompareInternal(comparableEnvironmentSettings, environmentNames, baseEnvironmentName);
+        return CompareInternal(comparableEnvironmentSettings, baseEnvironmentName);
     }
 
     protected virtual async Task<IList<ComparableEnvironmentSettings>> GetComparableEnvironmentsAsync(IList<string> environmentNames)
@@ -43,9 +43,24 @@ public class SettingsCompareService(
         return result;
     }
 
-    protected virtual SettingsComparisonResult CompareInternal(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, IList<string> environmentNames, string baseEnvironmentName)
+    protected virtual SettingsComparisonResult CompareInternal(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string baseEnvironmentName)
     {
         var result = AbstractTypeFactory<SettingsComparisonResult>.TryCreateInstance();
+
+        foreach (var environment in comparableEnvironmentSettings)
+        {
+            var resultEnvironment = AbstractTypeFactory<ComparedEnvironment>.TryCreateInstance();
+            resultEnvironment.EnvironmentName = environment.EnvironmentName;
+            resultEnvironment.IsCurrent = environment.EnvironmentName == ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
+            resultEnvironment.IsComparisonBase = environment.EnvironmentName == baseEnvironmentName;
+            resultEnvironment.ErrorMessage = environment.ErrorMessage;
+            result.ComparedEnvironments.Add(resultEnvironment);
+        }
+
+        result.ComparedEnvironments = result.ComparedEnvironments
+            .OrderBy(x => x.IsComparisonBase ? 0 : 1)
+            .ThenBy(x => x.IsCurrent ? 0 : 1)
+            .ToList();
 
         foreach (var scopeName in comparableEnvironmentSettings
             .SelectMany(x => x.SettingScopes)
@@ -89,17 +104,21 @@ public class SettingsCompareService(
                     resultSettingBaseValue.ErrorMessage = resultSettingBaseValueFindResult.ErrorMessage;
                     resultSettingBaseValue.EqualsBaseValue = true;
 
-
-                    foreach (var comparableEnvironmentName in environmentNames.Where(x => x != baseEnvironmentName))
+                    foreach (var comparableEnvironment in result.ComparedEnvironments.Where(x => !x.IsComparisonBase))
                     {
                         var resultSettingComparableValue = AbstractTypeFactory<ComparedEnvironmentSettingValue>.TryCreateInstance();
-                        resultSettingComparableValue.EnvironmentName = comparableEnvironmentName;
+                        resultSettingComparableValue.EnvironmentName = comparableEnvironment.EnvironmentName;
                         resultSetting.ComparedValues.Add(resultSettingComparableValue);
 
-                        var resultSettingComparableValueFindResult = FindSettingValue(comparableEnvironmentSettings, comparableEnvironmentName, scopeName, groupName, settingName);
-                        resultSettingComparableValue.Value = resultSettingComparableValueFindResult.Value;
+                        var resultSettingComparableValueFindResult = FindSettingValue(comparableEnvironmentSettings, comparableEnvironment.EnvironmentName, scopeName, groupName, settingName);
+
                         resultSettingComparableValue.ErrorMessage = resultSettingComparableValueFindResult.ErrorMessage;
-                        resultSettingComparableValue.EqualsBaseValue = SettingValuesAreEqual(resultSettingBaseValue, resultSettingComparableValue);
+
+                        if (comparableEnvironment.ErrorMessage.IsNullOrEmpty())
+                        {
+                            resultSettingComparableValue.Value = resultSettingComparableValueFindResult.Value;
+                            resultSettingComparableValue.EqualsBaseValue = SettingValuesAreEqual(resultSettingBaseValue, resultSettingComparableValue);
+                        }
                     }
                 }
             }
@@ -114,10 +133,6 @@ public class SettingsCompareService(
         if (environmentSettings == null)
         {
             return (null, null);
-        }
-        if (!environmentSettings.ErrorMessage.IsNullOrEmpty())
-        {
-            return (null, $"Environment-level error: {environmentSettings.ErrorMessage}");
         }
 
         var scope = environmentSettings.SettingScopes.FirstOrDefault(x => x.ScopeName == scopeName);

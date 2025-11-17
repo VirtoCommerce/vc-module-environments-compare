@@ -11,9 +11,10 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 const blade = $scope.blade;
 
                 blade.title = 'environments-compare.blades.environments-comparison.title';
+                blade.markerColWidth = 5;
                 blade.nameColWidth = 500;
                 blade.valueColWidth = 250;
-                blade.totalWidth = blade.nameColWidth + blade.valueColWidth * blade.environmentNames.length;
+                blade.totalWidth = blade.markerColWidth + blade.nameColWidth + blade.valueColWidth * blade.environmentNames.length;
 
                 blade.refresh = function () {
                     environmentsCompareApi.compareEnvironments(
@@ -29,13 +30,26 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     return item.value;
                 }
 
-                blade.hasDiff = function (settings, environmentName) {
-                    const item = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
-                    return !item.errorMessage && !item.equalsBaseValue;
+                blade.environmentComparedValueHasDiff = function (settings, environmentName) {
+                    const comparedValue = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
+                    return blade.comparedValueHasDiff(comparedValue);
                 }
 
-                blade.hasAnyDiff = function (settings) {
-                    return settings.comparedValues.filter(x => !x.errorMessage && !x.equalsBaseValue).length > 0;
+                blade.environmentComparedValueHasError = function (settings, environmentName) {
+                    const comparedValue = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
+                    return blade.comparedValueHasError(comparedValue);
+                }
+
+                blade.anyEnvironmentComparedValueHasDiff = function (settings) {
+                    return settings.comparedValues.filter(x => blade.comparedValueHasDiff(x)).length > 0;
+                }
+
+                blade.comparedValueHasDiff = function (item) {
+                    return item.equalsBaseValue === false;
+                }
+
+                blade.comparedValueHasError = function (item) {
+                    return !!item.errorMessage;
                 }
 
                 $scope.setGridOptions = function (gridOptions) {

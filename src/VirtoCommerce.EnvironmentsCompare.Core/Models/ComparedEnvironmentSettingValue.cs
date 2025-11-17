@@ -6,7 +6,7 @@ public class ComparedEnvironmentSettingValue
 
     public object Value { get; set; }
 
-    public bool EqualsBaseValue { get; set; }
+    public bool? EqualsBaseValue { get; set; }
 
     public string ErrorMessage { get; set; }
 }
