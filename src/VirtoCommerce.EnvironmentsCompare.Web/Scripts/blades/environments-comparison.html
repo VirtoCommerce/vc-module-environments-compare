@@ -1,31 +1,45 @@
 <div class="blade-content __xxlarge-wide">
   <div class="blade-inner">
-    <div class="inner-block"> 
-      <div ng-if="blade.data" class="comparison-container">
-        <table>
+    <div class="inner-block">
+      <div ng-if="blade.data" class="comparison-header">
+        <table class="comparison-list" ng-style="{'width': blade.totalWidth + 'px'}">
+          <colgroup>
+            <col ng-style="{'width': blade.nameColWidth + 'px'}" />
+            <col ng-repeat="(index, environmentName) in blade.environmentNames" ng-style="{'width': blade.valueColWidth + 'px'}" />
+          </colgroup>
           <thead>
-            <tr>
-              <th>{{ 'environments-compare.blades.environments-comparison.labels.setting-name' | translate }}</th>
+            <tr class="comparison-list-header">
+              <th class="comparison-settings-name">{{ 'environments-compare.blades.environments-comparison.labels.setting-name' | translate }}</th>
               <th ng-repeat="(index, environmentName) in blade.environmentNames">{{ environmentName }}</th>
             </tr>
           </thead>
+        </table>
+      </div>
+      <div ng-if="blade.data" class="comparison-container" onscroll="syncScroll()">
+        <table class="comparison-list" ng-style="{'width': blade.totalWidth + 'px'}">
+          <colgroup>
+            <col ng-style="{'width': blade.nameColWidth + 'px'}" />
+            <col ng-repeat="(index, environmentName) in blade.environmentNames" ng-style="{'width': blade.valueColWidth + 'px'}" />
+          </colgroup>
           <tbody>
             <tr ng-if="0" ng-repeat-start="(index, settingScope) in blade.data.settingScopes" />
 
-            <tr>
-              <td colspan="{{ blade.environmentNames.length + 1 }}">{{ settingScope.scopeName }}</td>
+            <tr class="comparison-settings-scope-header">
+              <td class="comparison-settings-scope-name">{{ settingScope.scopeName }}</td>
+              <td colspan="{{ blade.environmentNames.length }}"></td>
             </tr>
 
             <tr ng-if="0" ng-repeat-start="(index, settingGroup) in settingScope.settingGroups" />
 
-            <tr>
-              <td colspan="{{ blade.environmentNames.length + 1 }}">{{ settingGroup.groupName }}</td>
+            <tr class="comparison-settings-group-header">
+              <td class="comparison-settings-group-name">{{ settingGroup.groupName }}</td>
+              <td colspan="{{ blade.environmentNames.length  }}"></td>
             </tr>
 
-            <tr ng-repeat-start="(index, setting) in settingGroup.settings" />
-            <tr>
-              <td>{{ setting.name }}</td>
-              <td ng-repeat="(index, environmentName) in blade.environmentNames">{{ (setting.comparedValues | filter : {'environmentName':environmentName})[0].value }}</td>
+            <tr ng-if="0" ng-repeat-start="(index, setting) in settingGroup.settings" />
+            <tr ng-class="{'comparison-diff': blade.hasAnyDiff(setting) }">
+              <td class="comparison-settings-name">{{ setting.name }}</td>
+              <td ng-repeat="(index, environmentName) in blade.environmentNames" ng-class="{'comparison-diff': blade.hasDiff(setting, environmentName) }">{{ blade.getComparedValue(setting, environmentName) }}</td>
             </tr>
 
             <tr ng-if="0" ng-repeat-end />
@@ -36,7 +50,15 @@
           </tbody>
         </table>
       </div>
-      <div class="note" ng-if="!blade.data?.settingScopes?.length">{{ 'platform.list.no-data' | translate }}</div>
+      <div class="note" ng-if="blade.data && blade.data.settingScopes && !blade.data.settingScopes.length">{{ 'platform.list.no-data' | translate }}</div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  function syncScroll() {
+    const source = document.getElementsByClassName('comparison-container')[0];
+    const target = document.getElementsByClassName('comparison-header')[0];
+    target.scrollLeft = source.scrollLeft;
+  }
+</script>

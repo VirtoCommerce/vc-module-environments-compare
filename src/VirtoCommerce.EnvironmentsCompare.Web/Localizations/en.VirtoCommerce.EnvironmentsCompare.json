@@ -1,5 +1,6 @@
 {
   "environments-compare": {
+    "main-menu-title": "Environments comparison",
     "blades": {
       "environments-list": {
         "title": "Environments list",
@@ -14,7 +15,7 @@
       "environments-comparison": {
         "title": "Environments comparison",
         "labels": {
-          "setting-name": "Name"
+          "setting-name": "Setting / Environment"
         }
       }
     }

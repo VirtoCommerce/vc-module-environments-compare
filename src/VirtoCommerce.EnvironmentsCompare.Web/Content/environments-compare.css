@@ -1,4 +1,65 @@
+.comparison-header {
+  padding: 0;
+  min-height: 60px;
+  overflow: hidden;
+}
+
 .comparison-container {
+  padding: 0;
   margin-bottom: 20px;
   overflow: auto;
+}
+
+.comparison-list {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+  .comparison-list thead tr {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    height: 60px;
+  }
+
+  .comparison-list tbody tr {
+    height: 60px;
+  }
+
+  .comparison-list td, .comparison-list th {
+    padding: 10px;
+    overflow: auto;
+  }
+
+tr.comparison-settings-scope-header {
+  background-color: #f9f9f9;
+}
+
+td.comparison-settings-scope-name {
+  font-weight: bold;
+  padding-left: 20px;
+  border-right: solid 1px #eaedf3;
+}
+
+tr.comparison-settings-group-header {
+  background-color: #f9f9f9;
+}
+
+td.comparison-settings-group-name {
+  background-color: #f9f9f9;
+  font-weight: bold;
+  padding-left: 40px;
+  border-right: solid 1px #eaedf3;
+}
+
+td.comparison-settings-name {
+  padding-left: 60px;
+  border-right: solid 1px #eaedf3;
+}
+
+tr.comparison-diff {
+  background-color: #fccdcd;
+}
+
+td.comparison-diff {
+  background-color: #f66c6c;
 }

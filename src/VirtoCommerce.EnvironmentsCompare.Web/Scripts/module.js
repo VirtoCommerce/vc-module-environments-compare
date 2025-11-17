@@ -33,7 +33,7 @@ angular.module(moduleName, [])
             var menuItem = {
                 path: 'browse/environments-compare',
                 icon: 'fa fa-cube',
-                title: 'EnvironmentsCompare',
+                title: 'environments-compare.main-menu-title',
                 priority: 100,
                 action: function () { $state.go('workspace.EnvironmentsCompareState'); },
                 permission: 'environments-compare:access',

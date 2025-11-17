@@ -8,7 +8,8 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 $scope,
                 environmentsCompareApi,
                 bladeNavigationService, uiGridHelper) {
-                var blade = $scope.blade;
+                const blade = $scope.blade;
+
                 blade.title = 'environments-compare.blades.environments-list.title';
 
                 blade.refresh = function () {
@@ -19,7 +20,7 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 };
 
                 $scope.compare = function () {
-                    var environmentNames = _.pluck($scope.gridApi.selection.getSelectedRows(), 'name');
+                    const environmentNames = _.pluck($scope.gridApi.selection.getSelectedRows(), 'name');
 
                     const comparisonBlade = {
                         id: 'environments-comparison-blade',
