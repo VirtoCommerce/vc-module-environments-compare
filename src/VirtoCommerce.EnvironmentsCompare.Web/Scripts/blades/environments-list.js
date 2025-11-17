@@ -49,7 +49,7 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                             }
                         },
                         {
-                            name: 'platform.commands.compare',
+                            name: 'environments-compare.blades.environments-list.buttons.compare',
                             icon: 'fas fa-not-equal',
                             executeMethod: $scope.compare,
                             canExecuteMethod: hasTwoOrMoreSelectedItems,

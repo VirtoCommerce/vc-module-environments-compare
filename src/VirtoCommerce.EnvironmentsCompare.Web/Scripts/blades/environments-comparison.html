@@ -1,8 +1,42 @@
-<div class="blade-content __medium-wide">
+<div class="blade-content __xxlarge-wide">
   <div class="blade-inner">
-    <div class="inner-block">
-      <div>{{ blade.data }}</div>
-      <div class="note" ng-if="!blade.data.length">{{ 'platform.list.no-data' | translate }}</div>
+    <div class="inner-block"> 
+      <div ng-if="blade.data" class="comparison-container">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'environments-compare.blades.environments-comparison.labels.setting-name' | translate }}</th>
+              <th ng-repeat="(index, environmentName) in blade.environmentNames">{{ environmentName }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-if="0" ng-repeat-start="(index, settingScope) in blade.data.settingScopes" />
+
+            <tr>
+              <td colspan="{{ blade.environmentNames.length + 1 }}">{{ settingScope.scopeName }}</td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-start="(index, settingGroup) in settingScope.settingGroups" />
+
+            <tr>
+              <td colspan="{{ blade.environmentNames.length + 1 }}">{{ settingGroup.groupName }}</td>
+            </tr>
+
+            <tr ng-repeat-start="(index, setting) in settingGroup.settings" />
+            <tr>
+              <td>{{ setting.name }}</td>
+              <td ng-repeat="(index, environmentName) in blade.environmentNames">{{ (setting.comparedValues | filter : {'environmentName':environmentName})[0].value }}</td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-end />
+
+            <tr ng-if="0" ng-repeat-end />
+
+            <tr ng-if="0" ng-repeat-end />
+          </tbody>
+        </table>
+      </div>
+      <div class="note" ng-if="!blade.data?.settingScopes?.length">{{ 'platform.list.no-data' | translate }}</div>
     </div>
   </div>
 </div>

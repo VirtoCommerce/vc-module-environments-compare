@@ -3,9 +3,18 @@
     "blades": {
       "environments-list": {
         "title": "Environments list",
+        "buttons": {
+          "compare": "Compare"
+        },
         "labels": {
           "name": "Name",
           "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Environments comparison",
+        "labels": {
+          "setting-name": "Name"
         }
       }
     }
