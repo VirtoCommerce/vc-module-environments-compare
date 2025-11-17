@@ -130,7 +130,7 @@ public class SettingsCompareService(
         return result;
     }
 
-    protected (object Value, string ErrorMessage) FindSettingValue(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string environmentName, string scopeName, string groupName, string settingName)
+    protected static (object Value, string ErrorMessage) FindSettingValue(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string environmentName, string scopeName, string groupName, string settingName)
     {
         var environmentSettings = comparableEnvironmentSettings.FirstOrDefault(x => x.EnvironmentName == environmentName);
         if (environmentSettings == null)
@@ -164,7 +164,7 @@ public class SettingsCompareService(
         return (setting.Value, null);
     }
 
-    protected bool SettingValuesAreEqual(ComparedEnvironmentSettingValue baseValue, ComparedEnvironmentSettingValue comparableValue)
+    protected virtual bool SettingValuesAreEqual(ComparedEnvironmentSettingValue baseValue, ComparedEnvironmentSettingValue comparableValue)
     {
         if (!baseValue.ErrorMessage.IsNullOrEmpty() || !comparableValue.ErrorMessage.IsNullOrEmpty())
         {
@@ -175,13 +175,21 @@ public class SettingsCompareService(
         {
             return true;
         }
+        else if (baseValue.Value == null || comparableValue.Value == null)
+        {
+            return false;
+        }
 
-        if (baseValue.Value is float || baseValue.Value is double || baseValue.Value is decimal
-            && comparableValue.Value is float || comparableValue.Value is double || comparableValue.Value is decimal)
+        if (IsFloatingPointNumber(baseValue.Value) && IsFloatingPointNumber(comparableValue.Value))
         {
             return Math.Abs(Convert.ToDecimal(baseValue.Value) - Convert.ToDecimal(comparableValue.Value)) < DecimalComparisonEpsilon;
         }
 
-        return baseValue.Value?.ToString() == comparableValue.Value?.ToString();
+        return baseValue.Value.ToString() == comparableValue.Value.ToString();
+    }
+
+    protected static bool IsFloatingPointNumber(object value)
+    {
+        return value is float || value is double || value is decimal;
     }
 }

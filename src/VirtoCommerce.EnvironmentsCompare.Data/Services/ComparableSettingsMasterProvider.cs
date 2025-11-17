@@ -24,7 +24,7 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
         return result;
     }
 
-    protected async Task<ComparableSettingScope> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
+    protected static async Task<ComparableSettingScope> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
     {
         ComparableSettingScope result;
 
