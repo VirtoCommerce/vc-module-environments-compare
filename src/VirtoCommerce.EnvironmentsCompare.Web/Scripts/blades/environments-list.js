@@ -3,19 +3,33 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
         [
             '$scope',
             'VirtoCommerce.EnvironmentsCompare.webApi',
-            'platformWebApp.uiGridHelper',
+            'platformWebApp.bladeNavigationService', 'platformWebApp.uiGridHelper',
             function (
                 $scope,
                 environmentsCompareApi,
-                uiGridHelper) {
+                bladeNavigationService, uiGridHelper) {
                 var blade = $scope.blade;
                 blade.title = 'environments-compare.blades.environments-list.title';
 
                 blade.refresh = function () {
-                    environmentsCompareApi.getEnvironments(function (data) {
-                        blade.data = data;
+                    environmentsCompareApi.getEnvironments(function (getEnvironmentsResult) {
+                        blade.data = getEnvironmentsResult;
                         blade.isLoading = false;
                     });
+                };
+
+                $scope.compare = function () {
+                    var environmentNames = _.pluck($scope.gridApi.selection.getSelectedRows(), 'name');
+
+                    const comparisonBlade = {
+                        id: 'environments-comparison-blade',
+                        controller: 'VirtoCommerce.EnvironmentsCompare.environmentsComparisonController',
+                        template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/environments-comparison.html',
+                        environmentNames: environmentNames,
+                        baseEnvironmentName: environmentNames[0]
+                    };
+
+                    bladeNavigationService.showBlade(comparisonBlade, blade);
                 };
 
                 $scope.setGridOptions = function (gridOptions) {
@@ -37,7 +51,7 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                         {
                             name: 'platform.commands.compare',
                             icon: 'fas fa-not-equal',
-                            executeMethod: $scope.add,
+                            executeMethod: $scope.compare,
                             canExecuteMethod: hasTwoOrMoreSelectedItems,
                         },
                     ];

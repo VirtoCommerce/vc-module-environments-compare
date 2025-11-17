@@ -10,18 +10,10 @@ public static class ModuleConstants
         public static class Permissions
         {
             public const string Access = "environments-compare:access";
-            public const string Create = "environments-compare:create";
-            public const string Read = "environments-compare:read";
-            public const string Update = "environments-compare:update";
-            public const string Delete = "environments-compare:delete";
 
             public static string[] AllPermissions { get; } =
             [
                 Access,
-                Create,
-                Read,
-                Update,
-                Delete,
             ];
         }
     }

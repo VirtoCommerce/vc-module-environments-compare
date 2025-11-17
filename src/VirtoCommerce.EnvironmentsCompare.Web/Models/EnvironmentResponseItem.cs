@@ -1,6 +1,6 @@
 namespace VirtoCommerce.EnvironmentsCompare.Web.Models;
 
-public class Environment
+public class EnvironmentResponseItem
 {
     public string Name { get; set; }
 

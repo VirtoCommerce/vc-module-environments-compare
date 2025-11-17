@@ -17,20 +17,25 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
 {
     [HttpGet]
     [Route("get-environments")]
-    [Authorize(Permissions.Read)]
-    public ActionResult<IList<Environment>> GetEnvironments()
+    [Authorize(Permissions.Access)]
+    public ActionResult<IList<EnvironmentResponseItem>> GetEnvironments()
     {
-        var result = settingsService.ComparableEnvironments?.Select(x => new Environment() { Name = x.Name, Url = x.Url })?.ToList();
-        result.Insert(0, new Environment() { Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName });
+        var result = settingsService.ComparableEnvironments?.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url })?.ToList();
+        result.Insert(0, new EnvironmentResponseItem() { Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName });
         return Ok(result);
     }
 
     [HttpPost]
     [Route("compare-environments")]
-    [Authorize(Permissions.Read)]
-    public async Task<ActionResult<SettingsComparisonResult>> CompareEnvironments(IList<string> environmentNames, string baseEnvironmentName = null)
+    [Authorize(Permissions.Access)]
+    public async Task<ActionResult<SettingsComparisonResult>> CompareEnvironments([FromBody] CompareEnvironmentsRequest request)
     {
-        var result = await settingsCompareService.CompareAsync(environmentNames, baseEnvironmentName);
+        if (request?.EnvironmentNames == null || request.EnvironmentNames.Count < 2)
+        {
+            return BadRequest("At least 2 environments are required for comparison.");
+        }
+
+        var result = await settingsCompareService.CompareAsync(request.EnvironmentNames, request.BaseEnvironmentName);
         return Ok(result);
     }
 }

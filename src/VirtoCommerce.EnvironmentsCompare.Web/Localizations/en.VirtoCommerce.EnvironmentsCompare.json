@@ -11,11 +11,7 @@
     }
   },
   "permissions": {
-    "environments-compare:access": "Open environments comparison menu",
-    "environments-compare:create": "Create EnvironmentsCompare related data",
-    "environments-compare:read": "View EnvironmentsCompare related data",
-    "environments-compare:update": "Update EnvironmentsCompare related data",
-    "environments-compare:delete": "Delete EnvironmentsCompare related data"
+    "environments-compare:access": "Work with environments comparison module"
   },
   "settings": {
     "environments-compare": {
