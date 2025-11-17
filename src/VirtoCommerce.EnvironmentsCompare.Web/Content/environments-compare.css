@@ -47,6 +47,10 @@ th.environment-name-clickable {
   cursor: pointer;
 }
 
+  th.environment-name-clickable .fas, th.environment-name-clickable .fa {
+    margin-right: 5px;
+  }
+
 tr.comparison-settings-scope-header {
   background-color: #f9f9f9;
 }
