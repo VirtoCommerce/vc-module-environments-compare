@@ -16,9 +16,9 @@ angular.module(moduleName, [])
                         'platformWebApp.bladeNavigationService',
                         function (bladeNavigationService) {
                             var newBlade = {
-                                id: 'blade1',
-                                controller: 'VirtoCommerce.EnvironmentsCompare.helloWorldController',
-                                template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/hello-world.html',
+                                id: 'environments-list-blade',
+                                controller: 'VirtoCommerce.EnvironmentsCompare.environmentsListController',
+                                template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/environments-list.html',
                                 isClosingDisabled: true,
                             };
                             bladeNavigationService.showBlade(newBlade);

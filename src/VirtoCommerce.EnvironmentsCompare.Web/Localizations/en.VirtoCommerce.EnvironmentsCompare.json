@@ -1,23 +1,27 @@
 {
-  "EnvironmentsCompare": {
+  "environments-compare": {
     "blades": {
-      "hello-world": {
-        "title": "Hello world blade"
+      "environments-list": {
+        "title": "Environments list",
+        "labels": {
+          "name": "Name",
+          "url": "URL"
+        }
       }
     }
   },
   "permissions": {
-    "environments-compare:access": "Open EnvironmentsCompare menu",
+    "environments-compare:access": "Open environments comparison menu",
     "environments-compare:create": "Create EnvironmentsCompare related data",
     "environments-compare:read": "View EnvironmentsCompare related data",
     "environments-compare:update": "Update EnvironmentsCompare related data",
     "environments-compare:delete": "Delete EnvironmentsCompare related data"
   },
   "settings": {
-    "EnvironmentsCompare": {
+    "environments-compare": {
       "Enabled": {
-        "title": "EnvironmentsCompare Enabled",
-        "description": "EnvironmentsCompare Enabled setting"
+        "title": "Environments comparison Enabled",
+        "description": "Environments comparison Enabled setting"
       }
     }
   }
