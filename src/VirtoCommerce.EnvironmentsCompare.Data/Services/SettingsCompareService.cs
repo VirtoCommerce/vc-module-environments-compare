@@ -68,7 +68,8 @@ public class SettingsCompareService(
         foreach (var scopeName in comparableEnvironmentSettings
             .SelectMany(x => x.SettingScopes)
             .Select(x => x.ScopeName)
-            .Distinct())
+            .Distinct()
+            .OrderBy(x => x))
         {
             var resultScope = AbstractTypeFactory<ComparedEnvironmentSettingScope>.TryCreateInstance();
             resultScope.ScopeName = scopeName;
@@ -79,7 +80,8 @@ public class SettingsCompareService(
                 .Where(x => x.ScopeName == scopeName)
                 .SelectMany(x => x.SettingGroups)
                 .Select(x => x.GroupName)
-                .Distinct())
+                .Distinct()
+                .OrderBy(x => x))
             {
                 var resultGroup = AbstractTypeFactory<ComparedEnvironmentSettingGroup>.TryCreateInstance();
                 resultGroup.GroupName = groupName;
@@ -92,7 +94,8 @@ public class SettingsCompareService(
                     .Where(x => x.GroupName == groupName)
                     .SelectMany(x => x.Settings)
                     .Select(x => x.Name)
-                    .Distinct())
+                    .Distinct()
+                    .OrderBy(x => x))
                 {
                     var resultSetting = AbstractTypeFactory<ComparedEnvironmentSetting>.TryCreateInstance();
                     resultSetting.Name = settingName;
