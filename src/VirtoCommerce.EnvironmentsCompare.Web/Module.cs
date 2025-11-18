@@ -44,15 +44,12 @@ public class Module : IModule, IHasConfiguration
             }
         });
 
-        // Override models
-        //AbstractTypeFactory<OriginalModel>.OverrideType<OriginalModel, ExtendedModel>().MapToType<ExtendedEntity>();
-        //AbstractTypeFactory<OriginalEntity>.OverrideType<OriginalEntity, ExtendedEntity>();
-
         serviceCollection.AddTransient<IComparableSettingsMasterProvider, ComparableSettingsMasterProvider>();
 
         serviceCollection.AddTransient<IComparableSettingsProvider, ComparableEnvironmentVariablesProvider>();
         serviceCollection.AddTransient<IComparableSettingsProvider, ComparableAppSettingsProvider>();
         serviceCollection.AddTransient<IComparableSettingsProvider, ComparablePlatformSettingsProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableModulesProvider>();
 
         serviceCollection.AddTransient<ISettingsCompareService, SettingsCompareService>();
         serviceCollection.AddTransient<IEnvironmentsCompareClient, EnvironmentsCompareClient>();
