@@ -1,40 +1,247 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
-using VirtoCommerce.Platform.Core.Settings;
 
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparableAppSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
 {
+    protected virtual IList<string> VisibleSectionKeys
+    {
+        get
+        {
+            return [
+                "DatabaseProvider", "ConnectionStrings", "SqlServer", "Serilog", "FrontendSecurity",
+                "VirtoCommerce", "Auth", "Assets", "Notifications", "IdentityOptions",
+                "ExternalModules", "Search", "Content", "Authorization", "SecurityHeaders",
+                "AzureAd", "Caching", "Crud", "PushNotifications", "LoginPageUI", "DefaultMainMenuState",
+                ];
+        }
+    }
+
+    protected virtual IList<string> PublicSettingKeys
+    {
+        get
+        {
+            return [
+                "Assets:AzureBlobStorage:CdnUrl",
+                "Assets:FileSystem:PublicUrl",
+                "Assets:FileSystem:RootPath",
+                "Assets:Provider",
+                "Auth:Audience",
+                "Auth:Authority",
+                "Auth:PrivateKeyPath",
+                "Auth:PublicCertPath",
+                "Authorization:AccessTokenLifeTime",
+                "Authorization:AllowApiAccessForCustomers",
+                "Authorization:LimitedCookiePermissions",
+                "Authorization:RefreshTokenLifeTime",
+                "Authorization:ReturnPasswordHash",
+                "AzureAd:ApplicationId",
+                "AzureAd:AuthenticationCaption",
+                "AzureAd:AuthenticationType",
+                "AzureAd:AzureAdInstance",
+                "AzureAd:DefaultUserType",
+                "AzureAd:Enabled",
+                "AzureAd:TenantId",
+                "AzureAd:UsePreferredUsername",
+                "Caching:CacheEnabled",
+                "Caching:CacheSlidingExpiration",
+                "Caching:Redis:ChannelName",
+                "Content:AzureBlobStorage:CdnUrl",
+                "Content:AzureBlobStorage:RootPath",
+                "Content:FileSystem:PublicUrl",
+                "Content:FileSystem:RootPath",
+                "Content:Provider",
+                "Crud:MaxResultWindow",
+                "DatabaseProvider",
+                "DefaultMainMenuState",
+                "DefaultMainMenuState:items:0:isFavorite",
+                "DefaultMainMenuState:items:0:order",
+                "DefaultMainMenuState:items:0:path",
+                "DefaultMainMenuState:items:1:isFavorite",
+                "DefaultMainMenuState:items:1:order",
+                "DefaultMainMenuState:items:1:path",
+                "DefaultMainMenuState:items:2:isFavorite",
+                "DefaultMainMenuState:items:2:order",
+                "DefaultMainMenuState:items:2:path",
+                "DefaultMainMenuState:items:3:isFavorite",
+                "DefaultMainMenuState:items:3:order",
+                "DefaultMainMenuState:items:3:path",
+                "DefaultMainMenuState:items:4:isFavorite",
+                "DefaultMainMenuState:items:4:order",
+                "DefaultMainMenuState:items:4:path",
+                "DefaultMainMenuState:items:5:isFavorite",
+                "DefaultMainMenuState:items:5:order",
+                "DefaultMainMenuState:items:5:path",
+                "DefaultMainMenuState:items:6:isFavorite",
+                "DefaultMainMenuState:items:6:order",
+                "DefaultMainMenuState:items:6:path",
+                "DefaultMainMenuState:items:7:isFavorite",
+                "DefaultMainMenuState:items:7:order",
+                "DefaultMainMenuState:items:7:path",
+                "DefaultMainMenuState:items:8:isFavorite",
+                "DefaultMainMenuState:items:8:order",
+                "DefaultMainMenuState:items:8:path",
+                "ExternalModules:AuthorizationToken",
+                "ExternalModules:AutoInstallModuleBundles:0",
+                "ExternalModules:IncludePrerelease",
+                "ExternalModules:ModulesManifestUrl",
+                "FrontendSecurity:OrganizationMaintainerRole",
+                "IdentityOptions:Lockout:DefaultLockoutTimeSpan",
+                "IdentityOptions:Password:RepeatedResetPasswordTimeLimit",
+                "IdentityOptions:Password:RequireDigit",
+                "IdentityOptions:Password:RequiredLength",
+                "IdentityOptions:Password:RequireNonAlphanumeric",
+                "IdentityOptions:User:MaxPasswordAge",
+                "IdentityOptions:User:RemindPasswordExpiryInDay",
+                "IdentityOptions:User:RequireUniqueEmail",
+                "LoginPageUI:BackgroundUrl",
+                "LoginPageUI:PatternUrl",
+                "LoginPageUI:Preset",
+                "LoginPageUI:Presets:0:BackgroundUrl",
+                "LoginPageUI:Presets:0:Name",
+                "LoginPageUI:Presets:0:PatternUrl",
+                "LoginPageUI:Presets:1:BackgroundUrl",
+                "LoginPageUI:Presets:1:Name",
+                "LoginPageUI:Presets:1:PatternUrl",
+                "Notifications:DefaultSender",
+                "Notifications:Gateway",
+                "Notifications:SendGrid:ApiKey",
+                "Notifications:Smtp:ForceSslTls",
+                "Notifications:Smtp:Login",
+                "Notifications:Smtp:Port",
+                "Notifications:Smtp:SmtpServer",
+                "PushNotifications:ForceWebSockets",
+                "PushNotifications:HubUrl",
+                "PushNotifications:RedisBackplane:ChannelName",
+                "PushNotifications:ScalabilityMode",
+                "Search:AzureSearch:Key",
+                "Search:AzureSearch:SearchServiceName",
+                "Search:ContentFullTextSearchEnabled",
+                "Search:ElasticSearch:EnableHttpCompression",
+                "Search:ElasticSearch:Key",
+                "Search:ElasticSearch:Server",
+                "Search:ElasticSearch:User",
+                "Search:Lucene:Path",
+                "Search:OrderFullTextSearchEnabled",
+                "Search:PickupLocationFullTextSearchEnabled",
+                "Search:Provider",
+                "Search:Scope",
+                "SecurityHeaders",
+                "SecurityHeaders:FrameAncestors",
+                "SecurityHeaders:FrameOptions",
+                "Serilog:Enrich:0",
+                "Serilog:MinimumLevel:Default",
+                "Serilog:MinimumLevel:Override:Microsoft",
+                "Serilog:MinimumLevel:Override:Microsoft.Hosting.Lifetime",
+                "Serilog:MinimumLevel:Override:System",
+                "Serilog:MinimumLevel:Override:VirtoCommerce.Platform.Modules",
+                "Serilog:MinimumLevel:Override:VirtoCommerce.Platform.Web.Startup",
+                "Serilog:Using:0",
+                "Serilog:Using:1",
+                "Serilog:WriteTo:0",
+                "Serilog:WriteTo:1",
+                "VirtoCommerce:AllowInsecureHttp",
+                "VirtoCommerce:ApplicationInsights:EnableSqlCommandTextInstrumentation",
+                "VirtoCommerce:ApplicationInsights:IgnoreSqlTelemetryOptions:QueryIgnoreSubstrings:0",
+                "VirtoCommerce:ApplicationInsights:IgnoreSqlTelemetryOptions:QueryIgnoreSubstrings:1",
+                "VirtoCommerce:ApplicationInsights:IgnoreSqlTelemetryOptions:QueryIgnoreSubstrings:2",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:EvaluationInterval",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:InitialSamplingPercentage",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:MaxSamplingPercentage",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:MaxTelemetryItemsPerSecond",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:MinSamplingPercentage",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:MovingAverageRatio",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:SamplingPercentageDecreaseTimeout",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Adaptive:SamplingPercentageIncreaseTimeout",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Fixed:SamplingPercentage",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:IncludedTypes",
+                "VirtoCommerce:ApplicationInsights:SamplingOptions:Processor",
+                "VirtoCommerce:DiscoveryPath",
+                "VirtoCommerce:GraphQL:ForbiddenAuthenticationTypes:0",
+                "VirtoCommerce:GraphQLPlayground:Enable",
+                "VirtoCommerce:Hangfire:AutomaticRetryCount",
+                "VirtoCommerce:Hangfire:JobStorageType",
+                "VirtoCommerce:Hangfire:MySqlStorageOptions:InvisibilityTimeout",
+                "VirtoCommerce:Hangfire:MySqlStorageOptions:QueuePollInterval",
+                "VirtoCommerce:Hangfire:PostgreSqlStorageOptions:DisableGlobalLocks",
+                "VirtoCommerce:Hangfire:PostgreSqlStorageOptions:InvisibilityTimeout",
+                "VirtoCommerce:Hangfire:PostgreSqlStorageOptions:QueuePollInterval",
+                "VirtoCommerce:Hangfire:PostgreSqlStorageOptions:UsePageLocksOnDequeue",
+                "VirtoCommerce:Hangfire:PostgreSqlStorageOptions:UseRecommendedIsolationLevel",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:CommandBatchMaxTimeout",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:DisableGlobalLocks",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:EnableHeavyMigrations",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:InactiveStateExpirationTimeout",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:QueuePollInterval",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:SlidingInvisibilityTimeout",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:TryAutoDetectSchemaDependentOptions",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:UseIgnoreDupKeyOption",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:UsePageLocksOnDequeue",
+                "VirtoCommerce:Hangfire:SqlServerStorageOptions:UseRecommendedIsolationLevel",
+                "VirtoCommerce:Hangfire:UseHangfireServer",
+                "VirtoCommerce:LicenseActivationUrl",
+                "VirtoCommerce:PlatformUI:Enable",
+                "VirtoCommerce:SampleDataUrl",
+                "VirtoCommerce:Stores:DefaultStore",
+                "VirtoCommerce:Swagger:Enable",
+                "VirtoCommerce:UseResponseCompression"
+                ];
+        }
+    }
+
     public Task<IList<ComparableSettingScope>> GetComparableSettingsAsync()
     {
         var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
         result.ScopeName = "AppSettings";
 
-        var connectionStringsGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
-        connectionStringsGroup.GroupName = "ConnectionStrings";
-        result.SettingGroups.Add(connectionStringsGroup);
+        foreach (var section in configuration.GetChildren().Where(x => VisibleSectionKeys.Contains(x.Key, StringComparer.OrdinalIgnoreCase)))
+        {
+            var sectionValues = new Dictionary<string, string>();
+            EnumerateSectionRecursive(section, section.Key, sectionValues);
 
-        var connectionStringSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
-        connectionStringSetting.Name = "ConnectionStrings.VirtoCommerce";
-        connectionStringSetting.Value = configuration.GetValue<string>("ConnectionStrings:VirtoCommerce");
-        connectionStringSetting.IsSecret = true;
-        connectionStringsGroup.Settings.Add(connectionStringSetting);
+            if (sectionValues.Count == 0)
+            {
+                continue;
+            }
 
-        var virtoCommerceGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
-        virtoCommerceGroup.GroupName = "VirtoCommerce";
-        result.SettingGroups.Add(virtoCommerceGroup);
+            var resultGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
+            resultGroup.GroupName = section.Key;
+            result.SettingGroups.Add(resultGroup);
 
-        var licenseActivationUrlSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
-        licenseActivationUrlSetting.Name = "VirtoCommerce.LicenseActivationUrl";
-        licenseActivationUrlSetting.Value = configuration.GetValue<string>("VirtoCommerce:LicenseActivationUrl");
-        licenseActivationUrlSetting.IsSecret = false;
-        virtoCommerceGroup.Settings.Add(licenseActivationUrlSetting);
+            foreach (var key in sectionValues)
+            {
+                var resultSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
+                resultSetting.Name = key.Key;
+                resultSetting.Value = sectionValues[key.Key];
+                resultSetting.IsSecret = !PublicSettingKeys.Contains(key.Key, StringComparer.OrdinalIgnoreCase);
+                resultGroup.Settings.Add(resultSetting);
+            }
+        }
 
         return Task.FromResult((IList<ComparableSettingScope>)[result]);
+    }
+
+    private static void EnumerateSectionRecursive(IConfigurationSection section, string parentPath, Dictionary<string, string> allValues)
+    {
+        foreach (var child in section.GetChildren())
+        {
+            string currentPath = parentPath.IsNullOrEmpty() ? child.Key : $"{parentPath}:{child.Key}";
+
+            if (child.Value != null)
+            {
+                allValues[currentPath] = child.Value;
+            }
+            else
+            {
+                EnumerateSectionRecursive(child, currentPath, allValues);
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<IComparableSettingsMasterProvider, ComparableSettingsMasterProvider>();
 
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableEnvironmentVariablesProvider>();
         serviceCollection.AddTransient<IComparableSettingsProvider, ComparableAppSettingsProvider>();
         serviceCollection.AddTransient<IComparableSettingsProvider, ComparablePlatformSettingsProvider>();
 
