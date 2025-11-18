@@ -36,9 +36,9 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     blade.refresh();
                 }
 
-                blade.getComparedValue = function (settings, environmentName) {
+                blade.getComparedValueOrError = function (settings, environmentName) {
                     const item = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
-                    return item.value;
+                    return item.errorMessage ?? item.value;
                 }
 
                 blade.environmentComparedValueHasDiff = function (settings, environmentName) {

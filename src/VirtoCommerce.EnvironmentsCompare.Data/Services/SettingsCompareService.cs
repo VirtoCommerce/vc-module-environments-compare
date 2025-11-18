@@ -108,7 +108,7 @@ public class SettingsCompareService(
                     var resultSettingBaseValueFindResult = FindSettingValue(comparableEnvironmentSettings, baseEnvironmentName, scopeName, groupName, settingName);
                     resultSettingBaseValue.Value = resultSettingBaseValueFindResult.Value;
                     resultSettingBaseValue.ErrorMessage = resultSettingBaseValueFindResult.ErrorMessage;
-                    resultSettingBaseValue.EqualsBaseValue = true;
+                    resultSettingBaseValue.EqualsBaseValue = resultSettingBaseValueFindResult.Found;
 
                     foreach (var comparableEnvironment in result.ComparedEnvironments.Where(x => !x.IsComparisonBase))
                     {
@@ -116,14 +116,12 @@ public class SettingsCompareService(
                         resultSettingComparableValue.EnvironmentName = comparableEnvironment.EnvironmentName;
                         resultSetting.ComparedValues.Add(resultSettingComparableValue);
 
-                        var resultSettingComparableValueFindResult = FindSettingValue(comparableEnvironmentSettings, comparableEnvironment.EnvironmentName, scopeName, groupName, settingName);
-
-                        resultSettingComparableValue.ErrorMessage = resultSettingComparableValueFindResult.ErrorMessage;
-
                         if (comparableEnvironment.ErrorMessage.IsNullOrEmpty())
                         {
+                            var resultSettingComparableValueFindResult = FindSettingValue(comparableEnvironmentSettings, comparableEnvironment.EnvironmentName, scopeName, groupName, settingName);
                             resultSettingComparableValue.Value = resultSettingComparableValueFindResult.Value;
-                            resultSettingComparableValue.EqualsBaseValue = SettingValuesAreEqual(resultSettingBaseValue, resultSettingComparableValue);
+                            resultSettingComparableValue.ErrorMessage = resultSettingComparableValueFindResult.ErrorMessage;
+                            resultSettingComparableValue.EqualsBaseValue = resultSettingBaseValueFindResult.Found && resultSettingComparableValueFindResult.Found && SettingValuesAreEqual(resultSettingBaseValue, resultSettingComparableValue);
                         }
                     }
                 }
@@ -133,38 +131,38 @@ public class SettingsCompareService(
         return result;
     }
 
-    protected static (object Value, string ErrorMessage) FindSettingValue(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string environmentName, string scopeName, string groupName, string settingName)
+    protected static (object Value, bool Found, string ErrorMessage) FindSettingValue(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string environmentName, string scopeName, string groupName, string settingName)
     {
         var environmentSettings = comparableEnvironmentSettings.FirstOrDefault(x => x.EnvironmentName == environmentName);
         if (environmentSettings == null)
         {
-            return (null, null);
+            return (null, false, null);
         }
 
         var scope = environmentSettings.SettingScopes.FirstOrDefault(x => x.ScopeName == scopeName);
         if (scope == null)
         {
-            return (null, null);
+            return (null, false, "Setting scope not found");
         }
         if (!scope.ErrorMessage.IsNullOrEmpty())
         {
-            return (null, $"Settings scope (provider) error: {environmentSettings.ErrorMessage}");
+            return (null, true, $"Setting scope (provider) error: {environmentSettings.ErrorMessage}");
         }
 
         var group = scope.SettingGroups.FirstOrDefault(x => x.GroupName == groupName);
         if (group == null)
         {
 
-            return (null, null);
+            return (null, false, "Setting group not found");
         }
 
         var setting = group.Settings.FirstOrDefault(x => x.Name == settingName);
         if (setting == null)
         {
-            return (null, null);
+            return (null, false, "Setting not found");
         }
 
-        return (setting.Value, null);
+        return (setting.Value, true, null);
     }
 
     protected virtual bool SettingValuesAreEqual(ComparedEnvironmentSettingValue baseValue, ComparedEnvironmentSettingValue comparableValue)

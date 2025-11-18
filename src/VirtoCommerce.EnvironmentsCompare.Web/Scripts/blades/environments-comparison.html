@@ -51,7 +51,7 @@
             <tr ng-class="{'comparison-diff': blade.anyEnvironmentComparedValueHasDiff(setting) }">
               <td class="scope-marker-{{scopeIndex}}"></td>
               <td class="comparison-settings-name">{{ setting.name }}</td>
-              <td ng-repeat="(environmentIndex, environment) in blade.data.comparedEnvironments" ng-class="{'comparison-diff': !environment.errorMessage && blade.environmentComparedValueHasDiff(setting, environment.environmentName), 'environment-error': environment.errorMessage || blade.environmentComparedValueHasError(setting, environment.environmentName) }">{{ blade.getComparedValue(setting,  environment.environmentName) }}</td>
+              <td ng-repeat="(environmentIndex, environment) in blade.data.comparedEnvironments" ng-class="{'comparison-diff': !environment.errorMessage && blade.environmentComparedValueHasDiff(setting, environment.environmentName), 'environment-error': environment.errorMessage }">{{ blade.getComparedValueOrError(setting,  environment.environmentName) }}</td>
             </tr>
 
             <tr ng-if="0" ng-repeat-end />
