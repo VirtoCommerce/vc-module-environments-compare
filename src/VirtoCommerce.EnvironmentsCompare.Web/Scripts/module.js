@@ -32,7 +32,7 @@ angular.module(moduleName, [])
             //Register module in main menu
             var menuItem = {
                 path: 'browse/environments-compare',
-                icon: 'fa fa-cube',
+                icon: 'fas fa-not-equal',
                 title: 'environments-compare.main-menu-title',
                 priority: 100,
                 action: function () { $state.go('workspace.EnvironmentsCompareState'); },
