@@ -6,5 +6,5 @@ namespace VirtoCommerce.EnvironmentsCompare.Core.Services;
 
 public interface ISettingsCompareService
 {
-    Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironmentName = null);
+    Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironmentName = null, bool showAll = false);
 }

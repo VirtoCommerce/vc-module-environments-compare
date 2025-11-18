@@ -4,7 +4,7 @@
     "blades": {
       "environments-list": {
         "title": "Environments list",
-        "buttons": {
+        "toolbar": {
           "compare": "Compare"
         },
         "labels": {
@@ -17,6 +17,10 @@
         "labels": {
           "setting-name": "Setting / Environment",
           "environment-summary": "Environment summary"
+        },
+        "toolbar": {
+          "show-all": "Show all",
+          "show-diff": "Show differences only"
         }
       }
     }

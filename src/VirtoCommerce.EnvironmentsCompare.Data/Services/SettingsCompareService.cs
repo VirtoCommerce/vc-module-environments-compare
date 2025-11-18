@@ -17,7 +17,7 @@ public class SettingsCompareService(
 {
     protected const decimal DecimalComparisonEpsilon = 0.00001m;
 
-    public async Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironmentName = null)
+    public async Task<SettingsComparisonResult> CompareAsync(IList<string> environmentNames, string baseEnvironmentName = null, bool showAll = false)
     {
         var comparableEnvironmentSettings = await GetComparableEnvironmentsAsync(environmentNames);
 
@@ -26,7 +26,11 @@ public class SettingsCompareService(
             baseEnvironmentName = comparableEnvironmentSettings.FirstOrDefault()?.EnvironmentName;
         }
 
-        return CompareInternal(comparableEnvironmentSettings, baseEnvironmentName);
+        var result = CompareInternal(comparableEnvironmentSettings, baseEnvironmentName);
+
+        ApplyFilter(result, showAll);
+
+        return result;
     }
 
     protected virtual async Task<IList<ComparableEnvironmentSettings>> GetComparableEnvironmentsAsync(IList<string> environmentNames)
@@ -192,5 +196,38 @@ public class SettingsCompareService(
     protected static bool IsFloatingPointNumber(object value)
     {
         return value is float || value is double || value is decimal;
+    }
+
+    protected virtual void ApplyFilter(SettingsComparisonResult comparisonResult, bool showAll)
+    {
+        if (showAll)
+        {
+            return;
+        }
+
+        foreach (var scope in comparisonResult.SettingScopes.ToList())
+        {
+            foreach (var group in scope.SettingGroups.ToList())
+            {
+                foreach (var setting in group.Settings.ToList())
+                {
+                    var allValuesEqual = !setting.ComparedValues.Any(x => x.EqualsBaseValue == false);
+                    if (allValuesEqual)
+                    {
+                        group.Settings.Remove(setting);
+                    }
+                }
+
+                if (!group.Settings.Any())
+                {
+                    scope.SettingGroups.Remove(group);
+                }
+            }
+
+            if (!scope.SettingGroups.Any())
+            {
+                comparisonResult.SettingScopes.Remove(scope);
+            }
+        }
     }
 }

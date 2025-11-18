@@ -11,6 +11,7 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 const blade = $scope.blade;
 
                 blade.title = 'environments-compare.blades.environments-comparison.title';
+
                 blade.markerColWidth = 5;
                 blade.nameColWidth = 500;
                 blade.valueColWidth = 250;
@@ -20,7 +21,11 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     blade.isLoading = true;
 
                     environmentsCompareApi.compareEnvironments(
-                        { environmentNames: blade.environmentNames, baseEnvironmentName: blade.baseEnvironmentName },
+                        {
+                            environmentNames: blade.environmentNames,
+                            baseEnvironmentName: blade.baseEnvironmentName,
+                            showAll: blade.showAll
+                        },
                         function (compareEnvironmentsResult) {
                             blade.data = compareEnvironmentsResult;
                             blade.isLoading = false;
@@ -33,6 +38,16 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     }
 
                     blade.baseEnvironmentName = environment.environmentName;
+                    blade.refresh();
+                }
+
+                blade.showAllSettings = function () {
+                    blade.showAll = true;
+                    blade.refresh();
+                }
+
+                blade.showDiffSettings = function () {
+                    blade.showAll = false;
                     blade.refresh();
                 }
 
@@ -75,6 +90,32 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                             name: 'platform.commands.refresh',
                             icon: 'fa fa-refresh',
                             executeMethod: blade.refresh,
+                            canExecuteMethod: function () {
+                                return true;
+                            }
+                        },
+                        {
+                            name: 'environments-compare.blades.environments-comparison.toolbar.show-all',
+                            icon: 'fas fa-equals',
+                            executeMethod: function () {
+                                blade.showAllSettings();
+                            },
+                            hide: function () {
+                                return blade.showAll === true;
+                            },
+                            canExecuteMethod: function () {
+                                return true;
+                            }
+                        },
+                        {
+                            name: 'environments-compare.blades.environments-comparison.toolbar.show-diff',
+                            icon: 'fas fa-not-equal',
+                            executeMethod: function () {
+                                blade.showDiffSettings();
+                            },
+                            hide: function () {
+                                return !blade.showAll;
+                            },
                             canExecuteMethod: function () {
                                 return true;
                             }

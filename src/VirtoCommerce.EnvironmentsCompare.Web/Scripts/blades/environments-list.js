@@ -27,7 +27,8 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                         controller: 'VirtoCommerce.EnvironmentsCompare.environmentsComparisonController',
                         template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/environments-comparison.html',
                         environmentNames: environmentNames,
-                        baseEnvironmentName: environmentNames[0]
+                        baseEnvironmentName: environmentNames[0],
+                        showAll: false,
                     };
 
                     bladeNavigationService.showBlade(comparisonBlade, blade);
@@ -50,8 +51,8 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                             }
                         },
                         {
-                            name: 'environments-compare.blades.environments-list.buttons.compare',
-                            icon: 'fas fa-not-equal',
+                            name: 'environments-compare.blades.environments-list.toolbar.compare',
+                            icon: 'fas fa-microscope',
                             executeMethod: $scope.compare,
                             canExecuteMethod: hasTwoOrMoreSelectedItems,
                         },

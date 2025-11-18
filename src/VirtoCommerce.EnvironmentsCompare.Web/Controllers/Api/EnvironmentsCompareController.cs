@@ -35,7 +35,7 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
             return BadRequest("At least 2 environments are required for comparison.");
         }
 
-        var result = await settingsCompareService.CompareAsync(request.EnvironmentNames, request.BaseEnvironmentName);
+        var result = await settingsCompareService.CompareAsync(request.EnvironmentNames, request.BaseEnvironmentName, request.ShowAll);
         return Ok(result);
     }
 }
