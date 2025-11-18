@@ -13,7 +13,7 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 blade.title = 'environments-compare.blades.environments-comparison.title';
 
                 blade.markerColWidth = 5;
-                blade.nameColWidth = 500;
+                blade.nameColWidth = 600;
                 blade.valueColWidth = 250;
                 blade.totalWidth = blade.markerColWidth + blade.nameColWidth + blade.valueColWidth * blade.environmentNames.length;
 
