@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
@@ -10,7 +11,7 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager) : IComparableSettingsProvider
 {
-    public async Task<ComparableSettingScope> GetComparableSettingsAsync()
+    public async Task<IList<ComparableSettingScope>> GetComparableSettingsAsync()
     {
         var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
         result.ScopeName = "PlatformSettings";
@@ -33,7 +34,7 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
             }
         }
 
-        return result;
+        return [result];
     }
 
     protected async Task<object> GetSettingValueAsync(SettingDescriptor settingDescriptor)

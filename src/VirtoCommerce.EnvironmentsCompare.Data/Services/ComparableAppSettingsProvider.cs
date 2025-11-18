@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
@@ -9,7 +10,7 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparableAppSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
 {
-    public Task<ComparableSettingScope> GetComparableSettingsAsync()
+    public Task<IList<ComparableSettingScope>> GetComparableSettingsAsync()
     {
         var result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
         result.ScopeName = "AppSettings";
@@ -34,6 +35,6 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
         licenseActivationUrlSetting.IsSecret = false;
         virtoCommerceGroup.Settings.Add(licenseActivationUrlSetting);
 
-        return Task.FromResult(result);
+        return Task.FromResult((IList<ComparableSettingScope>)[result]);
     }
 }

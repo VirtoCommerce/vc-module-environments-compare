@@ -16,7 +16,7 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
 
         foreach (var provider in comparableSettingsProviders)
         {
-            result.Add(await GetSettingsFromProviderAsync(provider));
+            result.AddRange(await GetSettingsFromProviderAsync(provider));
         }
 
         HideSecretSettings(result.SelectMany(x => x.SettingGroups).SelectMany(x => x.Settings));
@@ -24,9 +24,9 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
         return result;
     }
 
-    protected static async Task<ComparableSettingScope> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
+    protected static async Task<IList<ComparableSettingScope>> GetSettingsFromProviderAsync(IComparableSettingsProvider comparableSettingsProvider)
     {
-        ComparableSettingScope result;
+        IList<ComparableSettingScope> result;
 
         try
         {
@@ -34,16 +34,22 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
 
             if (result == null)
             {
-                throw new InvalidOperationException("The provider returned null settings group");
+                throw new InvalidOperationException("The provider returned null setting scopes list");
             }
         }
         catch (Exception ex)
         {
-            result = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
-            result.ErrorMessage = ex.Message;
+            var errorResultItem = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance();
+            errorResultItem.ErrorMessage = ex.Message;
+
+            result = [errorResultItem];
         }
 
-        result.ProviderName = comparableSettingsProvider.GetType().FullName;
+        var providerName = comparableSettingsProvider.GetType().FullName;
+        foreach (var resultItem in result)
+        {
+            resultItem.ProviderName = providerName;
+        }
 
         return result;
     }
