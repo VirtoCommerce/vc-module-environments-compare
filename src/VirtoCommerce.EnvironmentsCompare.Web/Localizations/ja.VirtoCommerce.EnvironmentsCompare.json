@@ -1,0 +1,39 @@
+{
+  "environments-compare": {
+    "main-menu-title": "環境比較",
+    "blades": {
+      "environments-list": {
+        "title": "環境リスト",
+        "toolbar": {
+          "compare": "比較"
+        },
+        "labels": {
+          "name": "名前",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "環境比較",
+        "labels": {
+          "setting-name": "設定 / 環境",
+          "environment-summary": "環境サマリー"
+        },
+        "toolbar": {
+          "show-all": "すべて表示",
+          "show-diff": "相違点のみ表示"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "環境比較モジュールを操作する"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "環境比較を有効にする",
+        "description": "環境比較を有効にする設定"
+      }
+    }
+  }
+}

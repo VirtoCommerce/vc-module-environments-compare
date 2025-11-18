@@ -1,0 +1,39 @@
+{
+  "environments-compare": {
+    "main-menu-title": "Ympäristöjen vertailu",
+    "blades": {
+      "environments-list": {
+        "title": "Ympäristöluettelo",
+        "toolbar": {
+          "compare": "Vertaa"
+        },
+        "labels": {
+          "name": "Nimi",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Ympäristöjen vertailu",
+        "labels": {
+          "setting-name": "Asetus / Ympäristö",
+          "environment-summary": "Ympäristön yhteenveto"
+        },
+        "toolbar": {
+          "show-all": "Näytä kaikki",
+          "show-diff": "Näytä vain erot"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Työskentele ympäristöjen vertailumoduulin kanssa"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "Ympäristöjen vertailu käytössä",
+        "description": "Ympäristöjen vertailu käytössä -asetus"
+      }
+    }
+  }
+}

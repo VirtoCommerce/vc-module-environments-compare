@@ -1,0 +1,39 @@
+{
+  "environments-compare": {
+    "main-menu-title": "Comparación de entornos",
+    "blades": {
+      "environments-list": {
+        "title": "Lista de entornos",
+        "toolbar": {
+          "compare": "Comparar"
+        },
+        "labels": {
+          "name": "Nombre",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Comparación de entornos",
+        "labels": {
+          "setting-name": "Configuración / Entorno",
+          "environment-summary": "Resumen del entorno"
+        },
+        "toolbar": {
+          "show-all": "Mostrar todo",
+          "show-diff": "Mostrar solo las diferencias"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Trabajar con el módulo de comparación de entornos"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "Comparación de entornos activada",
+        "description": "Ajuste de comparación de entornos activado"
+      }
+    }
+  }
+}

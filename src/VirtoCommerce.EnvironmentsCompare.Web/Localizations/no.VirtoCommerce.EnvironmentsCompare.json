@@ -1,0 +1,39 @@
+{
+  "environments-compare": {
+    "main-menu-title": "Sammenligning av miljøer",
+    "blades": {
+      "environments-list": {
+        "title": "Miljøliste",
+        "toolbar": {
+          "compare": "Sammenlign"
+        },
+        "labels": {
+          "name": "Navn",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Sammenligning av miljøer",
+        "labels": {
+          "setting-name": "Innstilling / Miljø",
+          "environment-summary": "Miljøsammendrag"
+        },
+        "toolbar": {
+          "show-all": "Vis alle",
+          "show-diff": "Vis kun forskjeller"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Arbeid med modulen for sammenligning av miljøer"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "Sammenligning av miljøer aktivert",
+        "description": "Innstilling for sammenligning av miljøer aktivert"
+      }
+    }
+  }
+}

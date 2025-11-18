@@ -1,0 +1,39 @@
+{
+  "environments-compare": {
+    "main-menu-title": "环境对比",
+    "blades": {
+      "environments-list": {
+        "title": "环境列表",
+        "toolbar": {
+          "compare": "对比"
+        },
+        "labels": {
+          "name": "名称",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "环境对比",
+        "labels": {
+          "setting-name": "设置 / 环境",
+          "environment-summary": "环境摘要"
+        },
+        "toolbar": {
+          "show-all": "显示全部",
+          "show-diff": "仅显示差异"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "使用环境对比模块"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "启用环境对比",
+        "description": "启用环境对比设置"
+      }
+    }
+  }
+}
