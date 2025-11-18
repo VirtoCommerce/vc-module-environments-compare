@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
+using Newtonsoft.Json;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -73,7 +74,7 @@ public class ComparableEnvironmentVariablesProvider(IWebHostEnvironment webHostE
 
             var resultSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
             resultSetting.Name = keyValueEntry.Key.ToString();
-            resultSetting.Value = keyValueEntry.Value;
+            resultSetting.Value = keyValueEntry.Value?.ToString();
             variablesResultGroup.Settings.Add(resultSetting);
         }
     }
@@ -115,7 +116,7 @@ public class ComparableEnvironmentVariablesProvider(IWebHostEnvironment webHostE
         {
             var featureResultSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
             featureResultSetting.Name = feature.Key.Name;
-            featureResultSetting.Value = feature.Value;
+            featureResultSetting.Value = JsonConvert.SerializeObject(feature.Value);
             serverResultGroup.Settings.Add(featureResultSetting);
         }
     }

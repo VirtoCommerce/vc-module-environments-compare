@@ -33,7 +33,7 @@ public class ComparableModulesProvider(IModuleCatalog moduleCatalog) : IComparab
 
         var platformVersionSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
         platformVersionSetting.Name = "Version";
-        platformVersionSetting.Value = PlatformVersion.CurrentVersion;
+        platformVersionSetting.Value = PlatformVersion.CurrentVersion?.ToString();
         platformResultGroup.Settings.Add(platformVersionSetting);
 
         return Task.FromResult((IList<ComparableSettingScope>)[result]);
