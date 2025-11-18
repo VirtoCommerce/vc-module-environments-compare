@@ -58,7 +58,7 @@ public class ComparableSettingsMasterProvider(IEnumerable<IComparableSettingsPro
     {
         foreach (var setting in settings.Where(x => x.IsSecret))
         {
-            setting.Value = $"HASH: {setting.Value?.GetSHA1Hash()}";
+            setting.Value = $"HASH: {(setting.Value ?? "").GetSHA1Hash()}";
         }
     }
 }
