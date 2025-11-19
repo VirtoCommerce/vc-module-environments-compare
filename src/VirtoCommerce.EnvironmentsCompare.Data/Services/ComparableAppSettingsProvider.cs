@@ -215,12 +215,12 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
             resultGroup.GroupName = section.Key;
             result.SettingGroups.Add(resultGroup);
 
-            foreach (var key in sectionValues)
+            foreach (var key in sectionValues.Select(x => x.Key))
             {
                 var resultSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
-                resultSetting.Name = key.Key;
-                resultSetting.Value = sectionValues[key.Key];
-                resultSetting.IsSecret = !PublicSettingKeys.Contains(key.Key, StringComparer.OrdinalIgnoreCase);
+                resultSetting.Name = key;
+                resultSetting.Value = sectionValues[key];
+                resultSetting.IsSecret = !PublicSettingKeys.Contains(key, StringComparer.OrdinalIgnoreCase);
                 resultGroup.Settings.Add(resultSetting);
             }
         }
