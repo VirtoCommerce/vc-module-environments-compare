@@ -24,6 +24,7 @@ The module provides a web-based interface within the Virto Commerce platform whe
 - **External API Endpoint**: Provides a secure endpoint for remote environments to expose their settings for comparison
 
 ## Screenshots
+<img width="1701" height="871" alt="image" src="https://github.com/user-attachments/assets/ebb73931-3197-4587-adfe-2e60dad18114" />
 
 ## References
 
