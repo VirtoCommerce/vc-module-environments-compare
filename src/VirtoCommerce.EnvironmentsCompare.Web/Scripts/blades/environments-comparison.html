@@ -59,10 +59,13 @@
             <tr ng-if="0" ng-repeat-end />
 
             <tr ng-if="0" ng-repeat-end />
+
+            <tr ng-if="!blade.data.settingScopes.length">
+              <td colspan="{{blade.data.comparedEnvironments.length+2}}" class="comparison-environments-no-data">{{ 'platform.list.no-data' | translate }}</td>
+            </tr>
           </tbody>
         </table>
-      </div>
-      <div class="note" ng-if="blade.data && blade.data.settingScopes && !blade.data.settingScopes.length">{{ 'platform.list.no-data' | translate }}</div>
+      </div> 
     </div>
   </div>
 </div>

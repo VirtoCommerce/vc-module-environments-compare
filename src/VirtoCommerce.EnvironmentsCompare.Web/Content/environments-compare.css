@@ -89,6 +89,10 @@ td.environment-error, th.environment-error {
   background-color: #cacaca;
 }
 
+td.comparison-environments-no-data {
+  text-align: center;
+}
+
 td.scope-marker-0 {
   background-color: #82ccfc;
 }
