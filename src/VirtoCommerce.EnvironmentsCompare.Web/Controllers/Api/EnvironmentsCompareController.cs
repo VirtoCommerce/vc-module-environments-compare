@@ -13,7 +13,7 @@ namespace VirtoCommerce.EnvironmentsCompare.Web.Controllers.Api;
 
 [Authorize]
 [Route("api/environments-compare")]
-public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService settingsService, ISettingsCompareService settingsCompareService) : Controller
+public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService settingsService, IEnvironmentsCompareService settingsCompareService) : Controller
 {
     [HttpGet]
     [Route("get-environments")]

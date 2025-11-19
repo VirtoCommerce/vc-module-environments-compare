@@ -9,11 +9,11 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
-public class SettingsCompareService(
+public class EnvironmentsCompareService(
     IEnvironmentsCompareSettingsService settingsService,
     IComparableSettingsMasterProvider comparableSettingsMasterProvider,
     IEnvironmentsCompareClient environmentsCompareClient)
-    : ISettingsCompareService
+    : IEnvironmentsCompareService
 {
     protected const decimal DecimalComparisonEpsilon = 0.00001m;
 
@@ -148,7 +148,7 @@ public class SettingsCompareService(
         {
             return (null, false, "Setting scope not found");
         }
-        if (!scope.ErrorMessage.IsNullOrEmpty())
+        else if (!scope.ErrorMessage.IsNullOrEmpty())
         {
             return (null, true, $"Setting scope (provider) error: {environmentSettings.ErrorMessage}");
         }
