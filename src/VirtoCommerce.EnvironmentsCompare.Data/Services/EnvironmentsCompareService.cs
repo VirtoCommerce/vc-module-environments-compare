@@ -28,7 +28,10 @@ public class EnvironmentsCompareService(
 
         var result = CompareEnvironmentSettings(comparableEnvironmentSettings, baseEnvironmentName);
 
-        ApplyFilter(result, showAll);
+        if (!showAll)
+        {
+            RemoveSettingsWithEqualValues(result);
+        }
 
         return result;
     }
@@ -212,24 +215,15 @@ public class EnvironmentsCompareService(
         return value is float || value is double || value is decimal;
     }
 
-    protected virtual void ApplyFilter(SettingsComparisonResult comparisonResult, bool showAll)
+    protected virtual void RemoveSettingsWithEqualValues(SettingsComparisonResult comparisonResult)
     {
-        if (showAll)
-        {
-            return;
-        }
-
         foreach (var scope in comparisonResult.SettingScopes.ToList())
         {
             foreach (var group in scope.SettingGroups.ToList())
             {
                 foreach (var setting in group.Settings.ToList())
                 {
-                    var allValuesEqual = !setting.ComparedValues.Any(x => x.EqualsBaseValue == false);
-                    if (allValuesEqual)
-                    {
-                        group.Settings.Remove(setting);
-                    }
+                    RemoveSettingsWithEqualValues(group, setting);
                 }
 
                 if (!group.Settings.Any())
@@ -242,6 +236,15 @@ public class EnvironmentsCompareService(
             {
                 comparisonResult.SettingScopes.Remove(scope);
             }
+        }
+    }
+
+    protected virtual void RemoveSettingsWithEqualValues(ComparedEnvironmentSettingGroup group, ComparedEnvironmentSetting setting)
+    {
+        var allValuesEqual = !setting.ComparedValues.Any(x => x.EqualsBaseValue == false);
+        if (allValuesEqual)
+        {
+            group.Settings.Remove(setting);
         }
     }
 }
