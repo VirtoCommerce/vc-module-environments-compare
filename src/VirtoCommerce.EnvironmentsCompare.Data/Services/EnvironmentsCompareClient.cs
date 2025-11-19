@@ -43,6 +43,6 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
             return result;
         }).ToArray();
 
-        return (await Task.WhenAll(environmentTasks)).ToList();//ToList is necessary (not ToArray)
+        return [.. await Task.WhenAll(environmentTasks)];
     }
 }

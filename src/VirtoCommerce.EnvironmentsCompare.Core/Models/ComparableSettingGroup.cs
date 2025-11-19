@@ -6,5 +6,5 @@ public class ComparableSettingGroup
 {
     public string GroupName { get; set; }
 
-    public IList<ComparableSetting> Settings { get; set; } = new List<ComparableSetting>();
+    public IList<ComparableSetting> Settings { get; set; } = [];
 }

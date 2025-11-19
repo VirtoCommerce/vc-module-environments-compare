@@ -6,7 +6,7 @@ public class ComparableEnvironmentSettings
 {
     public string EnvironmentName { get; set; }
 
-    public IList<ComparableSettingScope> SettingScopes { get; set; } = new List<ComparableSettingScope>();
+    public IList<ComparableSettingScope> SettingScopes { get; set; } = [];
 
     public string ErrorMessage { get; set; }
 }

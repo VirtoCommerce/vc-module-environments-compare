@@ -232,7 +232,7 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
     {
         foreach (var child in section.GetChildren())
         {
-            string currentPath = parentPath.IsNullOrEmpty() ? child.Key : $"{parentPath}:{child.Key}";
+            var currentPath = parentPath.IsNullOrEmpty() ? child.Key : $"{parentPath}:{child.Key}";
 
             if (child.Value != null)
             {

@@ -13,5 +13,5 @@ public class ComparableSettingScope
 
     public string ErrorMessage { get; set; }
 
-    public IList<ComparableSettingGroup> SettingGroups { get; set; } = new List<ComparableSettingGroup>();
+    public IList<ComparableSettingGroup> SettingGroups { get; set; } = [];
 }

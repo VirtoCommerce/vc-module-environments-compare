@@ -6,5 +6,5 @@ public class ComparedEnvironmentSetting
 {
     public string Name { get; set; }
 
-    public IList<ComparedEnvironmentSettingValue> ComparedValues { get; set; } = new List<ComparedEnvironmentSettingValue>();
+    public IList<ComparedEnvironmentSettingValue> ComparedValues { get; set; } = [];
 }

@@ -67,7 +67,7 @@ public class ComparableEnvironmentVariablesProvider(IWebHostEnvironment webHostE
 
         foreach (var keyValue in Environment.GetEnvironmentVariables())
         {
-            if (!(keyValue is DictionaryEntry keyValueEntry) || !VisibleVariables.Contains(keyValueEntry.Key?.ToString(), StringComparer.OrdinalIgnoreCase))
+            if (keyValue is not DictionaryEntry keyValueEntry || !VisibleVariables.Contains(keyValueEntry.Key?.ToString(), StringComparer.OrdinalIgnoreCase))
             {
                 continue;
             }

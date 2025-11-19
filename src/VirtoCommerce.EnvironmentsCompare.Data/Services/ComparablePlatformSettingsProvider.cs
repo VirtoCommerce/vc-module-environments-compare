@@ -38,32 +38,32 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
 
     protected async Task<object> GetSettingValueAsync(SettingDescriptor settingDescriptor)
     {
-        if (settingDescriptor.ValueType == SettingValueType.Boolean)
+        if (settingDescriptor.ValueType is SettingValueType.Boolean)
         {
             return await settingsManager.GetValueAsync<bool>(settingDescriptor);
         }
 
-        if (settingDescriptor.ValueType == SettingValueType.Integer || settingDescriptor.ValueType == SettingValueType.PositiveInteger)
+        if (settingDescriptor.ValueType is SettingValueType.Integer or SettingValueType.PositiveInteger)
         {
             return await settingsManager.GetValueAsync<int>(settingDescriptor);
         }
 
-        if (settingDescriptor.ValueType == SettingValueType.Decimal)
+        if (settingDescriptor.ValueType is SettingValueType.Decimal)
         {
             return await settingsManager.GetValueAsync<decimal>(settingDescriptor);
         }
 
-        if (settingDescriptor.ValueType == SettingValueType.DateTime)
+        if (settingDescriptor.ValueType is SettingValueType.DateTime)
         {
             return await settingsManager.GetValueAsync<DateTime>(settingDescriptor);
         }
 
-        if (settingDescriptor.ValueType == SettingValueType.Json)
+        if (settingDescriptor.ValueType is SettingValueType.Json)
         {
             return await settingsManager.GetValueAsync<string>(settingDescriptor);
         }
 
-        if ((settingDescriptor.ValueType == SettingValueType.SecureString || settingDescriptor.ValueType == SettingValueType.ShortText || settingDescriptor.ValueType == SettingValueType.LongText))
+        if (settingDescriptor.ValueType is SettingValueType.SecureString or SettingValueType.ShortText or SettingValueType.LongText)
         {
             return await settingsManager.GetValueAsync<string>(settingDescriptor);
         }

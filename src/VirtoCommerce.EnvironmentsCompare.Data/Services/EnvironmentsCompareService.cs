@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.EnvironmentsCompare.Core;
@@ -67,16 +68,15 @@ public class EnvironmentsCompareService(
             result.ComparedEnvironments.Add(resultEnvironment);
         }
 
-        result.ComparedEnvironments = result.ComparedEnvironments
+        result.ComparedEnvironments = [.. result.ComparedEnvironments
             .OrderBy(x => x.IsComparisonBase ? 0 : 1)
-            .ThenBy(x => x.IsCurrent ? 0 : 1)
-            .ToList();
+            .ThenBy(x => x.IsCurrent ? 0 : 1)];
 
         foreach (var scopeName in comparableEnvironmentSettings
             .SelectMany(x => x.SettingScopes)
             .Select(x => x.ScopeName)
             .Distinct()
-            .OrderBy(x => x))
+            .Order())
         {
             var resultScope = AbstractTypeFactory<ComparedEnvironmentSettingScope>.TryCreateInstance();
             resultScope.ScopeName = scopeName;
@@ -88,7 +88,7 @@ public class EnvironmentsCompareService(
                 .SelectMany(x => x.SettingGroups)
                 .Select(x => x.GroupName)
                 .Distinct()
-                .OrderBy(x => x))
+                .Order())
             {
                 var resultGroup = AbstractTypeFactory<ComparedEnvironmentSettingGroup>.TryCreateInstance();
                 resultGroup.GroupName = groupName;
@@ -102,7 +102,7 @@ public class EnvironmentsCompareService(
                     .SelectMany(x => x.Settings)
                     .Select(x => x.Name)
                     .Distinct()
-                    .OrderBy(x => x))
+                    .Order())
                 {
                     var resultSetting = CompareEnvironmentSetting(result.ComparedEnvironments, comparableEnvironmentSettings, baseEnvironmentName, scopeName, groupName, settingName);
 
@@ -202,17 +202,14 @@ public class EnvironmentsCompareService(
             return false;
         }
 
-        if (IsFloatingPointNumber(baseValue.Value) && IsFloatingPointNumber(comparableValue.Value))
-        {
-            return Math.Abs(Convert.ToDecimal(baseValue.Value) - Convert.ToDecimal(comparableValue.Value)) < DecimalComparisonEpsilon;
-        }
-
-        return baseValue.Value.ToString() == comparableValue.Value.ToString();
+        return IsFloatingPointNumber(baseValue.Value) && IsFloatingPointNumber(comparableValue.Value)
+            ? Math.Abs(Convert.ToDecimal(baseValue.Value, CultureInfo.InvariantCulture) - Convert.ToDecimal(comparableValue.Value, CultureInfo.InvariantCulture)) < DecimalComparisonEpsilon
+            : baseValue.Value.ToString() == comparableValue.Value.ToString();
     }
 
     protected static bool IsFloatingPointNumber(object value)
     {
-        return value is float || value is double || value is decimal;
+        return value is float or double or decimal;
     }
 
     protected virtual void RemoveSettingsWithEqualValues(SettingsComparisonResult comparisonResult)
