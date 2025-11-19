@@ -11,7 +11,7 @@ public class AuthorizationByKeyFilter(IEnvironmentsCompareSettingsService settin
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var requestApiKeyHash = context.HttpContext.Request.Headers.FirstOrDefault(x => x.Key.EqualsIgnoreCase(ModuleConstants.EnvironmentsCompare.ApiKeyHeaderName)).Value.FirstOrDefault();
+        var requestApiKeyHash = context.HttpContext.Request.Headers.FirstOrDefault(x => x.Key.EqualsIgnoreCase(ModuleConstants.EnvironmentsCompare.ApiAuthorizationKeyHeaderName)).Value.FirstOrDefault();
 
         if (requestApiKeyHash.IsNullOrEmpty())
         {

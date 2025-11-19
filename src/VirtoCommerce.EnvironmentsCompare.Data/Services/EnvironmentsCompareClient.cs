@@ -24,8 +24,8 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
 
             try
             {
-                using var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{environment.Url?.TrimEnd('/')}/{ModuleConstants.EnvironmentsCompare.SettingsCompareRoute}");
-                httpRequest.Headers.TryAddWithoutValidation(ModuleConstants.EnvironmentsCompare.ApiKeyHeaderName, environment.ApiKey.GetSHA1Hash());
+                using var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{environment.Url?.TrimEnd('/')}/{ModuleConstants.EnvironmentsCompare.ApiEnvironmentsCompareRoute}");
+                httpRequest.Headers.TryAddWithoutValidation(ModuleConstants.EnvironmentsCompare.ApiAuthorizationKeyHeaderName, environment.ApiKey.GetSHA1Hash());
 
                 using var httpResponse = await httpClient.SendAsync(httpRequest);
                 httpResponse.EnsureSuccessStatusCode();

@@ -11,10 +11,7 @@ public static class ModuleConstants
         {
             public const string Access = "environments-compare:access";
 
-            public static string[] AllPermissions { get; } =
-            [
-                Access,
-            ];
+            public static string[] AllPermissions { get; } = [Access];
         }
     }
 
@@ -52,7 +49,7 @@ public static class ModuleConstants
     {
         public const string CurrentEnvironmentName = "Current";
 
-        public const string ApiKeyHeaderName = "api-key";
-        public const string SettingsCompareRoute = "api/environments-compare-external";
+        public const string ApiAuthorizationKeyHeaderName = "api-key";
+        public const string ApiEnvironmentsCompareRoute = "api/environments-compare-external";
     }
 }

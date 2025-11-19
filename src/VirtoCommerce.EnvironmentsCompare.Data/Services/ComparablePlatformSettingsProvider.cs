@@ -68,7 +68,7 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
             return await settingsManager.GetValueAsync<string>(settingDescriptor);
         }
 
-        return null;//TODO: handle other types
+        return null;
     }
 
     protected virtual bool IsSettingSecret(SettingDescriptor setting)
