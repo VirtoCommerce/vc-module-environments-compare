@@ -17,11 +17,10 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
         result.ScopeName = "PlatformSettings";
 
         foreach (var group in settingsManager.AllRegisteredSettings
-            .Where(x => !x.GroupName.IsNullOrEmpty())
             .GroupBy(x => x.GroupName))
         {
             var resultGroup = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
-            resultGroup.GroupName = group.Key;
+            resultGroup.GroupName = group.Key.IsNullOrEmpty() ? "Without group" : group.Key;
             result.SettingGroups.Add(resultGroup);
 
             foreach (var setting in group)
