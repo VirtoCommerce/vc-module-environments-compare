@@ -16,6 +16,7 @@ The module provides a web-based interface within the Virto Commerce platform whe
   - Server features and hosting configuration
 - **Base Environment Comparison**: Select a base environment and compare all other environments against it to highlight differences
 - **Difference Filtering**: Toggle between showing all settings or only differences to focus on what's changed
+- **Settings Export**: Choose an environment and export its settings for future reference
 - **Security Features**:
   - API key-based authentication for secure communication with remote environments
   - Automatic masking of secret/sensitive settings (passwords, secure strings) using SHA1 hashes
