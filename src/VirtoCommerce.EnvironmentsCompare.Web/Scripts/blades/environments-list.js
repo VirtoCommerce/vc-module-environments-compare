@@ -19,6 +19,21 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     });
                 };
 
+                blade.exportEnvironmentSettings = function () {
+                    var environmentName = _.pluck($scope.gridApi.selection.getSelectedRows(), 'name')[0];
+
+                    var a = document.createElement('a');
+                    a.href = 'api/environments-compare/export-settings/' + environmentName;
+                    a.target = ' _blank';
+
+                    document.body.appendChild(a);
+                    a.click();
+
+                    setTimeout(function () {
+                        document.body.removeChild(a);
+                    }, 100);
+                };
+
                 $scope.compare = function () {
                     const environmentNames = _.pluck($scope.gridApi.selection.getSelectedRows(), 'name');
 
@@ -57,11 +72,21 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                             executeMethod: $scope.compare,
                             canExecuteMethod: hasTwoOrMoreSelectedItems,
                         },
+                        {
+                            name: 'platform.commands.export',
+                            icon: 'fas fa-upload',
+                            executeMethod: blade.exportEnvironmentSettings,
+                            canExecuteMethod: hasOneSelectedItem,
+                        },
                     ];
                 }
 
                 function hasTwoOrMoreSelectedItems() {
                     return $scope.gridApi?.selection?.getSelectedRows()?.length >= 2;
+                }
+
+                function hasOneSelectedItem() {
+                    return $scope.gridApi?.selection?.getSelectedRows()?.length === 1;
                 }
 
                 blade.refresh();
