@@ -9,5 +9,5 @@ public class EnvironmentsCompareSettingsService(IConfiguration configuration) : 
 {
     public string SelfApiKey => configuration["EnvironmentsCompare:SelfApiKey"];
 
-    public IList<ComparableEnvironment> ComparableEnvironments => configuration.GetSection("EnvironmentsCompare:ComparableEnvironments")?.Get<List<ComparableEnvironment>>();
+    public IList<ComparableEnvironment> ComparableEnvironments => configuration.GetSection("EnvironmentsCompare:ComparableEnvironments")?.Get<List<ComparableEnvironment>>() ?? [];
 }
