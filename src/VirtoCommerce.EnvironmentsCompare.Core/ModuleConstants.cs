@@ -49,7 +49,7 @@ public static class ModuleConstants
     {
         public const string CurrentEnvironmentName = "Current";
 
-        public const string ApiAuthorizationKeyHeaderName = "api-key";
+        public const string ApiAuthorizationKeyHeaderName = "api_key";
         public const string ApiEnvironmentsCompareRoute = "api/environments-compare-external";
     }
 }

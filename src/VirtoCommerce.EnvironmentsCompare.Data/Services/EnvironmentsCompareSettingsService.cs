@@ -7,7 +7,5 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class EnvironmentsCompareSettingsService(IConfiguration configuration) : IEnvironmentsCompareSettingsService
 {
-    public string SelfApiKey => configuration["EnvironmentsCompare:SelfApiKey"];
-
     public IList<ComparableEnvironment> ComparableEnvironments => configuration.GetSection("EnvironmentsCompare:ComparableEnvironments")?.Get<List<ComparableEnvironment>>() ?? [];
 }

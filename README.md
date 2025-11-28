@@ -36,11 +36,17 @@ Before configuring the Environments Compare module, ensure you have:
 
 - At least two running Virto Commerce environments with the Environments Compare module installed on each
 - The main environment (from which comparisons are performed) has network access to secondary environments via HTTP/HTTPS protocol
+- On each secondary environment:
+    - Create **Environments Compare** role with **environments-compare:access** permission
+    - Create an account assigned to the EnvironmentsCompare role
+    - Create API keys for user
 - Valid URLs for all secondary environments that will be compared
 
 ### Configuration
 
 #### Main Environment Configuration
+
+> Note: We recommend to keep ApiKey and URL in a secure storage for security reasons.
 
 On the main environment (the environment from which you will perform comparisons), configure the list of secondary environments to compare. Add the following configuration to your `appSettings.json`:
 
@@ -51,12 +57,12 @@ On the main environment (the environment from which you will perform comparisons
       {
         "Name": "ENV-1",
         "Url": "http://localhost:5002/",
-        "ApiKey": "456poi111"
+        "ApiKey": "a4a86441-cabb-4a60-af90-9c6ebe11a401"
       },
       {
         "Name": "ENV-2",
         "Url": "http://localhost:5003/",
-        "ApiKey": "456poi222"
+        "ApiKey": "a4a86441-cabb-4a60-af90-9c6ebe11a401"
       }
     ]
   }
@@ -68,43 +74,30 @@ For deployment configuration files (`.yml` format), use the following structure:
 ```yaml
 EnvironmentsCompare__ComparableEnvironments__0__Name=ENV-1
 EnvironmentsCompare__ComparableEnvironments__0__Url=http://localhost:5002/
-EnvironmentsCompare__ComparableEnvironments__0__ApiKey=456poi111
+EnvironmentsCompare__ComparableEnvironments__0__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
 EnvironmentsCompare__ComparableEnvironments__1__Name=ENV-2
 EnvironmentsCompare__ComparableEnvironments__1__Url=http://localhost:5003/
-EnvironmentsCompare__ComparableEnvironments__1__ApiKey=456poi222
+EnvironmentsCompare__ComparableEnvironments__1__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
 ```
 
 **Configuration Parameters:**
 - `Name`: A descriptive name for the environment (e.g., "Staging", "Production", "Development")
 - `Url`: The base URL of the secondary environment (must be accessible from the main environment)
-- `ApiKey`: The API authentication key that matches the `SelfApiKey` configured on the secondary environment
+- `ApiKey`: The ApiKey authentication for user in Virto Commerce platform on the secondary environment
 
 #### Secondary Environment Configuration
 
-On each secondary environment that will be compared, configure the API authentication key in `appSettings.json`:
-
-```json
-{
-  "EnvironmentsCompare": {
-    "SelfApiKey": "456poi111"
-  }
-}
-```
-
-For deployment configuration files (`.yml` format):
-
-```yaml
-EnvironmentsCompare__SelfApiKey=456poi111
-```
-
-**Important:** The `SelfApiKey` value on each secondary environment must match the `ApiKey` value specified for that environment in the main environment's configuration.
+On each secondary environment that will be compared:
+1. Configure role (ex. named: `Environment Compare`) with `environments-compare:access` permission
+1. Create a new user with this role
+1. Create API key for this user
 
 ## Scenarios
 
 ### Accessing the Environments List
 
 1. Open the main environment in your browser
-2. Navigate to the Environments Compare module (typically available at `http://localhost:5000/#!/workspace/environments-compare`)
+2. Navigate to the Environments Compare module
 3. The environments list displays:
    - **Current** environment (the main environment, always available)
    - All secondary environments configured in the `ComparableEnvironments` setting
@@ -147,20 +140,6 @@ You can export settings from any environment for documentation or backup purpose
   - Settings with differences are highlighted in red
   - Setting scopes (e.g., AppSettings, PlatformSettings, StoreSettings) have colored left borders to help identify them when scrolling
   - Color coding helps distinguish between different setting groups
-
-### Troubleshooting
-
-- **Connection Errors**: If an environment appears grayed out, check:
-  - Network connectivity between the main and secondary environments
-  - The URL is correct and accessible
-  - The API key matches between main and secondary environment configurations
-  - The secondary environment has the Environments Compare module installed and running
-
-- **Missing Settings**: If exported files contain error descriptions:
-  - Verify the secondary environment is running and accessible
-  - Check that the API key authentication is working correctly
-  - Ensure the secondary environment has the module properly installed
-
 
 ## References
 
