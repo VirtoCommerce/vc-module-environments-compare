@@ -92,6 +92,35 @@ On each secondary environment that will be compared:
 1. Create a new user with this role
 1. Create API key for this user
 
+### Configuration Whitelist
+
+By default, module has white list of appsettings sections and keys that are compared across environments.
+
+You can extend or narrow down which appsettings sections and keys are compared by configuring `EnvironmentsCompare:WhiteList`.
+It supports `Include` and `Exclude` lists for both `SectionKeys` and `SettingKeys`.
+
+- `SectionKeys` controls which top-level configuration sections are considered.
+- `SettingKeys` controls which specific keys are treated as public (non-secret) during comparison.
+
+Example `appsettings.json`:
+
+```json
+{
+  "EnvironmentsCompare": {
+    "WhiteList": {
+      "SectionKeys": {
+        "Include": [ "Logging", "ConnectionStrings" ],
+        "Exclude": [ "Notifications" ]
+      },
+      "SettingKeys": {
+        "Include": [ "LoginPageUI:BackgroundUrl" ],
+        "Exclude": [ "Assets:AzureBlobStorage:CdnUrl" ]
+      }
+    }
+  }
+}
+```
+
 ## Scenarios
 
 ### Accessing the Environments List

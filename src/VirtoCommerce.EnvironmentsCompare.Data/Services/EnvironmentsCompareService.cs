@@ -46,6 +46,7 @@ public class EnvironmentsCompareService(
         if (environmentNames.Contains(ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName))
         {
             var currentEnvironmentSettings = AbstractTypeFactory<ComparableEnvironmentSettings>.TryCreateInstance();
+            currentEnvironmentSettings.IsCurrent = true;
             currentEnvironmentSettings.SettingScopes = await comparableSettingsMasterProvider.GetAllComparableSettingsAsync();
             currentEnvironmentSettings.EnvironmentName = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
             result.Add(currentEnvironmentSettings);

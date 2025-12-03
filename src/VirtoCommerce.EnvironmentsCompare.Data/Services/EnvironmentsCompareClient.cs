@@ -15,7 +15,7 @@ public class EnvironmentsCompareClient(IHttpClientFactory httpClientFactory) : I
 {
     public async Task<IList<ComparableEnvironmentSettings>> GetSettingsAsync(IList<ComparableEnvironment> comparableEnvironments)
     {
-        using var httpClient = httpClientFactory.CreateClient();
+        var httpClient = httpClientFactory.CreateClient();
 
         var environmentTasks = comparableEnvironments.Select(async environment =>
         {

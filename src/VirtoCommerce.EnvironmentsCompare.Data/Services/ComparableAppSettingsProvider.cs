@@ -11,16 +11,38 @@ namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class ComparableAppSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
 {
+    private const string OptionsSectionName = "EnvironmentsCompare:WhiteList";
+
     protected virtual IList<string> VisibleSectionKeys
     {
         get
         {
-            return [
-                "DatabaseProvider", "ConnectionStrings", "SqlServer", "Serilog", "FrontendSecurity",
-                "VirtoCommerce", "Auth", "Assets", "Notifications", "IdentityOptions",
-                "ExternalModules", "Search", "Content", "Authorization", "SecurityHeaders",
-                "AzureAd", "Caching", "Crud", "PushNotifications", "LoginPageUI", "DefaultMainMenuState",
-                ];
+            var defaults = new List<string>
+            {
+                "DatabaseProvider",
+                "ConnectionStrings",
+                "SqlServer",
+                "Serilog",
+                "FrontendSecurity",
+                "VirtoCommerce",
+                "Auth",
+                "Assets",
+                "Notifications",
+                "IdentityOptions",
+                "ExternalModules",
+                "Search",
+                "Content",
+                "Authorization",
+                "SecurityHeaders",
+                "AzureAd",
+                "Caching",
+                "Crud",
+                "PushNotifications",
+                "LoginPageUI",
+                "DefaultMainMenuState",
+            };
+
+            return MergeWithConfiguration(defaults, GetInclude("SectionKeys"), GetExclude("SectionKeys"));
         }
     }
 
@@ -28,7 +50,8 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
     {
         get
         {
-            return [
+            var defaults = new List<string>
+            {
                 "Assets:AzureBlobStorage:CdnUrl",
                 "Assets:FileSystem:PublicUrl",
                 "Assets:FileSystem:RootPath",
@@ -192,7 +215,9 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
                 "VirtoCommerce:Stores:DefaultStore",
                 "VirtoCommerce:Swagger:Enable",
                 "VirtoCommerce:UseResponseCompression"
-                ];
+            };
+
+            return MergeWithConfiguration(defaults, GetInclude("SettingKeys"), GetExclude("SettingKeys"));
         }
     }
 
@@ -243,5 +268,47 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
                 EnumerateSectionRecursive(child, currentPath, allValues);
             }
         }
+    }
+
+    private IList<string> MergeWithConfiguration(IList<string> defaults, IEnumerable<string> include, IEnumerable<string> exclude)
+    {
+        // Start from defaults
+        var result = new List<string>(defaults);
+
+        // Apply includes (deduplicated, case-insensitive)
+        if (!include.IsNullOrEmpty())
+        {
+            foreach (var key in include.Where(x => !string.IsNullOrWhiteSpace(x)))
+            {
+                if (!result.Contains(key, StringComparer.OrdinalIgnoreCase))
+                {
+                    result.Add(key);
+                }
+            }
+        }
+
+        // Apply excludes (case-insensitive)
+        if (!exclude.IsNullOrEmpty())
+        {
+            result = result
+                .Where(k => !exclude.Contains(k, StringComparer.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        return result;
+    }
+
+    private IEnumerable<string> GetInclude(string keyGroupName)
+    {
+        return configuration
+            .GetSection($"{OptionsSectionName}:{keyGroupName}:Include")
+            .Get<string[]>();
+    }
+
+    private IEnumerable<string> GetExclude(string keyGroupName)
+    {
+        return configuration
+            .GetSection($"{OptionsSectionName}:{keyGroupName}:Exclude")
+            .Get<string[]>();
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,48 +26,13 @@ public class ComparablePlatformSettingsProvider(ISettingsManager settingsManager
             {
                 var resultSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
                 resultSetting.Name = setting.Name;
-                resultSetting.Value = await GetSettingValueAsync(setting);
+                resultSetting.Value = await settingsManager.GetValueAsync<object>(setting);
                 resultSetting.IsSecret = IsSettingSecret(setting);
                 resultGroup.Settings.Add(resultSetting);
             }
         }
 
         return [result];
-    }
-
-    protected async Task<object> GetSettingValueAsync(SettingDescriptor settingDescriptor)
-    {
-        if (settingDescriptor.ValueType is SettingValueType.Boolean)
-        {
-            return await settingsManager.GetValueAsync<bool>(settingDescriptor);
-        }
-
-        if (settingDescriptor.ValueType is SettingValueType.Integer or SettingValueType.PositiveInteger)
-        {
-            return await settingsManager.GetValueAsync<int>(settingDescriptor);
-        }
-
-        if (settingDescriptor.ValueType is SettingValueType.Decimal)
-        {
-            return await settingsManager.GetValueAsync<decimal>(settingDescriptor);
-        }
-
-        if (settingDescriptor.ValueType is SettingValueType.DateTime)
-        {
-            return await settingsManager.GetValueAsync<DateTime>(settingDescriptor);
-        }
-
-        if (settingDescriptor.ValueType is SettingValueType.Json)
-        {
-            return await settingsManager.GetValueAsync<string>(settingDescriptor);
-        }
-
-        if (settingDescriptor.ValueType is SettingValueType.SecureString or SettingValueType.ShortText or SettingValueType.LongText)
-        {
-            return await settingsManager.GetValueAsync<string>(settingDescriptor);
-        }
-
-        return null;
     }
 
     protected virtual bool IsSettingSecret(SettingDescriptor setting)

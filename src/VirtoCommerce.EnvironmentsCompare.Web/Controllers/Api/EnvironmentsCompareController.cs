@@ -24,7 +24,13 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
     public ActionResult<IList<EnvironmentResponseItem>> GetEnvironments()
     {
         var result = settingsService.ComparableEnvironments.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url }).ToList();
-        result.Insert(0, new EnvironmentResponseItem() { Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName });
+        result.Insert(0,
+            new EnvironmentResponseItem()
+            {
+                Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName,
+                IsCurrent = true
+            });
+
         return Ok(result);
     }
 
