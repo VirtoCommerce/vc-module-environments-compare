@@ -44,7 +44,6 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                         environmentNames: environmentNames,
                         baseEnvironmentName: environmentNames[0],
                         showAll: false,
-                        isExpandable: true,
                     };
 
                     bladeNavigationService.showBlade(comparisonBlade, blade);
