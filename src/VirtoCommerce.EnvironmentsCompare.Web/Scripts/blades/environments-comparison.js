@@ -144,6 +144,16 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     return settingScope.settingGroups.some(blade.groupHasVisibleSettings);
                 }
 
+                blade.allEnvironmentsWithoutError = function () {
+                    if (!blade.data || !Array.isArray(blade.data.comparedEnvironments)) {
+                        return false;
+                    }
+
+                    return blade.data.comparedEnvironments.every(function (env) {
+                        return !env.errorMessage;
+                    });
+                }
+
                 $scope.setGridOptions = function (gridOptions) {
                     uiGridHelper.initialize($scope, gridOptions, function (gridApi) {
                         $scope.gridApi = gridApi;

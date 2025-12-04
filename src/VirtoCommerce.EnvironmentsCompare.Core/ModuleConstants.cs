@@ -20,19 +20,11 @@ public static class ModuleConstants
     {
         public static class General
         {
-            public static SettingDescriptor EnvironmentsCompareEnabled { get; } = new()
-            {
-                Name = "EnvironmentsCompare.Enabled",
-                GroupName = "EnvironmentsCompare|General",
-                ValueType = SettingValueType.Boolean,
-                DefaultValue = false,
-            };
-
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
                 {
-                    yield return EnvironmentsCompareEnabled;
+                    return [];
                 }
             }
         }

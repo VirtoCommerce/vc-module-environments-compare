@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using VirtoCommerce.EnvironmentsCompare.Core;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
@@ -11,7 +12,7 @@ using VirtoCommerce.Platform.Core.Common;
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
 public class EnvironmentsCompareService(
-    IEnvironmentsCompareSettingsService settingsService,
+    IOptions<EnvironmentsCompareSettings> options,
     IComparableSettingsMasterProvider comparableSettingsMasterProvider,
     IEnvironmentsCompareClient environmentsCompareClient)
     : IEnvironmentsCompareService
@@ -39,20 +40,26 @@ public class EnvironmentsCompareService(
 
     public virtual async Task<IList<ComparableEnvironmentSettings>> GetComparableEnvironmentsAsync(IList<string> environmentNames)
     {
-        var comparableEnvironments = settingsService.ComparableEnvironments.Where(x => environmentNames.Contains(x.Name)).ToList();
+        var comparableEnvironments = options.Value.ComparableEnvironments.Where(x => environmentNames.Contains(x.Name)).ToList();
 
         var result = await environmentsCompareClient.GetSettingsAsync(comparableEnvironments);
 
-        if (environmentNames.Contains(ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName))
+        if (environmentNames.Contains(GetCurrentEnvironmentName()))
         {
             var currentEnvironmentSettings = AbstractTypeFactory<ComparableEnvironmentSettings>.TryCreateInstance();
             currentEnvironmentSettings.IsCurrent = true;
             currentEnvironmentSettings.SettingScopes = await comparableSettingsMasterProvider.GetAllComparableSettingsAsync();
-            currentEnvironmentSettings.EnvironmentName = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
+            currentEnvironmentSettings.EnvironmentName = GetCurrentEnvironmentName();
             result.Add(currentEnvironmentSettings);
         }
 
         return result;
+    }
+
+    private string GetCurrentEnvironmentName()
+    {
+        return options.Value?.CurrentEnvironmentName ??
+            ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
     }
 
     protected virtual SettingsComparisonResult CompareEnvironmentSettings(IList<ComparableEnvironmentSettings> comparableEnvironmentSettings, string baseEnvironmentName)
@@ -63,7 +70,7 @@ public class EnvironmentsCompareService(
         {
             var resultEnvironment = AbstractTypeFactory<ComparedEnvironment>.TryCreateInstance();
             resultEnvironment.EnvironmentName = environment.EnvironmentName;
-            resultEnvironment.IsCurrent = environment.EnvironmentName == ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
+            resultEnvironment.IsCurrent = environment.EnvironmentName == GetCurrentEnvironmentName();
             resultEnvironment.IsComparisonBase = environment.EnvironmentName == baseEnvironmentName;
             resultEnvironment.ErrorMessage = environment.ErrorMessage;
             result.ComparedEnvironments.Add(resultEnvironment);

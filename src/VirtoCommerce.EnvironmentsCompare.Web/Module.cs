@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VirtoCommerce.EnvironmentsCompare.Core;
+using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using VirtoCommerce.EnvironmentsCompare.Data.MySql;
 using VirtoCommerce.EnvironmentsCompare.Data.PostgreSql;
@@ -25,6 +26,8 @@ public class Module : IModule, IHasConfiguration
 
     public void Initialize(IServiceCollection serviceCollection)
     {
+        serviceCollection.AddOptions<EnvironmentsCompareSettings>().Bind(Configuration.GetSection("EnvironmentsCompare"));
+
         serviceCollection.AddDbContext<EnvironmentsCompareDbContext>(options =>
         {
             var databaseProvider = Configuration.GetValue("DatabaseProvider", "SqlServer");
@@ -54,7 +57,6 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<IEnvironmentsCompareService, EnvironmentsCompareService>();
         serviceCollection.AddTransient<IEnvironmentsCompareClient, EnvironmentsCompareClient>();
-        serviceCollection.AddTransient<IEnvironmentsCompareSettingsService, EnvironmentsCompareSettingsService>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)

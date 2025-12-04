@@ -169,6 +169,56 @@ You can export settings from any environment for documentation or backup purpose
   - Setting scopes (e.g., AppSettings, PlatformSettings, StoreSettings) have colored left borders to help identify them when scrolling
   - Color coding helps distinguish between different setting groups
 
+### Extending with a custom IComparableSettingsProvider
+
+Use a custom provider when you need to:
+- Compare additional configuration sources not covered by the built-in providers (e.g., external services, secrets vaults, tenant-specific configs).
+- Add domain/module-specific settings scopes and grouping rules.
+- Normalize or transform values before comparison (e.g., redact parts of secrets, map legacy keys, or compute derived values).
+
+Providers are responsible for returning one or more `ComparableSettingScope` objects containing groups and settings ready for the comparison UI.
+
+Minimal implementation:
+
+```csharp
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using VirtoCommerce.EnvironmentsCompare.Core.Models;
+using VirtoCommerce.EnvironmentsCompare.Core.Services;
+using VirtoCommerce.Platform.Core.Common;
+
+public class MyCustomSettingsProvider : IComparableSettingsProvider
+{
+  public Task<IList<ComparableSettingScope>> GetComparableSettingsAsync() { var scope = AbstractTypeFactory<ComparableSettingScope>.TryCreateInstance(); scope.ScopeName = "MyCustomScope";
+      var group = AbstractTypeFactory<ComparableSettingGroup>.TryCreateInstance();
+      group.GroupName = "MyCustomGroup";
+      scope.SettingGroups.Add(group);
+
+      // Example settings (IsSecret = false marks it public for direct comparison)
+      var s1 = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
+      s1.Name = "MySection:MyKey";
+      s1.Value = "SomeValue";
+      s1.IsSecret = false;
+      group.Settings.Add(s1);
+
+      var s2 = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
+      s2.Name = "MySection:SecretKey";
+      s2.Value = "redacted"; // or hashed
+      s2.IsSecret = true;    // will be compared as secure
+      group.Settings.Add(s2);
+
+      return Task.FromResult<IList<ComparableSettingScope>>(new List<ComparableSettingScope> { scope });
+  }
+}
+```
+
+Register your provider in `Module.cs` (Web project), register the provider in DI so it participates in comparison.
+
+```csharp
+serviceCollection.AddTransient<IComparableSettingsProvider, MyCustomSettingsProvider>();
+```
+
+
 ## References
 
 - [Deployment](https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/)

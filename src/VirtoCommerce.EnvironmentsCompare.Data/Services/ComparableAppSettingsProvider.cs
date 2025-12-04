@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
-public class ComparableAppSettingsProvider(IConfiguration configuration) : IComparableSettingsProvider
+public class ComparableAppSettingsProvider(IConfiguration configuration, IOptions<EnvironmentsCompareSettings> options) : IComparableSettingsProvider
 {
-    private const string OptionsSectionName = "EnvironmentsCompare:WhiteList";
-
     protected virtual IList<string> VisibleSectionKeys
     {
         get
@@ -42,7 +41,9 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
                 "DefaultMainMenuState",
             };
 
-            return MergeWithConfiguration(defaults, GetInclude("SectionKeys"), GetExclude("SectionKeys"));
+            return MergeWithConfiguration(defaults,
+                options.Value?.WhiteList?.SectionKeys?.Include ?? [],
+                options.Value?.WhiteList?.SectionKeys?.Exclude ?? []);
         }
     }
 
@@ -217,7 +218,9 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
                 "VirtoCommerce:UseResponseCompression"
             };
 
-            return MergeWithConfiguration(defaults, GetInclude("SettingKeys"), GetExclude("SettingKeys"));
+            return MergeWithConfiguration(defaults,
+                options.Value?.WhiteList?.SettingKeys?.Include ?? [],
+                options.Value?.WhiteList?.SettingKeys?.Exclude ?? []);
         }
     }
 
@@ -296,19 +299,5 @@ public class ComparableAppSettingsProvider(IConfiguration configuration) : IComp
         }
 
         return result;
-    }
-
-    private IEnumerable<string> GetInclude(string keyGroupName)
-    {
-        return configuration
-            .GetSection($"{OptionsSectionName}:{keyGroupName}:Include")
-            .Get<string[]>();
-    }
-
-    private IEnumerable<string> GetExclude(string keyGroupName)
-    {
-        return configuration
-            .GetSection($"{OptionsSectionName}:{keyGroupName}:Exclude")
-            .Get<string[]>();
     }
 }

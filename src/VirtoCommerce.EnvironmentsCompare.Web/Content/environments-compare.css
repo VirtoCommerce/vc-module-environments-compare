@@ -120,12 +120,12 @@ td.comparison-settings-name {
 }
 
 tr.comparison-diff {
-  background-color: #fff4f4;
+  background-color: #e9f3ff;
 }
 
 td.comparison-diff {
-  background-color: #fbe1e1;
-  border-left: 3px solid #e55353;
+  background-color: #d6e7ff;
+  border-left: 3px solid #3b82f6;
   font-weight: 500;
 }
 
@@ -199,7 +199,7 @@ td.scope-marker-7 {
 }
 
 .comparison-legend .legend-diff {
-  background-color: #fbe1e1;
+  background-color: #d6e7ff;
 }
 
 .comparison-legend .legend-error {

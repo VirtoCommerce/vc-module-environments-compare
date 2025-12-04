@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using VirtoCommerce.EnvironmentsCompare.Core;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
@@ -16,20 +17,26 @@ namespace VirtoCommerce.EnvironmentsCompare.Web.Controllers.Api;
 
 [Authorize]
 [Route("api/environments-compare")]
-public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService settingsService, IEnvironmentsCompareService settingsCompareService) : Controller
+public class EnvironmentsCompareController(IOptions<EnvironmentsCompareSettings> options, IEnvironmentsCompareService settingsCompareService) : Controller
 {
     [HttpGet]
     [Route("get-environments")]
     [Authorize(Permissions.Read)]
     public ActionResult<IList<EnvironmentResponseItem>> GetEnvironments()
     {
-        var result = settingsService.ComparableEnvironments.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url }).ToList();
-        result.Insert(0,
+        var result = new List<EnvironmentResponseItem>
+        {
             new EnvironmentResponseItem()
             {
-                Name = ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName,
+                Name = GetCurrentEnvironmentName(),
                 IsCurrent = true
-            });
+            }
+        };
+
+        if (options.Value != null && !options.Value.ComparableEnvironments.IsNullOrEmpty())
+        {
+            result.AddRange(options.Value.ComparableEnvironments.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url }));
+        }
 
         return Ok(result);
     }
@@ -66,5 +73,11 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
         var resultFileName = $"{environmentName}-settings-{DateTime.UtcNow.ToString("yyyy-dd-M--HH-mm-ss")}.json";
 
         return File(resultBytes, "application/octet-stream", resultFileName);
+    }
+
+    private string GetCurrentEnvironmentName()
+    {
+        return options.Value?.CurrentEnvironmentName ??
+            ModuleConstants.EnvironmentsCompare.CurrentEnvironmentName;
     }
 }
