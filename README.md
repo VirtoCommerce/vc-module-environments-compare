@@ -27,6 +27,18 @@ The module provides a web-based interface within the Virto Commerce platform whe
 
 ## Screenshots
 
+### Admin UI
+<img width="1916" height="927" alt="image" src="https://github.com/user-attachments/assets/578612e4-0a81-43c3-90db-5bbe54f9014d" />
+
+### All Environments are Identical
+<img width="946" height="686" alt="image" src="https://github.com/user-attachments/assets/94a74430-b284-40e0-b578-274f75da2304" />
+
+### Filter
+<img width="957" height="665" alt="image" src="https://github.com/user-attachments/assets/738f65e0-c3f6-411c-a8be-9f8489d14de2" />
+
+### Connection Error 
+<img width="956" height="702" alt="image" src="https://github.com/user-attachments/assets/0ee45628-9f2e-43ed-8d45-2bafd38c150b" />
+
 ## Setup
 
 ### Prerequisites
@@ -52,6 +64,7 @@ On the main environment (the environment from which you will perform comparisons
 ```json
 {
   "EnvironmentsCompare": {
+    "CurrentEnvironmentName": "Current",
     "ComparableEnvironments": [
       {
         "Name": "QA",
