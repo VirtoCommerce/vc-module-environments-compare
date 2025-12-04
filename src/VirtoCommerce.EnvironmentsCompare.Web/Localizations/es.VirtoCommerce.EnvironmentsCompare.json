@@ -16,7 +16,9 @@
         "title": "Comparación de entornos",
         "labels": {
           "setting-name": "Configuración / Entorno",
-          "environment-summary": "Resumen del entorno"
+          "environment-summary": "Resumen del entorno",
+          "no-differences-title": "Todos los entornos son idénticos",
+          "no-differences-text": "No se encontraron diferencias de configuración para los entornos seleccionados."
         },
         "toolbar": {
           "show-all": "Mostrar todo",

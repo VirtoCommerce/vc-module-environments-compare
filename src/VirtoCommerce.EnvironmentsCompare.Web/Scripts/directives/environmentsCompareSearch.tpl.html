@@ -1,0 +1,13 @@
+<div style="display: flex;align-items: center;">
+    <div class="form-input" style="flex-grow: 1;">
+        <input ng-model="filter.keyword"
+               ng-keyup="$event.which === 13 && filter.filterByKeyword()"
+               placeholder="{{'platform.placeholders.search-keyword' | translate}}">
+        <button class="btn __other"
+                ng-click="filter.keyword=''; filter.filterByKeyword()">
+            <i class="btn-ico fa fa-remove" title="{{ 'platform.commands.clear' | translate }}"></i>
+        </button>
+    </div>
+</div>
+
+

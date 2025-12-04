@@ -16,7 +16,9 @@
         "title": "环境对比",
         "labels": {
           "setting-name": "设置 / 环境",
-          "environment-summary": "环境摘要"
+          "environment-summary": "环境摘要",
+          "no-differences-title": "所有环境都相同",
+          "no-differences-text": "在所选环境之间未发现配置差异。"
         },
         "toolbar": {
           "show-all": "显示全部",

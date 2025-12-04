@@ -16,7 +16,9 @@
         "title": "Environments comparison",
         "labels": {
           "setting-name": "Setting / Environment",
-          "environment-summary": "Environment summary"
+          "environment-summary": "Environment summary",
+          "no-differences-title": "All environments are identical",
+          "no-differences-text": "No configuration differences were found for the selected environments."
         },
         "toolbar": {
           "show-all": "Show all",

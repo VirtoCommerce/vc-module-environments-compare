@@ -16,7 +16,9 @@
         "title": "Sammenligning av miljøer",
         "labels": {
           "setting-name": "Innstilling / Miljø",
-          "environment-summary": "Miljøsammendrag"
+          "environment-summary": "Miljøsammendrag",
+          "no-differences-title": "Alle miljøene er identiske",
+          "no-differences-text": "Ingen konfigurasjonsforskjeller ble funnet for de valgte miljøene."
         },
         "toolbar": {
           "show-all": "Vis alle",

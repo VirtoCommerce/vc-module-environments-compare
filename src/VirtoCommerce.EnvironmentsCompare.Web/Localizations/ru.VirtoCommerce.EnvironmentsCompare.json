@@ -16,7 +16,9 @@
         "title": "Сравнение сред",
         "labels": {
           "setting-name": "Настройка / Среда",
-          "environment-summary": "Сводка по среде"
+          "environment-summary": "Сводка по среде",
+          "no-differences-title": "Все среды идентичны",
+          "no-differences-text": "Для выбранных сред различий в конфигурации не обнаружено."
         },
         "toolbar": {
           "show-all": "Показать все",

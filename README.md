@@ -16,6 +16,7 @@ The module provides a web-based interface within the Virto Commerce platform whe
   - Server features and hosting configuration
 - **Base Environment Comparison**: Select a base environment and compare all other environments against it to highlight differences
 - **Difference Filtering**: Toggle between showing all settings or only differences to focus on what's changed
+- **Search**: Quickly filter specific settings using a search bar
 - **Settings Export**: Choose an environment and export its settings for future reference
 - **Security Features**:
   - API key-based authentication for secure communication with remote environments
@@ -26,8 +27,6 @@ The module provides a web-based interface within the Virto Commerce platform whe
 
 ## Screenshots
 
-<img width="1701" height="871" alt="image" src="https://github.com/user-attachments/assets/ebb73931-3197-4587-adfe-2e60dad18114" />
-
 ## Setup
 
 ### Prerequisites
@@ -37,7 +36,7 @@ Before configuring the Environments Compare module, ensure you have:
 - At least two running Virto Commerce environments with the Environments Compare module installed on each
 - The main environment (from which comparisons are performed) has network access to secondary environments via HTTP/HTTPS protocol
 - On each secondary environment:
-    - Create **Environments Compare** role with **environments-compare:access** permission
+    - Create **Environments Compare** role with **environments-compare:read** permission
     - Create an account assigned to the EnvironmentsCompare role
     - Create API keys for user
 - Valid URLs for all secondary environments that will be compared
@@ -55,13 +54,13 @@ On the main environment (the environment from which you will perform comparisons
   "EnvironmentsCompare": {
     "ComparableEnvironments": [
       {
-        "Name": "ENV-1",
-        "Url": "http://localhost:5002/",
+        "Name": "QA",
+        "Url": "https://qa.mydomaim.com",
         "ApiKey": "a4a86441-cabb-4a60-af90-9c6ebe11a401"
       },
       {
-        "Name": "ENV-2",
-        "Url": "http://localhost:5003/",
+        "Name": "Development",
+        "Url": "https://dev.mydomaim.com",
         "ApiKey": "a4a86441-cabb-4a60-af90-9c6ebe11a401"
       }
     ]
@@ -72,11 +71,11 @@ On the main environment (the environment from which you will perform comparisons
 For deployment configuration files (`.yml` format), use the following structure:
 
 ```yaml
-EnvironmentsCompare__ComparableEnvironments__0__Name=ENV-1
-EnvironmentsCompare__ComparableEnvironments__0__Url=http://localhost:5002/
+EnvironmentsCompare__ComparableEnvironments__0__Name=QA
+EnvironmentsCompare__ComparableEnvironments__0__Url=https://qa.mydomaim.com
 EnvironmentsCompare__ComparableEnvironments__0__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
-EnvironmentsCompare__ComparableEnvironments__1__Name=ENV-2
-EnvironmentsCompare__ComparableEnvironments__1__Url=http://localhost:5003/
+EnvironmentsCompare__ComparableEnvironments__1__Name=Development
+EnvironmentsCompare__ComparableEnvironments__1__Url=https://dev.mydomaim.com
 EnvironmentsCompare__ComparableEnvironments__1__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
 ```
 

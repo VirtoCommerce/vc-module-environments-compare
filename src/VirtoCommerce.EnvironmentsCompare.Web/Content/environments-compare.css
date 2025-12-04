@@ -1,37 +1,60 @@
+vc-environments-compare-search {
+  -o-flex-grow: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+
+
 .comparison-header {
   padding: 0;
-  margin: 0 -20px 0;
-  min-height: 40px;
+  margin: 0 -20px ;
   font-size: 14px;
-  overflow: hidden;
 }
 
 .comparison-container {
   padding: 0;
   margin: 0 -20px 0;
   overflow: auto;
+  position: relative;
+}
+
+.comparison-container::after {
+  content: "";
+  position: sticky;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  pointer-events: none;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.05), transparent);
 }
 
 .comparison-list {
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
-  .comparison-list thead tr {
-    background-color: #f9f9f9;
-    font-weight: bold;
-    height: 60px;
-  }
+.comparison-list thead tr {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
 
-  .comparison-list tbody tr {
-    height: 40px;
-  }
+.comparison-list thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f9f9f9;
+}
 
-  .comparison-list td, .comparison-list th {
-    padding: 10px;
-    overflow: auto;
-  }
+.comparison-list td,
+.comparison-list th {
+  padding: 8px 10px;
+  overflow: hidden;
+  vertical-align: top;
+  word-wrap: break-word;
+}
 
 tr.comparison-environments-summary {
   background-color: #f9f9f9;
@@ -49,9 +72,24 @@ th.environment-name-clickable {
   cursor: pointer;
 }
 
-  th.environment-name-clickable .fas, th.environment-name-clickable .fa {
-    margin-right: 5px;
-  }
+th.environment-name-clickable:hover {
+  background-color: #eef3ff;
+}
+
+th.environment-name-clickable .env-header-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+th.environment-name-clickable .env-name {
+  white-space: nowrap;
+}
+
+th.environment-name-clickable .fas,
+th.environment-name-clickable .fa {
+  margin-right: 2px;
+}
 
 tr.comparison-settings-scope-header {
   background-color: #f9f9f9;
@@ -77,52 +115,139 @@ td.comparison-settings-group-name {
 td.comparison-settings-name {
   padding-left: 40px;
   border-right: solid 1px #eaedf3;
+  font-family: monospace;
+  color: #555555;
 }
 
 tr.comparison-diff {
-  background-color: #fccdcd;
+  background-color: #fff4f4;
 }
 
 td.comparison-diff {
-  background-color: #f66c6c;
+  background-color: #fbe1e1;
+  border-left: 3px solid #e55353;
+  font-weight: 500;
 }
 
 td.environment-error, th.environment-error {
-  background-color: #cacaca;
+  background-color: #f2f2f2;
+  color: #a94442;
+  font-style: italic;
 }
 
 td.comparison-environments-no-data {
   text-align: center;
 }
 
+td[class^="scope-marker-"] {
+  background-color: transparent;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
 td.scope-marker-0 {
-  background-color: #82ccfc;
+  border-left-color: #82ccfc;
 }
 
 td.scope-marker-1 {
-  background-color: #ff71eb;
+  border-left-color: #ff71eb;
 }
 
 td.scope-marker-2 {
-  background-color: #82fce2;
+  border-left-color: #82fce2;
 }
 
 td.scope-marker-3 {
-  background-color: #bc71ff;
+  border-left-color: #bc71ff;
 }
 
 td.scope-marker-4 {
-  background-color: #d6ff71;
+  border-left-color: #d6ff71;
 }
 
 td.scope-marker-5 {
-  background-color: #72ff71;
+  border-left-color: #72ff71;
 }
 
 td.scope-marker-6 {
-  background-color: #71acff;
+  border-left-color: #71acff;
 }
 
 td.scope-marker-7 {
-  background-color: #f599d4;
+  border-left-color: #f599d4;
+}
+
+.comparison-legend {
+  padding: 6px 20px;
+  font-size: 12px;
+  color: #666666;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.comparison-legend .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.comparison-legend .legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.comparison-legend .legend-diff {
+  background-color: #fbe1e1;
+}
+
+.comparison-legend .legend-error {
+  background-color: #f2f2f2;
+  border: 1px solid #cccccc;
+}
+
+.comparison-filters {
+}
+
+.comparison-filters .form-control {
+  max-width: 320px;
+}
+
+.comparison-no-data {
+  padding: 40px 20px;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.comparison-no-data-inner {
+  max-width: 480px;
+}
+
+.comparison-no-data-icon {
+  font-size: 48px;
+  color: #28a745;
+  margin-bottom: 12px;
+}
+
+.comparison-no-data-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.comparison-no-data-text {
+  font-size: 13px;
+  color: #666666;
+  margin-bottom: 16px;
+}
+
+.sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #ffffff;
 }

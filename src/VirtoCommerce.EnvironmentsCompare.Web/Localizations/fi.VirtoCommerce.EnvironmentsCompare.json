@@ -16,7 +16,9 @@
         "title": "Ympäristöjen vertailu",
         "labels": {
           "setting-name": "Asetus / Ympäristö",
-          "environment-summary": "Ympäristön yhteenveto"
+          "environment-summary": "Ympäristön yhteenveto",
+          "no-differences-title": "Kaikki ympäristöt ovat identtisiä",
+          "no-differences-text": "Valituille ympäristöille ei löytynyt konfigurointieroja."
         },
         "toolbar": {
           "show-all": "Näytä kaikki",

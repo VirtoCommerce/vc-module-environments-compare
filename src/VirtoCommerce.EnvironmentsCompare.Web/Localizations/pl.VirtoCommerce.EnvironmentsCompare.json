@@ -16,7 +16,9 @@
         "title": "Porównanie środowisk",
         "labels": {
           "setting-name": "Ustawienie / Środowisko",
-          "environment-summary": "Podsumowanie środowiska"
+          "environment-summary": "Podsumowanie środowiska",
+          "no-differences-title": "Wszystkie środowiska są identyczne",
+          "no-differences-text": "Nie znaleziono różnic w konfiguracji dla wybranych środowisk."
         },
         "toolbar": {
           "show-all": "Pokaż wszystko",

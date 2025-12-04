@@ -16,7 +16,9 @@
         "title": "環境比較",
         "labels": {
           "setting-name": "設定 / 環境",
-          "environment-summary": "環境サマリー"
+          "environment-summary": "環境サマリー",
+          "no-differences-title": "すべての環境は同一です",
+          "no-differences-text": "選択された環境間で設定の違いは見つかりませんでした。"
         },
         "toolbar": {
           "show-all": "すべて表示",

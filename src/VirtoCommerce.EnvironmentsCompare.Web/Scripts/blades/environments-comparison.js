@@ -11,11 +11,28 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 const blade = $scope.blade;
 
                 blade.title = 'environments-compare.blades.environments-comparison.title';
+                blade.filter = blade.filter || {};
+                if (typeof blade.hideEmptySections === 'undefined') {
+                    blade.hideEmptySections = true;
+                }
 
-                blade.markerColWidth = 5;
-                blade.nameColWidth = 600;
-                blade.valueColWidth = 250;
-                blade.totalWidth = blade.markerColWidth + blade.nameColWidth + blade.valueColWidth * blade.environmentNames.length;
+                var filter = blade.filter;
+                filter.keyword = filter.keyword || '';
+                filter.criteriaChanged = filter.criteriaChanged || function () { };
+
+                function recalculateWidths() {
+                    const containerWidth = window.innerWidth || 1200;
+                    blade.markerColWidth = 5;
+                    blade.nameColWidth = Math.min(600, Math.max(300, containerWidth * 0.3));
+                    const envCount = blade.environmentNames && blade.environmentNames.length ? blade.environmentNames.length : 1;
+                    const remaining = containerWidth - blade.markerColWidth - blade.nameColWidth;
+                    blade.valueColWidth = Math.max(180, Math.floor(remaining / envCount));
+                    blade.totalWidth = blade.markerColWidth + blade.nameColWidth + blade.valueColWidth * envCount;
+                }
+
+                recalculateWidths();
+
+                window.addEventListener('resize', recalculateWidths);
 
                 blade.refresh = function () {
                     blade.isLoading = true;
@@ -52,30 +69,79 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 }
 
                 blade.getComparedValueOrError = function (settings, environmentName) {
-                    const item = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
-                    return item.errorMessage ?? item.value;
+                    if (!settings || !Array.isArray(settings.comparedValues)) {
+                        return '';
+                    }
+
+                    const item = settings.comparedValues.find(x => x.environmentName === environmentName);
+                    if (!item) {
+                        return '';
+                    }
+
+                    return item.errorMessage || item.value;
                 }
 
                 blade.environmentComparedValueHasDiff = function (settings, environmentName) {
-                    const comparedValue = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
-                    return blade.comparedValueHasDiff(comparedValue);
+                    if (!settings || !Array.isArray(settings.comparedValues)) {
+                        return false;
+                    }
+
+                    const comparedValue = settings.comparedValues.find(x => x.environmentName === environmentName);
+                    return comparedValue ? blade.comparedValueHasDiff(comparedValue) : false;
                 }
 
                 blade.environmentComparedValueHasError = function (settings, environmentName) {
-                    const comparedValue = settings.comparedValues.filter(x => x.environmentName === environmentName)[0];
-                    return blade.comparedValueHasError(comparedValue);
+                    if (!settings || !Array.isArray(settings.comparedValues)) {
+                        return false;
+                    }
+
+                    const comparedValue = settings.comparedValues.find(x => x.environmentName === environmentName);
+                    return comparedValue ? blade.comparedValueHasError(comparedValue) : false;
                 }
 
                 blade.anyEnvironmentComparedValueHasDiff = function (settings) {
-                    return settings.comparedValues.filter(x => blade.comparedValueHasDiff(x)).length > 0;
+                    if (!settings || !Array.isArray(settings.comparedValues)) {
+                        return false;
+                    }
+
+                    return settings.comparedValues.some(x => blade.comparedValueHasDiff(x));
                 }
 
                 blade.comparedValueHasDiff = function (item) {
-                    return item.equalsBaseValue === false;
+                    if (!item) {
+                        return false;
+                    }
+
+                    return item.equalsBaseValue === false && !item.errorMessage;
                 }
 
                 blade.comparedValueHasError = function (item) {
-                    return !!item.errorMessage;
+                    return !!(item && item.errorMessage);
+                }
+
+                blade.filterByText = function (setting) {
+                    if (!blade.filter || !blade.filter.keyword) {
+                        return true;
+                    }
+
+                    const term = blade.filter.keyword.toLowerCase();
+                    return setting && setting.name && setting.name.toLowerCase().indexOf(term) !== -1;
+                }
+
+                blade.groupHasVisibleSettings = function (settingGroup) {
+                    if (!settingGroup || !Array.isArray(settingGroup.settings)) {
+                        return false;
+                    }
+
+                    return settingGroup.settings.some(blade.filterByText);
+                }
+
+                blade.scopeHasVisibleSettings = function (settingScope) {
+                    if (!settingScope || !Array.isArray(settingScope.settingGroups)) {
+                        return false;
+                    }
+
+                    return settingScope.settingGroups.some(blade.groupHasVisibleSettings);
                 }
 
                 $scope.setGridOptions = function (gridOptions) {
@@ -124,5 +190,8 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                 }
 
                 blade.refresh();
+                $scope.$on('$destroy', function () {
+                    window.removeEventListener('resize', recalculateWidths);
+                });
                 initializeToolbar();
             }]);

@@ -16,7 +16,9 @@
         "title": "Miljöjämförelse",
         "labels": {
           "setting-name": "Inställning/Miljö",
-          "environment-summary": "Miljööversikt"
+          "environment-summary": "Miljööversikt",
+          "no-differences-title": "Alla miljöer är identiska",
+          "no-differences-text": "Inga konfigurationsskillnader hittades för de valda miljöerna."
         },
         "toolbar": {
           "show-all": "Visa alla",

@@ -20,7 +20,7 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
 {
     [HttpGet]
     [Route("get-environments")]
-    [Authorize(Permissions.Access)]
+    [Authorize(Permissions.Read)]
     public ActionResult<IList<EnvironmentResponseItem>> GetEnvironments()
     {
         var result = settingsService.ComparableEnvironments.Select(x => new EnvironmentResponseItem() { Name = x.Name, Url = x.Url }).ToList();
@@ -36,7 +36,7 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
 
     [HttpPost]
     [Route("compare-environments")]
-    [Authorize(Permissions.Access)]
+    [Authorize(Permissions.Read)]
     public async Task<ActionResult<SettingsComparisonResult>> CompareEnvironments([FromBody] CompareEnvironmentsRequest request)
     {
         if (request?.EnvironmentNames == null || request.EnvironmentNames.Count < 2)
@@ -50,7 +50,7 @@ public class EnvironmentsCompareController(IEnvironmentsCompareSettingsService s
 
     [HttpGet]
     [Route("export-settings/{environmentName}")]
-    [Authorize(Permissions.Access)]
+    [Authorize(Permissions.Read)]
     public async Task<ActionResult> ExportSettings(string environmentName)
     {
         if (environmentName.IsNullOrEmpty())

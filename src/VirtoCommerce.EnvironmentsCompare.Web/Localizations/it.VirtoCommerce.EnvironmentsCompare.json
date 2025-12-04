@@ -16,7 +16,9 @@
         "title": "Confronto ambienti",
         "labels": {
           "setting-name": "Impostazione / Ambiente",
-          "environment-summary": "Riepilogo ambiente"
+          "environment-summary": "Riepilogo ambiente",
+          "no-differences-title": "Tutti gli ambienti sono identici",
+          "no-differences-text": "Non sono state trovate differenze di configurazione per gli ambienti selezionati."
         },
         "toolbar": {
           "show-all": "Mostra tutto",

@@ -16,7 +16,7 @@ public class EnvironmentsCompareExternalController(IComparableSettingsMasterProv
 {
     [HttpGet]
     [Route("")]
-    [Authorize(Permissions.Access)]
+    [Authorize(Permissions.Read)]
     public async Task<ActionResult<IList<ComparableSettingScope>>> GetSettings()
     {
         var result = await comparableSettingsMasterProvider.GetAllComparableSettingsAsync();
