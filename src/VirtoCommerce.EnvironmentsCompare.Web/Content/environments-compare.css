@@ -119,6 +119,25 @@ td.comparison-settings-name {
   color: #555555;
 }
 
+.comparison-settings-name-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.comparison-settings-description-toggle {
+  cursor: pointer;
+}
+
+.comparison-settings-description {
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: italic;
+  color: brown;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
 tr.comparison-diff {
   background-color: #e9f3ff;
 }

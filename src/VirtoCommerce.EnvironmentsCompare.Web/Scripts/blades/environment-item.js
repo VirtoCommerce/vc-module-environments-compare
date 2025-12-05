@@ -3,9 +3,11 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
         [
             '$scope',
             'VirtoCommerce.EnvironmentsCompare.webApi',
+            '$translate',
             function (
                 $scope,
-                environmentsCompareApi) {
+                environmentsCompareApi,
+                $translate) {
                 const blade = $scope.blade;
 
                 blade.title = blade.environmentName || 'environments-compare.blades.environments-comparison.title';
@@ -20,6 +22,43 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
 
                 blade.settingScopes = [];
 
+                function enrichSettingsDescriptions(settingScopes) {
+                    if (!settingScopes) {
+                        return;
+                    }
+
+                    settingScopes.forEach(function (scope) {
+                        if (!scope || !Array.isArray(scope.settingGroups)) {
+                            return;
+                        }
+
+                        scope.settingGroups.forEach(function (group) {
+                            if (!group || !Array.isArray(group.settings)) {
+                                return;
+                            }
+
+                            group.settings.forEach(function (setting) {
+                                if (!setting) {
+                                    return;
+                                }
+
+                                var description = setting.description;
+                                if (!description && setting.name) {
+                                    var key = 'settings.' + setting.name + '.description';
+                                    var translated = $translate.instant(key);
+                                    if (translated && translated !== key) {
+                                        description = translated;
+                                    }
+                                }
+
+                                if (description) {
+                                    setting.descriptionText = description;
+                                }
+                            });
+                        });
+                    });
+                }
+
                 blade.refresh = function () {
                     blade.isLoading = true;
 
@@ -28,6 +67,7 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                         function (result) {
                             blade.envSettings = result;
                             blade.settingScopes = result && result.settingScopes ? result.settingScopes : [];
+                            enrichSettingsDescriptions(blade.settingScopes);
                             blade.isLoading = false;
                         },
                         function () {

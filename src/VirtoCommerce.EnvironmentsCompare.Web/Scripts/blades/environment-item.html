@@ -58,7 +58,20 @@
             <tr ng-if="0" ng-repeat-start="(settingIndex, setting) in settingGroup.settings | filter: blade.filterByText" />
             <tr>
               <td class="scope-marker-{{scopeIndex}} sticky-col"></td>
-              <td class="comparison-settings-name">{{ setting.name }}</td>
+              <td class="comparison-settings-name">
+                <div class="comparison-settings-name-inner">
+                  <span class="comparison-settings-name-text">{{ setting.name }}</span>
+                  <a href=""
+                     ng-if="setting.descriptionText"
+                     class="comparison-settings-description-toggle"
+                     ng-click="$event.preventDefault(); setting.showDescription = !setting.showDescription">
+                    <i class="form-ico fa fa-question-circle __link __lightblue"></i>
+                  </a>
+                </div>
+                <div class="comparison-settings-description" ng-if="setting.showDescription">
+                  {{ setting.descriptionText }}
+                </div>
+              </td>
               <td>{{ setting.value }}</td>
             </tr>
 
