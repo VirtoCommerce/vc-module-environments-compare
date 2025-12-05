@@ -26,8 +26,9 @@ public class EnvironmentsCompareController(IOptions<EnvironmentsCompareSettings>
     {
         var result = new List<EnvironmentResponseItem>
         {
-            new EnvironmentResponseItem()
+            new()
             {
+                Url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}",
                 Name = GetCurrentEnvironmentName(),
                 IsCurrent = true
             }
