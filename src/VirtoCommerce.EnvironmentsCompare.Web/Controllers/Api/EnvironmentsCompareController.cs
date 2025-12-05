@@ -57,6 +57,27 @@ public class EnvironmentsCompareController(IOptions<EnvironmentsCompareSettings>
     }
 
     [HttpGet]
+    [Route("get-environment-settings/{environmentName}")]
+    [Authorize(Permissions.Read)]
+    public async Task<ActionResult<ComparableEnvironmentSettings>> GetEnvironmentSettings(string environmentName)
+    {
+        if (environmentName.IsNullOrEmpty())
+        {
+            return BadRequest("Environment name is required.");
+        }
+
+        var environments = await settingsCompareService.GetComparableEnvironmentsAsync([environmentName]);
+        var environmentSettings = environments.FirstOrDefault(x => x.EnvironmentName == environmentName);
+
+        if (environmentSettings == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(environmentSettings);
+    }
+
+    [HttpGet]
     [Route("export-settings/{environmentName}")]
     [Authorize(Permissions.Read)]
     public async Task<ActionResult> ExportSettings(string environmentName)

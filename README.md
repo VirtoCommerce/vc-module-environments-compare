@@ -14,6 +14,7 @@ The module provides a web-based interface within the Virto Commerce platform whe
   - Environment variables (system and process variables)
   - .NET runtime information (framework version, OS description, architecture)
   - Server features and hosting configuration
+- **Environment Settings View**: From the environments list, click any environment to open a dedicated blade showing all of its settings in the same structured, filterable layout as the comparison view. This blade focuses on a single environment (without comparison controls), making it easy to inspect, search, and review configuration scopes and groups for one environment at a time.
 - **Base Environment Comparison**: Select a base environment and compare all other environments against it to highlight differences
 - **Difference Filtering**: Toggle between showing all settings or only differences to focus on what's changed
 - **Search**: Quickly filter specific settings using a search bar

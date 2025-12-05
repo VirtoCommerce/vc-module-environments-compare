@@ -3,5 +3,6 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
         return $resource('api/environments-compare', {}, {
             getEnvironments: { method: 'GET', url: 'api/environments-compare/get-environments', isArray: true },
             compareEnvironments: { method: 'POST', url: 'api/environments-compare/compare-environments' },
+            getEnvironmentSettings: { method: 'GET', url: 'api/environments-compare/get-environment-settings/:environmentName' },
         });
     }]);

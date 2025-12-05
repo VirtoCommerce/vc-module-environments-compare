@@ -55,6 +55,21 @@ angular.module('VirtoCommerce.EnvironmentsCompare')
                     });
                 };
 
+                $scope.openEnvironment = function (environment) {
+                    if (!environment || !environment.name) {
+                        return;
+                    }
+
+                    var newBlade = {
+                        id: 'environment-item-blade-' + environment.name,
+                        environmentName: environment.name,
+                        controller: 'VirtoCommerce.EnvironmentsCompare.environmentItemController',
+                        template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/environment-item.html'
+                    };
+
+                    bladeNavigationService.showBlade(newBlade, blade);
+                };
+
                 function initializeToolbar() {
                     blade.toolbarCommands = [
                         {

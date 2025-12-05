@@ -1,0 +1,77 @@
+<div class="blade-content __xxlarge-wide">
+  <div class="blade-inner">
+    <div class="inner-block">
+      <div ng-if="blade.envSettings" class="comparison-header">
+        <div class="comparison-filters blade-static">
+          <div class="form-group">
+            <vc-environments-compare-search blade="blade"></vc-environments-compare-search>
+          </div>
+        </div>
+      </div>
+      <div class="comparison-container">
+        <table class="comparison-list">
+          <colgroup>
+            <col style="width: 5px" />
+            <col style="width: 600px" />
+            <col />
+          </colgroup>
+          <thead>
+            <tr class="comparison-list-header">
+              <th class="sticky-col"></th>
+              <th class="comparison-settings-name">
+                {{ 'environments-compare.blades.environments-comparison.labels.setting-name' | translate }}
+              </th>
+              <th ng-class="{'environment-error': blade.envSettings.errorMessage }">
+                {{ blade.environmentName }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="comparison-environments-summary" ng-if="blade.envSettings.errorMessage">
+              <td class="sticky-col"></td>
+              <td class="comparison-environments-summary-title">
+                {{ 'environments-compare.blades.environments-comparison.labels.environment-summary' | translate }}
+              </td>
+              <td class="environment-error">
+                {{ blade.envSettings.errorMessage }}
+              </td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-start="(scopeIndex, settingScope) in blade.settingScopes" />
+
+            <tr class="comparison-settings-scope-header"
+                ng-if="!blade.hideEmptySections || blade.scopeHasVisibleSettings(settingScope)">
+              <td class="scope-marker-{{scopeIndex}} sticky-col"></td>
+              <td class="comparison-settings-scope-name">{{ settingScope.scopeName }}</td>
+              <td></td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-start="(groupIndex, settingGroup) in settingScope.settingGroups" />
+
+            <tr class="comparison-settings-group-header"
+                ng-if="!blade.hideEmptySections || blade.groupHasVisibleSettings(settingGroup)">
+              <td class="scope-marker-{{scopeIndex}} sticky-col"></td>
+              <td class="comparison-settings-group-name">{{ settingGroup.groupName }}</td>
+              <td></td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-start="(settingIndex, setting) in settingGroup.settings | filter: blade.filterByText" />
+            <tr>
+              <td class="scope-marker-{{scopeIndex}} sticky-col"></td>
+              <td class="comparison-settings-name">{{ setting.name }}</td>
+              <td>{{ setting.value }}</td>
+            </tr>
+
+            <tr ng-if="0" ng-repeat-end />
+
+            <tr ng-if="0" ng-repeat-end />
+
+            <tr ng-if="0" ng-repeat-end />
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
