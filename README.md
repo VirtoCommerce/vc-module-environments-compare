@@ -64,7 +64,7 @@ On the main environment (the environment from which you will perform comparisons
 ```json
 {
   "EnvironmentsCompare": {
-    "CurrentEnvironmentName": "Current",
+    "CurrentEnvironmentName": "Production",
     "ComparableEnvironments": [
       {
         "Name": "QA",
@@ -84,6 +84,7 @@ On the main environment (the environment from which you will perform comparisons
 For deployment configuration files (`.yml` format), use the following structure:
 
 ```yaml
+EnvironmentsCompare__CurrentEnvironmentName=Production
 EnvironmentsCompare__ComparableEnvironments__0__Name=QA
 EnvironmentsCompare__ComparableEnvironments__0__Url=https://qa.mydomaim.com
 EnvironmentsCompare__ComparableEnvironments__0__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
@@ -100,13 +101,13 @@ EnvironmentsCompare__ComparableEnvironments__1__ApiKey=a4a86441-cabb-4a60-af90-9
 #### Secondary Environment Configuration
 
 On each secondary environment that will be compared:
-1. Configure role (ex. named: `Environment Compare`) with `environments-compare:access` permission
+1. Configure role (ex. named: `Environment Compare`) with `environments-compare:read` permission
 1. Create a new user with this role
 1. Create API key for this user
 
 ### Configuration Whitelist
 
-By default, module has white list of appsettings sections and keys that are compared across environments.
+By default, the module has a whitelist of appsettings sections and keys that are compared across environments.
 
 You can extend or narrow down which appsettings sections and keys are compared by configuring `EnvironmentsCompare:WhiteList`.
 It supports `Include` and `Exclude` lists for both `SectionKeys` and `SettingKeys`.
@@ -178,7 +179,7 @@ You can export settings from any environment for documentation or backup purpose
   - **Show All**: Toggle to view all settings, including those that match the base environment
 
 - **Visual Indicators:**
-  - Settings with differences are highlighted in red
+  - Settings with differences are highlighted
   - Setting scopes (e.g., AppSettings, PlatformSettings, StoreSettings) have colored left borders to help identify them when scrolling
   - Color coding helps distinguish between different setting groups
 
