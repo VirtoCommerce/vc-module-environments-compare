@@ -86,12 +86,12 @@ For deployment configuration files (`.yml` format), use the following structure:
 
 ```yaml
 EnvironmentsCompare__CurrentEnvironmentName=Production
-EnvironmentsCompare__ComparableEnvironments__0__Name=QA
-EnvironmentsCompare__ComparableEnvironments__0__Url=https://qa.mydomaim.com
-EnvironmentsCompare__ComparableEnvironments__0__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
-EnvironmentsCompare__ComparableEnvironments__1__Name=Development
-EnvironmentsCompare__ComparableEnvironments__1__Url=https://dev.mydomaim.com
-EnvironmentsCompare__ComparableEnvironments__1__ApiKey=a4a86441-cabb-4a60-af90-9c6ebe11a401
+EnvironmentsCompare__ComparableEnvironments__0__Name: QA
+EnvironmentsCompare__ComparableEnvironments__0__Url: https://qa.mydomaim.com
+EnvironmentsCompare__ComparableEnvironments__0__ApiKey: a4a86441-cabb-4a60-af90-9c6ebe11a401
+EnvironmentsCompare__ComparableEnvironments__1__Name: Development
+EnvironmentsCompare__ComparableEnvironments__1__Url: https://dev.mydomaim.com
+EnvironmentsCompare__ComparableEnvironments__1__ApiKey: a4a86441-cabb-4a60-af90-9c6ebe11a401
 ```
 
 **Configuration Parameters:**
