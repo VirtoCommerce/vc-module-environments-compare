@@ -6,11 +6,11 @@
 
   <platformVersion>3.876.0</platformVersion>
   <dependencies>
-    <!--<dependency id="VirtoCommerce.Core" version="3.800.0" />-->
+      <dependency id="VirtoCommerce.Store" version="3.813.0" />
   </dependencies>
 
-  <title>VirtoCommerce EnvironmentsCompare</title>
-  <description>VirtoCommerce EnvironmentsCompare</description>
+  <title>Environments Compare</title>
+  <description>Enables backend administrators to compare platform settings, environment configurations, and system information across multiple Virto Commerce environments</description>
 
   <authors>
     <author>Kirill Iusupov</author>
