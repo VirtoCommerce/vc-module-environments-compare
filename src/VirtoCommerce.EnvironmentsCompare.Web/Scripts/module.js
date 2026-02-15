@@ -16,9 +16,9 @@ angular.module(moduleName, [])
                         'platformWebApp.bladeNavigationService',
                         function (bladeNavigationService) {
                             var newBlade = {
-                                id: 'blade1',
-                                controller: 'VirtoCommerce.EnvironmentsCompare.helloWorldController',
-                                template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/hello-world.html',
+                                id: 'environments-list-blade',
+                                controller: 'VirtoCommerce.EnvironmentsCompare.environmentsListController',
+                                template: 'Modules/$(VirtoCommerce.EnvironmentsCompare)/Scripts/blades/environments-list.html',
                                 isClosingDisabled: true,
                             };
                             bladeNavigationService.showBlade(newBlade);
@@ -32,8 +32,8 @@ angular.module(moduleName, [])
             //Register module in main menu
             var menuItem = {
                 path: 'browse/environments-compare',
-                icon: 'fa fa-cube',
-                title: 'EnvironmentsCompare',
+                icon: 'fas fa-not-equal',
+                title: 'environments-compare.main-menu-title',
                 priority: 100,
                 action: function () { $state.go('workspace.EnvironmentsCompareState'); },
                 permission: 'environments-compare:access',

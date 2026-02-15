@@ -2,17 +2,20 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VirtoCommerce.EnvironmentsCompare.Core;
+using VirtoCommerce.EnvironmentsCompare.Core.Models;
+using VirtoCommerce.EnvironmentsCompare.Core.Services;
+using VirtoCommerce.EnvironmentsCompare.Data.MySql;
+using VirtoCommerce.EnvironmentsCompare.Data.PostgreSql;
+using VirtoCommerce.EnvironmentsCompare.Data.Repositories;
+using VirtoCommerce.EnvironmentsCompare.Data.Services;
+using VirtoCommerce.EnvironmentsCompare.Data.SqlServer;
 using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.Platform.Data.MySql.Extensions;
 using VirtoCommerce.Platform.Data.PostgreSql.Extensions;
 using VirtoCommerce.Platform.Data.SqlServer.Extensions;
-using VirtoCommerce.EnvironmentsCompare.Core;
-using VirtoCommerce.EnvironmentsCompare.Data.MySql;
-using VirtoCommerce.EnvironmentsCompare.Data.PostgreSql;
-using VirtoCommerce.EnvironmentsCompare.Data.Repositories;
-using VirtoCommerce.EnvironmentsCompare.Data.SqlServer;
 
 namespace VirtoCommerce.EnvironmentsCompare.Web;
 
@@ -23,6 +26,8 @@ public class Module : IModule, IHasConfiguration
 
     public void Initialize(IServiceCollection serviceCollection)
     {
+        serviceCollection.AddOptions<EnvironmentsCompareSettings>().Bind(Configuration.GetSection("EnvironmentsCompare"));
+
         serviceCollection.AddDbContext<EnvironmentsCompareDbContext>(options =>
         {
             var databaseProvider = Configuration.GetValue("DatabaseProvider", "SqlServer");
@@ -42,12 +47,16 @@ public class Module : IModule, IHasConfiguration
             }
         });
 
-        // Override models
-        //AbstractTypeFactory<OriginalModel>.OverrideType<OriginalModel, ExtendedModel>().MapToType<ExtendedEntity>();
-        //AbstractTypeFactory<OriginalEntity>.OverrideType<OriginalEntity, ExtendedEntity>();
+        serviceCollection.AddTransient<IComparableSettingsMasterProvider, ComparableSettingsMasterProvider>();
 
-        // Register services
-        //serviceCollection.AddTransient<IMyService, MyService>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableEnvironmentVariablesProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableAppSettingsProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparablePlatformSettingsProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableModulesProvider>();
+        serviceCollection.AddTransient<IComparableSettingsProvider, ComparableStoreSettingsProvider>();
+
+        serviceCollection.AddTransient<IEnvironmentsCompareService, EnvironmentsCompareService>();
+        serviceCollection.AddTransient<IEnvironmentsCompareClient, EnvironmentsCompareClient>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
