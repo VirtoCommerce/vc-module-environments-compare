@@ -1,0 +1,41 @@
+{
+  "environments-compare": {
+    "main-menu-title": "Miljöjämförelse",
+    "blades": {
+      "environments-list": {
+        "title": "Miljölista",
+        "toolbar": {
+          "compare": "Jämför"
+        },
+        "labels": {
+          "name": "Namn",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Miljöjämförelse",
+        "labels": {
+          "setting-name": "Inställning/Miljö",
+          "environment-summary": "Miljööversikt",
+          "no-differences-title": "Alla miljöer är identiska",
+          "no-differences-text": "Inga konfigurationsskillnader hittades för de valda miljöerna."
+        },
+        "toolbar": {
+          "show-all": "Visa alla",
+          "show-diff": "Visa endast skillnader"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Arbeta med modulen för miljöjämförelse"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "Miljöjämförelse aktiverad",
+        "description": "Inställning för miljöjämförelse aktiverad"
+      }
+    }
+  }
+}

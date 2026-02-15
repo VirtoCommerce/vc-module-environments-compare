@@ -10,19 +10,9 @@ public static class ModuleConstants
         public static class Permissions
         {
             public const string Access = "environments-compare:access";
-            public const string Create = "environments-compare:create";
             public const string Read = "environments-compare:read";
-            public const string Update = "environments-compare:update";
-            public const string Delete = "environments-compare:delete";
 
-            public static string[] AllPermissions { get; } =
-            [
-                Access,
-                Create,
-                Read,
-                Update,
-                Delete,
-            ];
+            public static string[] AllPermissions { get; } = [Access, Read];
         }
     }
 
@@ -30,19 +20,11 @@ public static class ModuleConstants
     {
         public static class General
         {
-            public static SettingDescriptor EnvironmentsCompareEnabled { get; } = new()
-            {
-                Name = "EnvironmentsCompare.Enabled",
-                GroupName = "EnvironmentsCompare|General",
-                ValueType = SettingValueType.Boolean,
-                DefaultValue = false,
-            };
-
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
                 {
-                    yield return EnvironmentsCompareEnabled;
+                    return [];
                 }
             }
         }
@@ -54,5 +36,13 @@ public static class ModuleConstants
                 return General.AllGeneralSettings;
             }
         }
+    }
+
+    public static class EnvironmentsCompare
+    {
+        public const string CurrentEnvironmentName = "Current";
+
+        public const string ApiAuthorizationKeyHeaderName = "api_key";
+        public const string ApiEnvironmentsCompareRoute = "api/environments-compare-external";
     }
 }

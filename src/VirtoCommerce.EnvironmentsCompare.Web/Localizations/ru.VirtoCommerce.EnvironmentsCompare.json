@@ -1,0 +1,41 @@
+{
+  "environments-compare": {
+    "main-menu-title": "Сравнение сред",
+    "blades": {
+      "environments-list": {
+        "title": "Список сред",
+        "toolbar": {
+          "compare": "Сравнить"
+        },
+        "labels": {
+          "name": "Имя",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Сравнение сред",
+        "labels": {
+          "setting-name": "Настройка / Среда",
+          "environment-summary": "Сводка по среде",
+          "no-differences-title": "Все среды идентичны",
+          "no-differences-text": "Для выбранных сред различий в конфигурации не обнаружено."
+        },
+        "toolbar": {
+          "show-all": "Показать все",
+          "show-diff": "Показать только различия"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Работа с модулем сравнения сред"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "Включено сравнение сред",
+        "description": "Параметр «Включено сравнение сред»"
+      }
+    }
+  }
+}

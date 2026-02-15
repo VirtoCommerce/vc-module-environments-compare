@@ -1,0 +1,41 @@
+{
+  "environments-compare": {
+    "main-menu-title": "Umgebungsvergleich",
+    "blades": {
+      "environments-list": {
+        "title": "Umgebungsliste",
+        "toolbar": {
+          "compare": "Vergleichen"
+        },
+        "labels": {
+          "name": "Name",
+          "url": "URL"
+        }
+      },
+      "environments-comparison": {
+        "title": "Umgebungsvergleich",
+        "labels": {
+          "setting-name": "Einstellung / Umgebung",
+          "environment-summary": "Umgebungsübersicht",
+          "no-differences-title": "Alle Umgebungen sind identisch",
+          "no-differences-text": "Für die ausgewählten Umgebungen wurden keine Konfigurationsunterschiede gefunden."
+        },
+        "toolbar": {
+          "show-all": "Alle anzeigen",
+          "show-diff": "Nur Unterschiede anzeigen"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "environments-compare:access": "Mit dem Umgebungsvergleichsmodul arbeiten"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "Umgebungsvergleich aktiviert",
+        "description": "Einstellung für aktivierten Umgebungsvergleich"
+      }
+    }
+  }
+}
