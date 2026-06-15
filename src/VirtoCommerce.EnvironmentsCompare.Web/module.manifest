@@ -20,7 +20,7 @@
   </owners>
 
   <projectUrl>https://github.com/VirtoCommerce/vc-module-environments-compare</projectUrl>
-  <iconUrl>Modules/$(VirtoCommerce.EnvironmentsCompare)/Content/logo.png</iconUrl>
+  <iconUrl>Modules/$(VirtoCommerce.EnvironmentsCompare)/Content/logo.svg</iconUrl>
   <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
   <assemblyFile>VirtoCommerce.EnvironmentsCompare.Web.dll</assemblyFile>
