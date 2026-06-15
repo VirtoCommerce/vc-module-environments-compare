@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.EnvironmentsCompare.Core.Models;
 using VirtoCommerce.EnvironmentsCompare.Core.Services;
@@ -8,7 +7,7 @@ using VirtoCommerce.Platform.Core.Modularity;
 
 namespace VirtoCommerce.EnvironmentsCompare.Data.Services;
 
-public class ComparableModulesProvider(IModuleCatalog moduleCatalog) : IComparableSettingsProvider
+public class ComparableModulesProvider(IModuleService moduleService) : IComparableSettingsProvider
 {
     public Task<IList<ComparableSettingScope>> GetComparableSettingsAsync()
     {
@@ -19,7 +18,7 @@ public class ComparableModulesProvider(IModuleCatalog moduleCatalog) : IComparab
         modulesResultGroup.GroupName = "Installed modules";
         result.SettingGroups.Add(modulesResultGroup);
 
-        foreach (var module in moduleCatalog.Modules.OfType<ManifestModuleInfo>().Where(x => x.IsInstalled))
+        foreach (var module in moduleService.GetInstalledModules())
         {
             var moduleSetting = AbstractTypeFactory<ComparableSetting>.TryCreateInstance();
             moduleSetting.Name = module.ModuleName;
