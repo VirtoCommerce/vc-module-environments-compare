@@ -1,6 +1,4 @@
 {
-  // Environments comparison admin UI for the Admin Shell host (Module Federation remote).
-  // The legacy item (browse/environments-compare) isn't in the host's seed menu, so nothing is replaced.
   "remote": { "name": "envcompare_admin", "exposed": "./Module" },
   "contributions": {
     "menu": [
