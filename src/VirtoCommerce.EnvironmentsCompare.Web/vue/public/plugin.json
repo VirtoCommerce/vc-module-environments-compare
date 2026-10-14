@@ -5,7 +5,7 @@
       {
         "id": "environments-compare",
         "sectionId": "configuration",
-        "title": "Environments comparison",
+        "title": "Environments Comparison",
         "icon": "lucide-git-compare-arrows",
         "route": "/environments-compare",
         "permission": "environments-compare:access",

@@ -1,6 +1,6 @@
 {
   "ENV_COMPARE": {
-    "MENU": { "TITLE": "Environments comparison" },
+    "MENU": { "TITLE": "Environments Comparison" },
     "TOOLBAR": {
       "REFRESH": "Refresh",
       "COMPARE": "Compare",
@@ -9,7 +9,7 @@
       "SHOW_DIFF": "Show differences only"
     },
     "LIST": {
-      "TITLE": "Environments list",
+      "TITLE": "Environments Comparison",
       "NAME": "Name",
       "URL": "URL",
       "EMPTY": "No environments"
