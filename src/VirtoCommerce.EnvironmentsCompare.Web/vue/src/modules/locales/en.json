@@ -1,0 +1,30 @@
+{
+  "ENV_COMPARE": {
+    "MENU": { "TITLE": "Environments comparison" },
+    "TOOLBAR": {
+      "REFRESH": "Refresh",
+      "COMPARE": "Compare",
+      "EXPORT": "Export",
+      "SHOW_ALL": "Show all",
+      "SHOW_DIFF": "Show differences only"
+    },
+    "LIST": {
+      "TITLE": "Environments list",
+      "NAME": "Name",
+      "URL": "URL",
+      "EMPTY": "No environments"
+    },
+    "COMPARISON": {
+      "TITLE": "Environments comparison",
+      "SETTING": "Setting / Environment",
+      "SUMMARY": "Environment summary",
+      "SEARCH": "Search settings",
+      "BASE": "Comparison base",
+      "SET_BASE": "Compare with this environment",
+      "DESCRIPTION": "Show description",
+      "NO_DIFFERENCES_TITLE": "All environments are identical",
+      "NO_DIFFERENCES_TEXT": "No configuration differences were found for the selected environments.",
+      "NOT_FOUND": "No settings match the search."
+    }
+  }
+}
