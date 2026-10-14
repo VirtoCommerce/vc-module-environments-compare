@@ -1,6 +1,6 @@
 <template>
   <VcBlade
-    :title="$t('ENV_COMPARE.LIST.TITLE')"
+    :title="$t('ENV_COMPARE.MENU.TITLE')"
     :toolbar-items="bladeToolbar"
     :loading="loading"
     width="40%"

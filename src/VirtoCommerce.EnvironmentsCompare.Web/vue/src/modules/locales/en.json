@@ -9,7 +9,6 @@
       "SHOW_DIFF": "Show differences only"
     },
     "LIST": {
-      "TITLE": "Environments Comparison",
       "NAME": "Name",
       "URL": "URL",
       "EMPTY": "No environments"
