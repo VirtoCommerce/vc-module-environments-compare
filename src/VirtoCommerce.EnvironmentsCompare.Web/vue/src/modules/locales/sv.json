@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "Miljöjämförelse"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Uppdatera",
+      "COMPARE": "Jämför",
+      "EXPORT": "Exportera",
+      "SHOW_ALL": "Visa alla",
+      "SHOW_DIFF": "Visa endast skillnader"
+    },
+    "LIST": {
+      "NAME": "Namn",
+      "URL": "URL",
+      "EMPTY": "Inga miljöer"
+    },
+    "COMPARISON": {
+      "TITLE": "Miljöjämförelse",
+      "SETTING": "Inställning/Miljö",
+      "SUMMARY": "Miljööversikt",
+      "SEARCH": "Sök inställningar",
+      "BASE": "Jämförelsebas",
+      "SET_BASE": "Jämför med den här miljön",
+      "DESCRIPTION": "Visa beskrivning",
+      "NO_DIFFERENCES_TITLE": "Alla miljöer är identiska",
+      "NO_DIFFERENCES_TEXT": "Inga konfigurationsskillnader hittades för de valda miljöerna.",
+      "NOT_FOUND": "Inga inställningar matchar sökningen."
+    }
+  }
+}
