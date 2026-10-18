@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "environments-compare:access": "العمل مع وحدة مقارنة البيئات"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "تفعيل مقارنة البيئات",
+        "description": "إعداد تفعيل مقارنة البيئات"
+      }
+    }
+  }
+}
