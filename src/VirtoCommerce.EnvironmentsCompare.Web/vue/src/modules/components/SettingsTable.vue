@@ -276,9 +276,9 @@ const marker = (index: number) => `envc__marker--${index % 8}`;
 
   &__sticky {
     position: sticky;
-    left: 0;
+    inset-inline-start: 0;
     z-index: 1;
-    border-right: 1px solid var(--color-neutral-200);
+    border-inline-end: 1px solid var(--color-neutral-200);
   }
 
   &__env {
@@ -307,11 +307,11 @@ const marker = (index: number) => `envc__marker--${index % 8}`;
   }
 
   &__group-name {
-    padding-left: 24px !important;
+    padding-inline-start: 24px !important;
   }
 
   &__name {
-    padding-left: 24px !important;
+    padding-inline-start: 24px !important;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 12px;
     color: var(--color-neutral-700);
