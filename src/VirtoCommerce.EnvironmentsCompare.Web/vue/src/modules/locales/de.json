@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "Umgebungsvergleich"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Aktualisieren",
+      "COMPARE": "Vergleichen",
+      "EXPORT": "Exportieren",
+      "SHOW_ALL": "Alle anzeigen",
+      "SHOW_DIFF": "Nur Unterschiede anzeigen"
+    },
+    "LIST": {
+      "NAME": "Name",
+      "URL": "URL",
+      "EMPTY": "Keine Umgebungen"
+    },
+    "COMPARISON": {
+      "TITLE": "Umgebungsvergleich",
+      "SETTING": "Einstellung / Umgebung",
+      "SUMMARY": "Umgebungsübersicht",
+      "SEARCH": "Einstellungen durchsuchen",
+      "BASE": "Vergleichsbasis",
+      "SET_BASE": "Mit dieser Umgebung vergleichen",
+      "DESCRIPTION": "Beschreibung anzeigen",
+      "NO_DIFFERENCES_TITLE": "Alle Umgebungen sind identisch",
+      "NO_DIFFERENCES_TEXT": "Für die ausgewählten Umgebungen wurden keine Konfigurationsunterschiede gefunden.",
+      "NOT_FOUND": "Keine Einstellungen entsprechen der Suche."
+    }
+  }
+}

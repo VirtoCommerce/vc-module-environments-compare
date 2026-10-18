@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "环境对比"
+    },
+    "TOOLBAR": {
+      "REFRESH": "刷新",
+      "COMPARE": "对比",
+      "EXPORT": "导出",
+      "SHOW_ALL": "显示全部",
+      "SHOW_DIFF": "仅显示差异"
+    },
+    "LIST": {
+      "NAME": "名称",
+      "URL": "URL",
+      "EMPTY": "没有环境"
+    },
+    "COMPARISON": {
+      "TITLE": "环境对比",
+      "SETTING": "设置 / 环境",
+      "SUMMARY": "环境摘要",
+      "SEARCH": "搜索设置",
+      "BASE": "对比基准",
+      "SET_BASE": "与此环境对比",
+      "DESCRIPTION": "显示描述",
+      "NO_DIFFERENCES_TITLE": "所有环境都相同",
+      "NO_DIFFERENCES_TEXT": "在所选环境之间未发现配置差异。",
+      "NOT_FOUND": "没有与搜索匹配的设置。"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "השוואת סביבות"
+    },
+    "TOOLBAR": {
+      "REFRESH": "רענון",
+      "COMPARE": "השוואה",
+      "EXPORT": "ייצוא",
+      "SHOW_ALL": "הצגת הכול",
+      "SHOW_DIFF": "הצגת ההבדלים בלבד"
+    },
+    "LIST": {
+      "NAME": "שם",
+      "URL": "URL",
+      "EMPTY": "אין סביבות"
+    },
+    "COMPARISON": {
+      "TITLE": "השוואת סביבות",
+      "SETTING": "הגדרה / סביבה",
+      "SUMMARY": "סיכום הסביבה",
+      "SEARCH": "חיפוש הגדרות",
+      "BASE": "בסיס ההשוואה",
+      "SET_BASE": "השוואה לסביבה זו",
+      "DESCRIPTION": "הצגת התיאור",
+      "NO_DIFFERENCES_TITLE": "כל הסביבות זהות",
+      "NO_DIFFERENCES_TEXT": "לא נמצאו הבדלי תצורה בין הסביבות שנבחרו.",
+      "NOT_FOUND": "אין הגדרות התואמות לחיפוש."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "Ympäristöjen vertailu"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Päivitä",
+      "COMPARE": "Vertaa",
+      "EXPORT": "Vie",
+      "SHOW_ALL": "Näytä kaikki",
+      "SHOW_DIFF": "Näytä vain erot"
+    },
+    "LIST": {
+      "NAME": "Nimi",
+      "URL": "URL",
+      "EMPTY": "Ei ympäristöjä"
+    },
+    "COMPARISON": {
+      "TITLE": "Ympäristöjen vertailu",
+      "SETTING": "Asetus / Ympäristö",
+      "SUMMARY": "Ympäristön yhteenveto",
+      "SEARCH": "Hae asetuksia",
+      "BASE": "Vertailun perusta",
+      "SET_BASE": "Vertaa tähän ympäristöön",
+      "DESCRIPTION": "Näytä kuvaus",
+      "NO_DIFFERENCES_TITLE": "Kaikki ympäristöt ovat identtisiä",
+      "NO_DIFFERENCES_TEXT": "Valituille ympäristöille ei löytynyt konfigurointieroja.",
+      "NOT_FOUND": "Hakua vastaavia asetuksia ei ole."
+    }
+  }
+}

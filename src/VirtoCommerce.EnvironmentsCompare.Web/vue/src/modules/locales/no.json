@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "Sammenligning av miljøer"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Oppdater",
+      "COMPARE": "Sammenlign",
+      "EXPORT": "Eksporter",
+      "SHOW_ALL": "Vis alle",
+      "SHOW_DIFF": "Vis kun forskjeller"
+    },
+    "LIST": {
+      "NAME": "Navn",
+      "URL": "URL",
+      "EMPTY": "Ingen miljøer"
+    },
+    "COMPARISON": {
+      "TITLE": "Sammenligning av miljøer",
+      "SETTING": "Innstilling / Miljø",
+      "SUMMARY": "Miljøsammendrag",
+      "SEARCH": "Søk i innstillinger",
+      "BASE": "Sammenligningsgrunnlag",
+      "SET_BASE": "Sammenlign med dette miljøet",
+      "DESCRIPTION": "Vis beskrivelse",
+      "NO_DIFFERENCES_TITLE": "Alle miljøene er identiske",
+      "NO_DIFFERENCES_TEXT": "Ingen konfigurasjonsforskjeller ble funnet for de valgte miljøene.",
+      "NOT_FOUND": "Ingen innstillinger samsvarer med søket."
+    }
+  }
+}

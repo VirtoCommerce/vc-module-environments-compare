@@ -1,0 +1,16 @@
+{
+  "remote": { "name": "envcompare_admin", "exposed": "./Module" },
+  "contributions": {
+    "menu": [
+      {
+        "id": "environments-compare",
+        "sectionId": "configuration",
+        "title": "Environments Comparison",
+        "icon": "lucide-git-compare-arrows",
+        "route": "/environments-compare",
+        "permission": "environments-compare:access",
+        "priority": 106
+      }
+    ]
+  }
+}

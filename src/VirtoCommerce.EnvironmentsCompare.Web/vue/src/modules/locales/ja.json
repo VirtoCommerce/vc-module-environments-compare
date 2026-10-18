@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "環境比較"
+    },
+    "TOOLBAR": {
+      "REFRESH": "更新",
+      "COMPARE": "比較",
+      "EXPORT": "エクスポート",
+      "SHOW_ALL": "すべて表示",
+      "SHOW_DIFF": "相違点のみ表示"
+    },
+    "LIST": {
+      "NAME": "名前",
+      "URL": "URL",
+      "EMPTY": "環境がありません"
+    },
+    "COMPARISON": {
+      "TITLE": "環境比較",
+      "SETTING": "設定 / 環境",
+      "SUMMARY": "環境サマリー",
+      "SEARCH": "設定を検索",
+      "BASE": "比較の基準",
+      "SET_BASE": "この環境と比較",
+      "DESCRIPTION": "説明を表示",
+      "NO_DIFFERENCES_TITLE": "すべての環境は同一です",
+      "NO_DIFFERENCES_TEXT": "選択された環境間で設定の違いは見つかりませんでした。",
+      "NOT_FOUND": "検索に一致する設定はありません。"
+    }
+  }
+}

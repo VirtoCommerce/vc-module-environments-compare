@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "environments-compare:access": "עבודה עם מודול השוואת הסביבות"
+  },
+  "settings": {
+    "environments-compare": {
+      "Enabled": {
+        "title": "השוואת סביבות מופעלת",
+        "description": "הגדרת הפעלה של השוואת סביבות"
+      }
+    }
+  }
+}
