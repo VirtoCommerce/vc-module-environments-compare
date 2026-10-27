@@ -1,0 +1,31 @@
+{
+  "ENV_COMPARE": {
+    "MENU": {
+      "TITLE": "Comparação de ambientes"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Atualizar",
+      "COMPARE": "Comparar",
+      "EXPORT": "Exportar",
+      "SHOW_ALL": "Mostrar tudo",
+      "SHOW_DIFF": "Mostrar apenas diferenças"
+    },
+    "LIST": {
+      "NAME": "Nome",
+      "URL": "URL",
+      "EMPTY": "Nenhum ambiente"
+    },
+    "COMPARISON": {
+      "TITLE": "Comparação de ambientes",
+      "SETTING": "Definição / Ambiente",
+      "SUMMARY": "Resumo do ambiente",
+      "SEARCH": "Pesquisar definições",
+      "BASE": "Base de comparação",
+      "SET_BASE": "Comparar com este ambiente",
+      "DESCRIPTION": "Mostrar descrição",
+      "NO_DIFFERENCES_TITLE": "Todos os ambientes são idênticos",
+      "NO_DIFFERENCES_TEXT": "Nenhuma diferença de configuração foi encontrada para os ambientes selecionados.",
+      "NOT_FOUND": "Nenhuma definição corresponde à pesquisa."
+    }
+  }
+}
